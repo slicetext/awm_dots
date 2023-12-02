@@ -1,0 +1,17 @@
+file={}
+file.bg_normal     = "#f2eede"
+file.bg_minimize   = "#bfbcaf"
+file.bg_urgent     = "#cc3e28"
+file.bg_focus      = "#d8d5c7"
+file.bg_systray    = file.bg_normal
+file.fg_normal     = "#000000"
+file.fg_focus      = "#000000"
+file.fg_urgent     = "#000000"
+file.fg_minimize   = "#000000"
+file.border_normal = "#000000"
+file.border_focus  = "#5c21a5"
+file.border_marked = "#5c21a5"
+file.border_control= "#1e6fcc"
+file.wallpaper     = "~/.config/awesome/bg/paper.png"
+file.button_outline= 1
+return file

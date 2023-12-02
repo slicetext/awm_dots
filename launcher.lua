@@ -1,0 +1,81 @@
+local wibox = require("wibox")
+local awful = require("awful")
+local Gio = require("lgi").Gio
+local beautiful = require("beautiful")
+local dpi = beautiful.xresources.apply_dpi
+local naughty = require("naughty")
+local gears = require("gears")
+
+local launcher=wibox{
+	width=dpi(200),
+	height=dpi(25),
+	y=dpi(700),
+	x=dpi(5),
+	bg=beautiful.bg_normal,
+	border_width=4,
+	border_color=beautiful.border_control,
+	visible=false,
+	shape=gears.shape.rounded_rect,
+	ontop=true,
+}
+local promptb = wibox.widget{
+	font="sans 18",
+	widget=wibox.widget.textbox,
+}
+local promptt = wibox.widget{
+	{
+	font="sans 18",
+	widget=wibox.widget.textbox,
+	text=" 󰜎 "
+	},
+	widget=wibox.container.background,
+}
+local function gen()
+	local entries = {}
+	for _, entry in ipairs(Gio.AppInfo.get_all()) do
+		if entry:should_show() then
+			local name = entry:get_name():gsub("&", "&amp;"):gsub("<", "&lt;"):gsub("'", "&#39;")
+			table.insert(
+				entries,
+				{ name = name, appinfo = entry }
+			)
+		end
+	end
+	return entries
+end
+local entries=wibox.widget{
+	homogeneous=false,
+	expand=true,
+	forced_num_cols=1,
+	layout=wibox.layout.grid,
+	{
+		--text=table.concat(gen()),
+		widget=wibox.widget.textbox,
+	},
+}
+launcher:setup{
+	margins=5,
+	widget=wibox.container.margin,
+	{
+		promptt,
+		promptb,
+		layout=wibox.layout.align.horizontal,
+	},
+	layout=wibox.layout.fixed.vertical,
+}
+function open()
+	awful.prompt.run{
+		--prompt=" ",
+		textbox=promptb,
+		exe_callback=function(cmd)
+			awful.spawn.with_shell(cmd)
+			launcher.visible=false
+		end
+	}
+end
+awesome.connect_signal("launch::toggle",function()
+	launcher.visible=not launcher.visible
+	if(launcher.visible==true)then
+		open()
+	end
+end)
