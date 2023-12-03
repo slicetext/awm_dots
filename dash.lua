@@ -86,14 +86,16 @@ local upT=wibox.widget{
 	widget=wibox.widget.textbox,
 }
 local set=wibox.widget{
-	{
-		text="󰖷",
-		align="center",
+		text=" 󰖷",
+		font="sans 10",
+		--align="center",
 		widget=wibox.widget.textbox,
-	},
-	widget=wibox.container.background,
-	bg=beautiful.bg_minimize,
-	shape=gears.shape.circle,
+}
+local pow=wibox.widget{
+		text=" 󰐥",
+		font="sans 10",
+		--align="center",
+		widget=wibox.widget.textbox,
 }
 local menu = awful.popup({
   ontop = true,
@@ -117,7 +119,11 @@ local menu = awful.popup({
 			font="sans 10",
 			widget=wibox.widget.textclock,
 		},
-		set,
+		{
+			pow,
+			set,
+			layout=wibox.layout.fixed.horizontal,
+		},
 		layout=wibox.layout.align.horizontal,
 	},
 	{
@@ -257,4 +263,7 @@ set:connect_signal("button::press",function()
 	else
 		awesome.emit_signal("tools::vtoggle")
 	end
+end)
+pow:connect_signal("button::press",function()
+	awesome.emit_signal("power::toggle")
 end)
