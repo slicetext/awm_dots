@@ -1,5 +1,5 @@
 # Sprint Speed: Low Quality Dotfiles
-
+![Image of the setup](screen_shot.png)
 ### Installing
 ###### Clone the repo using `git clone --recursive` instead of `git clone` so that you install external libs as well
 

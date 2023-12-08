@@ -17,7 +17,7 @@ local terminal=wibox.widget{
 		widget=wibox.widget.textbox,
 	},
 	bg=beautiful.bg_normal,
-	shape=gears.shape.rounded_rect,
+	shape=gears.shape.rect,
 	widget=wibox.container.background,
 }
 local run=wibox.widget{
@@ -27,7 +27,7 @@ local run=wibox.widget{
 		widget=wibox.widget.textbox,
 	},
 	bg=beautiful.bg_normal,
-	shape=gears.shape.rounded_rect,
+	shape=gears.shape.rect,
 	widget=wibox.container.background,
 }
 local tools=wibox.widget{
@@ -37,16 +37,16 @@ local tools=wibox.widget{
 		widget=wibox.widget.textbox,
 	},
 	bg=beautiful.bg_normal,
-	shape=gears.shape.rounded_rect,
+	shape=gears.shape.rect,
 	widget=wibox.container.background,
 }
 
 local rcm=awful.popup{
 	visible=false,
-	ontop=true,
+	ontop=false,
 	x=mouse.coords().x,
 	y=mouse.coords().y,
-    border_width=4,
+    border_width=1,
     border_color=beautiful.border_control,
     shape=gears.shape.rounded_rect,
 	widget={
@@ -95,4 +95,7 @@ awesome.connect_signal("rclick::toggle",function()
 	rcm.visible=not rcm.visible
 	rcm.x=mouse.coords().x
 	rcm.y=mouse.coords().y
+end)
+rcm:connect_signal("mouse::leave",function()
+	awesome.emit_signal("rclick::toggle")
 end)
