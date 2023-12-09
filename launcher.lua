@@ -24,6 +24,7 @@ local promptb = wibox.widget{
 }
 local promptt = wibox.widget{
 	{
+	id="txt",
 	font="sans 18",
 	widget=wibox.widget.textbox,
 	text=" 󰜎 "
@@ -73,9 +74,28 @@ function open()
 		end
 	}
 end
+function copy()
+	awful.prompt.run{
+		--prompt=" ",
+		textbox=promptb,
+		exe_callback=function(cmd)
+			awesome.emit_signal("copy::result",cmd)
+			launcher.visible=false
+			promptt.text=" 󰑮 "
+		end
+	}
+end
 awesome.connect_signal("launch::toggle",function()
+	promptt.txt.text=" 󰑮 "
 	launcher.visible=not launcher.visible
 	if(launcher.visible==true)then
 		open()
+	end
+end)
+awesome.connect_signal("copy::toggle",function()
+	promptt.txt.text="  "
+	launcher.visible=not launcher.visible
+	if(launcher.visible==true)then
+		copy()
 	end
 end)

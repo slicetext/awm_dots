@@ -72,22 +72,27 @@ local editB=wibox.widget{
 	layout=wibox.layout.align.stacked,
 	expand="none",
 }
+local copyText=wibox.widget{
+	text="",
+	align="center",
+	widget=wibox.widget.textbox,
+}
 local window = awful.popup({
   ontop = true,
   visible = false,
   border_width=4,
   border_color=beautiful.border_control,
   x=dpi(410),
-  y=dpi(200),
+  y=dpi(175),
   shape=gears.shape.rounded_rect,
   widget={
 	  widget=wibox.container.margin,
 	  margins=5,
 	  {
 		  forced_width=dpi(500),
-		  forced_height=dpi(290),
+		  forced_height=dpi(315),
 		  layout=wibox.layout.fixed.vertical,
-		  expand="center",
+		  expand="none",
 		  spacing=20,
 		  {text="Utilities",font="sans 25",align="center",widget=wibox.widget.textbox,},
 		  {text=" Stopwatch",font="sans 18",align="center",widget=wibox.widget.textbox,},
@@ -107,6 +112,7 @@ local window = awful.popup({
 			expand="none",
 			align="center",
 	  	  },
+		  copyText,
 		  {
 		  {widget=wibox.widget.textbox,text=" "},
 		  screenB,
@@ -172,4 +178,11 @@ screenB:connect_signal("button::press",function()
 end)
 editB:connect_signal("button::press",function()
 	awful.spawn(user.editor.." .config/awesome/settings.lua")
+end)
+awesome.connect_signal("copy::result",function(result)
+	if(result=="")then
+		copyText.text=""
+	else
+		copyText.text="Copied Text: "..result
+	end
 end)

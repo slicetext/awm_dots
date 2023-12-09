@@ -535,7 +535,11 @@ globalkeys = gears.table.join(
 	awful.key({modkey,}, "t", function ()
 		awesome.emit_signal("tools::toggle")
 	end,
-	{description="toggle tools",group="awesome"})
+	{description="toggle tools",group="awesome"}),
+	awful.key({modkey,}, "c", function ()
+		awesome.emit_signal("copy::toggle")
+	end,
+	{description="toggle copy",group="awesome"})
 )
 
 clientkeys = gears.table.join(
