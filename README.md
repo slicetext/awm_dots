@@ -9,6 +9,31 @@
 ### Customization
 ###### All user settings are in the settings.lua file
 
+### Theming
+###### This is a theme file for the paper colorscheme
+```
+file={} --Defines the theme
+file.bg_normal     = "#f2eede" --color of background
+file.bg_minimize   = "#bfbcaf" --color of various parts of the bar
+file.bg_urgent     = "#cc3e28" --color of control panel toggles and urgent notifications
+file.bg_focus      = "#d8d5c7" --color of various parts of the bar
+file.bg_systray    = file.bg_normal --color of the systray
+file.fg_normal     = "#000000" --fg color
+file.fg_focus      = "#000000" --fg color
+file.fg_urgent     = "#000000" --fg color
+file.fg_minimize   = "#000000" --fg color
+file.border_normal = "#000000" --fg color
+file.border_focus  = "#5c21a5" --window border color
+file.border_marked = "#5c21a5" --window border color
+file.border_control= "#1e6fcc" --popup border color
+file.wallpaper     = "~/.config/awesome/bg/paper.png" --wallpaper location
+file.button_outline= 1 --if 1, the toggle buttons have an outline. If 0, they do not
+return file --return the theme
+
+```
+###### Put themes in the themes directory as [themename].lua. For example, paper's is paper.lua. Set the theme in settings.lua by making settings.theme equal to the name of your theme. For example, for paper make it `settings.theme="paper"`.
+
+
 ### Credits
 ##### Wallpapers from:
 ###### -https://github.com/bl4ck44/Wallpapers
