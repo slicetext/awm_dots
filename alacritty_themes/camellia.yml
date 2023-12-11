@@ -1,0 +1,30 @@
+window:
+  opacity: 1
+  padding:
+   x: 10
+   y: 10
+colors:
+  primary:
+    background: '#1E1F24'
+    foreground: '#E4E5E6'
+  normal:
+    black: '#26272B'
+    red: '#FA3867'
+    green: '#65DB3D'
+    yellow: '#F5CA32'
+    blue: '#4CB2E5'
+    magenta: '#FA4242'
+    cyan: '#5CDD84'
+    white: '#E4E5E6'
+  bright:
+    black: '#26272B'
+    red: '#FA3867'
+    green: '#65DB3D'
+    yellow: '#F5CA32'
+    blue: '#4CB2E5'
+    magenta: '#FA4242'
+    cyan: '#5CDD84'
+    white: '#ffe9c7'
+font:
+  normal:
+    family: DroidSansM Nerd Font Mono
