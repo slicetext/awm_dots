@@ -33,6 +33,9 @@ return file --return the theme
 ```
 ###### Put themes in the themes directory as [themename].lua. For example, paper's is paper.lua. Set the theme in settings.lua by making settings.theme equal to the name of your theme. For example, for paper make it `settings.theme="paper"`.
 
+#### Alacritty Theme Switcher
+###### If you have this enabled, you can make an Alacritty theme to go with your color theme.
+###### First, edit alacritty.lua. It should have a line that is something like `local alacritty_theme_list={"biscuit","oxocarbon"}` Add the name of your theme to this list. Next, make a file in the alacritty\_themes folder called [your\_theme\_name].yml that has your Alacritty theme inside of it. Then, you're done!
 
 ### Credits
 ##### Wallpapers from:

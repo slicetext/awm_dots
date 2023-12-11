@@ -15,7 +15,7 @@ settings={}
 --fullerene,
 --solarized,
 --and sea
-settings.theme="biscuit"
+settings.theme="oxocarbon"
 
 --The font of the setup
 settings.font="sans 8"
@@ -25,6 +25,9 @@ settings.font="sans 8"
 
 --The defualt terminal to use
 settings.terminal="alacritty"
+
+--If your terminal is alacritty settings this to true will set your alacritty theme to the current theme of the desktop
+settings.alacritty_theme_switcher=true
 
 --Use animations (recommended)
 settings.animations=true
