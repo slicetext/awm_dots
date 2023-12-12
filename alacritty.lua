@@ -1,7 +1,7 @@
 user=require("settings")
 awful=require("awful")
 naughty=require("naughty")
-local alacritty_theme_list={"biscuit","hacker","oxocarbon","swamp","nordic","tokyo_night","rose_pine","camellia","solarized","gruvbox","gruvbox_light","paper"}
+local alacritty_theme_list={"biscuit","hacker","oxocarbon","swamp","nordic","tokyo_night","rose_pine","camellia","solarized","gruvbox","gruvbox_light","paper","fullerene"}
 local function has_value (tab, val)
     for index, value in ipairs(tab) do
         if value == val then
