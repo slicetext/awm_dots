@@ -12,4 +12,5 @@ file.border_normal = "#a9b1d6"
 file.border_focus  = "#c0caf5"
 file.border_marked = "#c0caf5"
 file.wallpaper     = "~/.config/awesome/bg/tokyo_night.png"
+file.light         = false
 return file

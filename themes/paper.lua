@@ -14,4 +14,5 @@ file.border_marked = "#5c21a5"
 file.border_control= "#1e6fcc"
 file.wallpaper     = "~/.config/awesome/bg/paper.png"
 file.button_outline= 1
+file.light         = true
 return file

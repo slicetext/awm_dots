@@ -12,4 +12,5 @@ file.border_normal = "#FFE9C7"
 file.border_focus  = "#DCC9BC"
 file.border_marked = "#DCC9BC"
 file.wallpaper     = "~/.config/awesome/bg/biscuit.png"
+file.light         = false
 return file

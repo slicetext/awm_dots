@@ -13,4 +13,5 @@ file.border_focus  = "#e69a0e"
 file.border_marked = "#e69a0e"
 file.bg_normal     = "#3a3124"
 file.wallpaper     = "~/.config/awesome/bg/swamp.png"
+file.light         = false
 return file

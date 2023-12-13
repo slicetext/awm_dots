@@ -32,6 +32,7 @@ file.border_marked = "#5c21a5" --window border color
 file.border_control= "#1e6fcc" --popup border color
 file.wallpaper     = "~/.config/awesome/bg/paper.png" --wallpaper location
 file.button_outline= 1 --if 1, the toggle buttons have an outline. If 0, they do not
+file.light         = false --If the theme is a light theme or not
 return file --return the theme
 
 ```

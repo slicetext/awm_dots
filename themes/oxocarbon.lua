@@ -13,4 +13,5 @@ file.border_focus  = "#33b1ff"
 file.border_marked = "#33b1ff"
 file.border_control= "#ee5396"
 file.wallpaper     = "~/.config/awesome/bg/oxocarbon.png"
+file.light         = false
 return file

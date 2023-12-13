@@ -14,4 +14,5 @@ file.border_marked = "#FA3867"
 file.border_control= "#FA3867"
 file.button_outline= 1
 file.wallpaper     = "~/.config/awesome/bg/camellia.png"
+file.light         = false
 return file

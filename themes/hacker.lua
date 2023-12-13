@@ -14,4 +14,5 @@ file.border_marked = "#16f451"
 file.border_control= "#16f451"
 file.wallpaper     = "~/.config/awesome/bg/hacker.png"
 file.button_outline= 1
+file.light         = false
 return file

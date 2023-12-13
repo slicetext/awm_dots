@@ -741,6 +741,8 @@ client.connect_signal("manage", function (c)
     end
 end)
 
+
+
 -- Add a titlebar if titlebars_enabled is set to true in the rules.
 client.connect_signal("request::titlebars", function(c)
     -- buttons for the titlebar
@@ -757,13 +759,17 @@ client.connect_signal("request::titlebars", function(c)
 
     awful.titlebar(c) : setup {
 		widget=wibox.container.margin,
-		margins=5,
+		margins=10,
+		{
         { -- Left
 			{widget=wibox.widget.textbox,text=" ",},
             awful.titlebar.widget.iconwidget(c),
             buttons = buttons,
             layout  = wibox.layout.fixed.horizontal
         },
+			widget=wibox.container.margin,
+			margins=2,
+		},
         { -- Middle
             { -- Title
                 align  = "center",
@@ -777,9 +783,13 @@ client.connect_signal("request::titlebars", function(c)
             awful.titlebar.widget.maximizedbutton(c),
             awful.titlebar.widget.closebutton    (c),
 			{widget=wibox.widget.textbox,text=" ",},
-            layout = wibox.layout.fixed.horizontal()
+            layout = wibox.layout.fixed.horizontal(),
+			widget=wibox.container.margin,
+			margins=2,
         },
-        layout = wibox.layout.align.horizontal
+        layout = wibox.layout.align.horizontal,
+		widget=wibox.container.margin,
+		margins=2,
     }
 end)
 beautiful.useless_gap = 5

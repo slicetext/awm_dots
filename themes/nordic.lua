@@ -13,4 +13,5 @@ file.border_focus  = "#5e81ac"
 file.border_marked = "#5e81ac"
 file.border_control= "#5e81ac"
 file.wallpaper     = "~/.config/awesome/bg/nordic.png"
+file.light         = false
 return file

@@ -14,6 +14,8 @@ local gears = require("gears")
 
 local user = require("settings")
 
+local naughty = require("naughty")
+
 local color_scheme = settings.theme or "oxocarbon"
 local file=require("themes."..color_scheme)
 
@@ -83,6 +85,7 @@ theme.menu_border_width = dpi(1)
 --theme.bg_widget = "#cc0000"
 
 -- Define the image to load
+if(file.light==true)then
 theme.titlebar_close_button_normal = "~/.config/awesome/icons/close2.png"
 theme.titlebar_close_button_focus  = "~/.config/awesome/icons/close2.png"
 
@@ -108,6 +111,14 @@ theme.titlebar_maximized_button_normal_inactive = "~/.config/awesome/icons/max2.
 theme.titlebar_maximized_button_focus_inactive  = "~/.config/awesome/icons/max2.png"
 theme.titlebar_maximized_button_normal_active = "~/.config/awesome/icons/minimize.png"
 theme.titlebar_maximized_button_focus_active  = "~/.config/awesome/icons/minimize.png"
+else    
+theme.titlebar_close_button_focus  = "~/.config/awesome/icons/dark/close2.png"
+theme.titlebar_minimize_button_focus  = "~/.config/awesome/icons/dark/min.png"
+theme.titlebar_maximized_button_normal_inactive = "~/.config/awesome/icons/dark/max2.png"
+theme.titlebar_maximized_button_focus_inactive  = "~/.config/awesome/icons/dark/max2.png"
+theme.titlebar_maximized_button_normal_active = "~/.config/awesome/icons/dark/minimize.png"
+theme.titlebar_maximized_button_focus_active  = "~/.config/awesome/icons/dark/minimize.png"
+end
 
 theme.wallpaper = user.wallpaper or file.wallpaper or "~/.config/awesome/bg/oxocarbon.png"
 

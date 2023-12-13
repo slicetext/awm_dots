@@ -12,4 +12,5 @@ file.border_normal = "#14171A"
 file.border_focus  = "#A7A5C6"
 file.border_marked = "#A7A5C6"
 file.wallpaper     = "~/.config/awesome/bg/light.png"
+file.light         = true
 return file

@@ -12,4 +12,5 @@ file.border_normal = "#3c3836"
 file.border_focus  = "#a89984"
 file.border_marked = "#a89984"
 file.wallpaper     = "~/.config/awesome/bg/gruvbox_light.png"
+file.light         = true
 return file

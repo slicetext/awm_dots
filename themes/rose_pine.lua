@@ -14,4 +14,5 @@ file.border_marked = "#f6c177"
 file.border_control= "#ebbcba"
 file.wallpaper     = "~/.config/awesome/bg/rose_pine.png"
 file.button_outline= 1
+file.light         = false
 return file
