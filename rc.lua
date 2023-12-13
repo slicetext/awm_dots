@@ -57,6 +57,20 @@ terminal = user.terminal
 editor = os.getenv("EDITOR") or "editor"
 editor_cmd = terminal .. " -e " .. editor
 
+function wait(time)
+if tonumber(time) ~= nil then
+os.execute("sleep "..tonumber(time))
+else
+os.execute("sleep "..tonumber("0.1"))
+end
+end
+
+if(user.picom==true)then
+	awful.spawn.with_shell("killall picom")
+	wait()
+	awful.spawn.with_shell("picom")
+end
+
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
 -- If you do not like this or do not have such a key,
@@ -363,7 +377,6 @@ awful.screen.connect_for_each_screen(function(s)
 				bg=beautiful.bg_minimize,
 			},
             s.mypromptbox,
-			--s.battery,
 			
         },
 		},
@@ -386,6 +399,7 @@ awful.screen.connect_for_each_screen(function(s)
 				shape=gears.shape.rounded_rect,
 				bg=beautiful.bg_minimize,
 			},
+			{text=" ",widget=wibox.widget.textbox,},
             s.mylayoutbox,
 		},
 	}

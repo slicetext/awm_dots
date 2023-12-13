@@ -11,6 +11,7 @@ local launcher=wibox{
 	height=dpi(25),
 	y=dpi(700),
 	x=dpi(5),
+	window_type="dock",
 	bg=beautiful.bg_normal,
 	border_width=4,
 	border_color=beautiful.border_control,

@@ -12,4 +12,5 @@ file.border_normal = "#fdf6e3"
 file.border_focus  = "#d33682"
 file.border_marked = "#d33682"
 file.border_control= "#b58900"
+file.wallpaper     = "~/.config/awesome/bg/solarized.png"
 return file

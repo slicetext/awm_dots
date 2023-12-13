@@ -3,6 +3,10 @@
 ### Installing
 ###### Clone the repo using `git clone --recursive` instead of `git clone` so that you install external libs as well
 
+### Dependencies (I may have forgotten a couple)
+###### -A nerd font
+###### -Sans font
+
 ### Keybinds
 ###### Super+/: See all Keybinds
 

@@ -15,7 +15,7 @@ settings={}
 --fullerene,
 --solarized,
 --and sea
-settings.theme="gruvbox"
+settings.theme="solarized"
 
 --The font of the setup
 settings.font="sans 8"
@@ -43,5 +43,8 @@ settings.run=true
 
 --If the previous setting is false, what command should be run?
 settings.launcher=""
+
+--Use Picom Compositor
+settings.picom=true
 
 return settings
