@@ -70,8 +70,8 @@ function open()
 		--prompt=" ",
 		textbox=promptb,
 		exe_callback=function(cmd)
-			awful.spawn.with_shell(cmd)
 			launcher.visible=false
+			awful.spawn.with_shell(cmd)
 		end
 	}
 end
