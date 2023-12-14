@@ -12,5 +12,6 @@ file.border_normal = "#c6c6c6"
 file.border_focus  = "#32ae80"
 file.border_marked = "#32ae80"
 file.border_control= "#c1374b"
+file.wallpaper     = "~/.config/awesome/bg/fullerene.png"
 file.light         = false
 return file
