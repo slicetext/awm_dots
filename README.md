@@ -6,6 +6,8 @@
 ### Dependencies (I may have forgotten a couple)
 ###### -A nerd font
 ###### -Sans font
+###### -Picom (Optional)*
+###### \*I recommend Picom Allusive with [this](./extra/picom.conf) config
 
 ### Keybinds
 ###### Super+/: See all Keybinds
