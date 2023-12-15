@@ -187,7 +187,12 @@ awesome.connect_signal("music::toggle",function()
 	player.visible=not player.visible
 end
 end)
+function sleep(n)
+  os.execute("sleep " .. tonumber(n))
+end
+
 old=""
+new=""
 local function titles()	
 	awful.spawn.easy_async_with_shell("playerctl metadata title",function(out)
 	if(out=="") then
@@ -211,24 +216,28 @@ local function titles()
 	end
 	end)
 	awful.spawn.easy_async_with_shell("playerctl metadata mpris:artUrl",function(out)
+		new=out
 		if(old~=out)then
 			awful.spawn.with_shell("sh ~/.config/awesome/curlArt.sh")
+			sleep(0.1)
 			cover.image=gears.surface.load_uncached("/home/owner/.config/awesome/cache/album.png")
 		old=out
 		end
 	end)
 end
-
+local default=false
 local timer=gears.timer{
 	timeout=1,
 	autostart=true,
 	callback=function()
 		titles()
 		awful.spawn.easy_async_with_shell("playerctl status",function(out)
-			if(out==""or old=="")then
+			if((out==""or old=="")and (default==false))then
 				cover.image=gears.surface.load_uncached(conf_path.."/icons/music.png")
+				default=true
 			else
-				cover.image=gears.surface.load_uncached(conf_path.."/cache/album.png")
+				default=false
+				--cover.image=gears.surface.load_uncached(conf_path.."/cache/album.png")
 			end
 		end)
 	end,

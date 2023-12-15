@@ -807,7 +807,9 @@ client.connect_signal("manage", function(c)
         gears.shape.rounded_rect(cr, w, h, 10)
     end
 end)
-require("music")
+if(user.music==true)then
+	require("music")
+end
 require("dash")
 require("binds")
 require("tools")

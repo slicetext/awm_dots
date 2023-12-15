@@ -47,4 +47,7 @@ settings.launcher=""
 --Use Picom Compositor
 settings.picom=true
 
+--Use the music player
+settings.music=true
+
 return settings
