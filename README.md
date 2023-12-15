@@ -6,6 +6,7 @@
 ### Dependencies (I may have forgotten a couple)
 ###### -A nerd font
 ###### -Sans font
+###### -[Playerctl](https://github.com/altdesktop/playerctl)
 ###### -Picom (Optional)*
 ###### \*I recommend Picom Allusive with [this](./extra/picom.conf) config
 
