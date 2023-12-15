@@ -24,7 +24,6 @@ local pause = wibox.widget({
   valign="bottom",
   	widget = wibox.widget.textbox,
   },
-  bg=beautiful.bg_minimize,
   shape=gears.shape.rounded_rect,
   widget=wibox.container.background,
   valign="bottom",
@@ -37,7 +36,6 @@ local  nexts = wibox.widget({
   valign="bottom",
   	widget = wibox.widget.textbox,
   },
-  bg=beautiful.bg_minimize,
   shape=gears.shape.rounded_rect,
   widget=wibox.container.background,
   valign="bottom",
@@ -50,7 +48,6 @@ local  prevs = wibox.widget({
   valign="bottom",
   	widget = wibox.widget.textbox,
   },
-  bg=beautiful.bg_minimize,
   shape=gears.shape.rounded_rect,
   widget=wibox.container.background,
   valign="bottom",
@@ -139,11 +136,11 @@ pause:connect_signal("button::press", function()
   ")
 end)
 pause:connect_signal("mouse::enter",function()
-	pause.bg=beautiful.bg_focus
+	pause.bg=beautiful.bg_minimize
 end)
 
 pause:connect_signal("mouse::leave",function()
-	pause.bg=beautiful.bg_minimize
+	pause.bg=beautiful.bg_normal
 end)
 
 prevs:connect_signal("button::press", function()
@@ -152,11 +149,11 @@ prevs:connect_signal("button::press", function()
   ")
 end)
 prevs:connect_signal("mouse::enter",function()
-	prevs.bg=beautiful.bg_focus
+	prevs.bg=beautiful.bg_minimize
 end)
 
 prevs:connect_signal("mouse::leave",function()
-	prevs.bg=beautiful.bg_minimize
+	prevs.bg=beautiful.bg_normal
 end)
 nexts:connect_signal("button::press", function()
   awful.spawn.with_shell("\
@@ -165,11 +162,11 @@ nexts:connect_signal("button::press", function()
 end)
 
 nexts:connect_signal("mouse::enter",function()
-	nexts.bg=beautiful.bg_focus
+	nexts.bg=beautiful.bg_minimize
 end)
 
 nexts:connect_signal("mouse::leave",function()
-	nexts.bg=beautiful.bg_minimize
+	nexts.bg=beautiful.bg_normal
 end)
 awesome.connect_signal("music::toggle",function()
 	if(user.animations==true)then
