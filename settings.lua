@@ -15,7 +15,7 @@ settings={}
 --fullerene,
 --solarized,
 --and sea
-settings.theme="fullerene"
+settings.theme="biscuit"
 
 --The font of the setup
 settings.font="sans 8"
@@ -49,5 +49,8 @@ settings.picom=true
 
 --Use the music player
 settings.music=true
+
+--Have a root menu (Right click menu on the desktop)
+settings.root_menu=false
 
 return settings

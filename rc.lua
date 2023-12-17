@@ -816,5 +816,7 @@ require("tools")
 require("audio")
 require("launcher")
 require("powermenu")
-require("rclick")
+if(user.root_menu)then
+	require("rclick")
+end
 require("alacritty")
