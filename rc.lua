@@ -231,6 +231,11 @@ layoutb:connect_signal("button::press",function()
 	awesome.emit_signal("layout::toggle")
 end)
 awful.screen.connect_for_each_screen(function(s)
+	client.connect_signal("manage", function(c)
+    	c.shape = function(cr, w, h)
+        	gears.shape.rounded_rect(cr, w, h, 10)
+    	end
+	end)
     -- Wallpaper
     set_wallpaper(beautiful.wallpaper)
 
@@ -828,11 +833,6 @@ end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
-client.connect_signal("manage", function(c)
-    c.shape = function(cr, w, h)
-        gears.shape.rounded_rect(cr, w, h, 10)
-    end
-end)
 if(user.music==true)then
 	require("music")
 end

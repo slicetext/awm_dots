@@ -1,6 +1,6 @@
 file={}
-file.bg_normal     = "#f2eede"
-file.bg_minimize   = "#bfbcaf"
+file.bg_minimize   = "#f2eede"
+file.bg_normal     = "#bfbcaf"
 file.bg_urgent     = "#cc3e28"
 file.bg_focus      = "#d8d5c7"
 file.bg_systray    = file.bg_normal
