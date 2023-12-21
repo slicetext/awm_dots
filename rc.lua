@@ -848,4 +848,4 @@ end
 require("alacritty")
 require("lock")
 require("layout")
-require("notif")
+--require("notif")
