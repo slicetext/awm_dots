@@ -1,0 +1,30 @@
+naughty=require("naughty")
+awful=require("awful")
+gears=require("gears")
+wibox=require("wibox")
+beautiful=require("beautiful")
+xresources=require("beautiful.xresources")
+dpi=xresources.apply_dpi
+
+naughty.connect_signal("request::display",function(n)
+	naughty.layout.box{
+		notification=n,
+		bg=beautiful.bg_normal,
+		widget_template={
+			widget=wibox.container.margin,
+			margins=10,
+			{
+				forced_width=dpi(200),
+				forced_height=dpi(100),
+				naughty.widget.icon,
+				{
+					naughty.widget.title,
+					naughty.widget.message,
+					layout=wibox.layout.fixed.vertical,
+				},
+				expand="none",
+				layout=wibox.layout.align.horizontal,
+			}
+		},
+	}
+end)

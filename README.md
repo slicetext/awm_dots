@@ -7,6 +7,7 @@
 ###### -A nerd font
 ###### -Sans font
 ###### -[Playerctl](https://github.com/altdesktop/playerctl)
+###### -AwesomeWM Git Version
 ###### -Picom (Optional)*
 ###### \*I recommend Picom Allusive with [this](./extra/picom.conf) config
 

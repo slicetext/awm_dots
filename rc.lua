@@ -222,6 +222,14 @@ end)
 launcherb:connect_signal("button::press",function()
 	awesome.emit_signal("launch::toggle")
 end)
+layoutb=wibox.widget{
+	text="󰋁",
+	font="sans 16",
+	widget=wibox.widget.textbox,
+}
+layoutb:connect_signal("button::press",function()
+	awesome.emit_signal("layout::toggle")
+end)
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
     set_wallpaper(beautiful.wallpaper)
@@ -400,7 +408,7 @@ awful.screen.connect_for_each_screen(function(s)
 				bg=beautiful.bg_minimize,
 			},
 			{text=" ",widget=wibox.widget.textbox,},
-            s.mylayoutbox,
+			layoutb,
 		},
 	}
     }
@@ -423,8 +431,6 @@ globalkeys = gears.table.join(
               {description = "view previous", group = "tag"}),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext,
               {description = "view next", group = "tag"}),
-    awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
-              {description = "go back", group = "tag"}),
 
     awful.key({ modkey,           }, "j",
         function ()
@@ -553,7 +559,27 @@ globalkeys = gears.table.join(
 	awful.key({modkey,}, "c", function ()
 		awesome.emit_signal("copy::toggle")
 	end,
-	{description="toggle copy",group="awesome"})
+	{description="toggle copy",group="awesome"}),
+	awful.key({modkey,}, "l", function ()
+		awesome.emit_signal("layout::toggle")
+	end,
+	{description="toggle layout",group="awesome"}),
+	awful.key({modkey,"Shift"}, "l", function ()
+		awful.layout.set(awful.layout.suit.fair)
+	end,
+	{description="set layout to fairv layout",group="awesome"}),
+	awful.key({modkey,"Mod1"}, "l", function ()
+		awful.layout.set(awful.layout.suit.tile)
+	end,
+	{description="set layout to tile layout",group="awesome"}),
+	awful.key({modkey,"Shift","Mod1"}, "l", function ()
+		awful.layout.set(awful.layout.suit.floating)
+	end,
+	{description="set layout to floating layout",group="awesome"}),
+	awful.key({modkey,}, "Escape", function ()
+		awesome.emit_signal("lock::toggle")
+	end,
+	{description="set layout to floating layout",group="awesome"})
 )
 
 clientkeys = gears.table.join(
@@ -820,3 +846,6 @@ if(user.root_menu)then
 	require("rclick")
 end
 require("alacritty")
+require("lock")
+require("layout")
+require("notif")

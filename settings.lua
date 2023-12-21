@@ -15,13 +15,16 @@ settings={}
 --fullerene,
 --solarized,
 --and sea
-settings.theme="biscuit"
+settings.theme="gruvbox"
 
 --The font of the setup
 settings.font="sans 8"
 
 --The wallpaper. uncomment the next line (remove the --) to set a custom wallpaper
 --settings.wallpaper="~/.config/awesome/bg/oxocarbon.png"
+
+--The profile picture on the lockscreen. Uncomment the next line to set a custom image. Note that you cannot use ~ to abbreviate the path to the icon.
+--settings.user_icon="~/.config/awesome/icons/max.png"
 
 --The defualt terminal to use
 settings.terminal="alacritty"
@@ -51,6 +54,9 @@ settings.picom=true
 settings.music=true
 
 --Have a root menu (Right click menu on the desktop)
-settings.root_menu=false
+settings.root_menu=true
+
+--Password for lockscreen. If this is blank, the screen won't lock. Lock the screen with Super+Escape
+settings.password="test"
 
 return settings
