@@ -233,7 +233,7 @@ local timer=gears.timer{
 		titles()
 		awful.spawn.easy_async_with_shell("playerctl status",function(out)
 			if((out==""or old=="")and (default==false))then
-				cover.image=gears.surface.load_uncached(conf_path.."/icons/music.png")
+				cover.image=gears.surface.load_uncached(conf_path.."/icons/music.jpeg")
 				default=true
 			else
 				default=false

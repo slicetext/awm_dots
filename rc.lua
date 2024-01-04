@@ -164,8 +164,13 @@ local tasklist_buttons = gears.table.join(
                                                   )
                                               end
                                           end),
-                     awful.button({ }, 3, function()
-                                              awful.menu.client_list({ theme = { width = 250 } })
+                     awful.button({ }, 3, function(c)
+                                            		c:emit_signal(
+                                                      "request::activate",
+                                                      "tasklist",
+                                                      {raise = true}
+                                                  )
+												  awesome.emit_signal("win_rc::toggle",{c})
                                           end),
                      awful.button({ }, 4, function ()
                                               awful.client.focus.byidx(1)
@@ -789,7 +794,7 @@ client.connect_signal("request::titlebars", function(c)
         end)
     )
 
-    awful.titlebar(c) : setup {
+    awful.titlebar(c,{position="top"}) : setup {
 		widget=wibox.container.margin,
 		margins=10,
 		{

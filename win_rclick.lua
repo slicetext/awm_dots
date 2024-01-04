@@ -59,21 +59,6 @@ local rcm=awful.popup{
 		resize,
 	},
 }
-close:connect_signal("mouse::enter",function()
-	close.bg=beautiful.bg_minimize
-end)
-close:connect_signal("mouse::leave",function()
-	close.bg=beautiful.bg_normal
-end)
-move:connect_signal("mouse::leave",function()
-	move.bg=beautiful.bg_normal
-end)
-resize:connect_signal("mouse::enter",function()
-	resize.bg=beautiful.bg_minimize
-end)
-resize:connect_signal("mouse::leave",function()
-	resize.bg=beautiful.bg_normal
-end)
 resize:connect_signal("button::press",function()
 	if(co~=nil)then
     	awful.mouse.client.resize(client.focus)
@@ -190,17 +175,37 @@ awesome.connect_signal("win_rc::toggle",function(c)
 	rcm.visible=not rcm.visible
 	work_pop.visible=false
 	work_pop.x=mouse.coords().x+dpi(91)
-	work_pop.y=mouse.coords().y
+	work_pop.y=mouse.coords().y-dpi(10)
 	rcm.x=mouse.coords().x
-	rcm.y=mouse.coords().y
+	rcm.y=mouse.coords().y-dpi(10)
 	co=c
 end)
 move:connect_signal("mouse::enter",function()
 	move.bg=beautiful.bg_minimize
-	work_pop.visible=not work_pop.visible
+	work_pop.visible=true
 end)
 close:connect_signal("button::press",function()
 	client.focus:kill()
 	work_pop.visible=false
 	rcm.visible=not rcm.visible
+end)
+close:connect_signal("mouse::enter",function()
+	close.bg=beautiful.bg_minimize
+	work_pop.visible=false
+end)
+close:connect_signal("mouse::leave",function()
+	close.bg=beautiful.bg_normal
+end)
+move:connect_signal("mouse::leave",function()
+	move.bg=beautiful.bg_normal
+end)
+resize:connect_signal("mouse::enter",function()
+	resize.bg=beautiful.bg_minimize
+	work_pop.visible=false
+end)
+resize:connect_signal("mouse::leave",function()
+	resize.bg=beautiful.bg_normal
+end)
+work_pop:connect_signal("mouse::leave",function()
+	work_pop.visible=false
 end)
