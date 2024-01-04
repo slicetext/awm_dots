@@ -23,7 +23,7 @@ local close=wibox.widget{
 }
 local move=wibox.widget{
 	{
-		text="Move Window >",
+		text="Move To Tag ",
 		align="center",
 		widget=wibox.widget.textbox,
 	},
