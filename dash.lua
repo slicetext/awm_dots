@@ -20,14 +20,15 @@ volumeText=wibox.widget({
 	widget=wibox.widget.textbox,
 })
 local bar = wibox.widget {
-    bar_shape           = gears.shape.rounded_rect,
-    bar_height          = 15,
+    --bar_shape           = gears.shape.rounded_rect,
+    bar_height          = 1,
     --bar_color           = beautiful.border_focus,
 	bar_border_width    = 1,
     handle_color        = beautiful.bg_normal,
     handle_shape        = gears.shape.circle,
-    handle_border_color = beautiful.fg_normal,
-    handle_border_width = 1,
+    --handle_border_color = beautiful.border_control,
+	handle_color        = beautiful.bg_urgent,
+    --handle_border_width = 1,
 	handle_width        = 14,
     value               = 25,
     widget              = wibox.widget.slider,
@@ -137,7 +138,13 @@ local menu = awful.popup({
 		layout=wibox.layout.align.horizontal,
 	},
 	batT,
-	bar,
+	{
+		{text="󰕾 ",font="sans 18",widget=wibox.widget.textbox,},
+		bar,
+		{text=" ",widget=wibox.widget.textbox,},
+		layout=wibox.layout.align.horizontal,
+		expand="center",
+	}
   },
   },
 })
