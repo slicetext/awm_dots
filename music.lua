@@ -175,12 +175,14 @@ awesome.connect_signal("music::toggle",function()
 		player.visible=true
 		upA:abort()
 		--menu.x=dpi(1210)
+		player.y=dpi(625)
 		upA.target=dpi(1400)
 	else
 		player.visible=true
 		upA:abort()
 		--menu.x=dpi(1190)
-		upA.target=dpi(1130)
+		player.y=dpi(515)
+		upA.target=dpi(1140)
 	end
 	else
 	player.x=dpi(1130)

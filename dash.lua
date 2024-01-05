@@ -38,7 +38,7 @@ local bartip = awful.tooltip {
 }
 local wifiT= wibox.widget{
 	text="  ",
-	font="sans 20",
+	font="sans 26",
 	widget=wibox.widget.textbox,
 }
 local wifi = wibox.widget {
@@ -51,7 +51,7 @@ local wifi = wibox.widget {
 }
 local notifT= wibox.widget{
 	text=" 󰂚 ",
-	font="sans 20",
+	font="sans 26",
 	widget=wibox.widget.textbox,
 }
 local notif = wibox.widget {
@@ -64,7 +64,7 @@ local notif = wibox.widget {
 }
 local toothT= wibox.widget{
 	text="  ",
-	font="sans 20",
+	font="sans 26",
 	color=beautiful.fg_urgent,
 	widget=wibox.widget.textbox,
 }
@@ -79,6 +79,7 @@ local tooth = wibox.widget {
 local batT=wibox.widget {
 	text="99%",
 	font="sans 8",
+	align="center",
 	widget=wibox.widget.textbox,
 }
 local upT=wibox.widget{
@@ -109,7 +110,7 @@ local menu = awful.popup({
 	widget=wibox.container.margin,
 	margins=5,
 	{
-	forced_width=151,
+	forced_width=200,
   	forced_height=90,
 	layout=wibox.layout.fixed.vertical,
 	expand="none",
@@ -119,6 +120,7 @@ local menu = awful.popup({
 			font="sans 10",
 			widget=wibox.widget.textclock,
 		},
+		{text=" ",widget=wibox.widget.textbox,},
 		{
 			pow,
 			set,
@@ -131,8 +133,8 @@ local menu = awful.popup({
 		notif,
 		tooth,
 		spacing=2.5,
-		expand="center",
-		layout=wibox.layout.fixed.horizontal,
+		expand="none",
+		layout=wibox.layout.align.horizontal,
 	},
 	batT,
 	bar,
@@ -208,15 +210,17 @@ awesome.connect_signal("dash::toggle",function()
 	if(user.animations==true)then
 	visible=not visible
 	if(visible==true)then
+		awesome.emit_signal("music::toggle")
 		menu.visible=true
 		upA:abort()
 		--menu.x=dpi(1210)
 		upA.target=dpi(1370)
 	else
+		awesome.emit_signal("music::toggle")
 		menu.visible=true
 		upA:abort()
 		--menu.x=dpi(1190)
-		upA.target=dpi(1190)
+		upA.target=dpi(1140)
 	end
 	else
 	menu.x=dpi(1190)

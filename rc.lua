@@ -132,7 +132,7 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 
 -- {{{ Wibar
 -- Create a textclock widget
-mytextclock = wibox.widget.textclock("  %I:%M %p ")
+mytextclock = wibox.widget.textclock("  %I:%M %p  ")
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -410,7 +410,6 @@ awful.screen.connect_for_each_screen(function(s)
 			{	
 				{
 					mytextclock,
-					musicT,
 					layout=wibox.layout.align.horizontal,
 				},
 				widget=wibox.container.background,
@@ -558,10 +557,6 @@ globalkeys = gears.table.join(
 		awesome.emit_signal("dash::toggle")
 	end,
 	{description="toggle dash",group="awesome"}),
-	awful.key({modkey,}, "n", function ()
-		awesome.emit_signal("music::toggle")
-	end,
-	{description="toggle music",group="awesome"}),
 	awful.key({modkey,}, "t", function ()
 		awesome.emit_signal("tools::toggle")
 	end,
