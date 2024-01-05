@@ -15,7 +15,7 @@ settings={}
 --fullerene,
 --solarized,
 --and sea
-settings.theme="fullerene"
+settings.theme="oxocarbon"
 
 --The font of the setup
 settings.font="sans 8"
@@ -24,7 +24,7 @@ settings.font="sans 8"
 --settings.wallpaper="~/.config/awesome/bg/oxocarbon.png"
 
 --The profile picture on the lockscreen. Uncomment the next line to set a custom image. Note that you cannot use ~ to abbreviate the path to the icon.
---settings.user_icon="~/.config/awesome/icons/max.png"
+--settings.user_icon="~/.config/awesome/icons/dark/max2.png"
 
 --The defualt terminal to use
 settings.terminal="alacritty"

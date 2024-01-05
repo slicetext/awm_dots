@@ -21,12 +21,13 @@ local window = wibox{
 awful.placement.maximize(window)
 
 local pr=wibox.widget{
-	image=user.user_icon or conf_path.."icons/user.jpeg",
+	image=user.user_icon or conf_path.."icons/user.png",
 	widget=wibox.widget.imagebox,
 	resize=true,
 	forced_width=80,
 	forced_height=80,
 	halign="center",
+	visible=true,
 }
 
 local pt=wibox.widget{

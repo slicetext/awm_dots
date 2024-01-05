@@ -32,6 +32,7 @@ local bar = wibox.widget {
 	handle_width        = 14,
     value               = 25,
     widget              = wibox.widget.slider,
+	bar_active_color    = beautiful.bg_urgent,
 }
 local bartip = awful.tooltip {
 	objects={bar},
