@@ -34,10 +34,6 @@ local bar = wibox.widget {
     widget              = wibox.widget.slider,
 	bar_active_color    = beautiful.bg_urgent,
 }
-local bartip = awful.tooltip {
-	objects={bar},
-	text="Volume",
-}
 local wifiT= wibox.widget{
 	text="  ",
 	font="sans 26",
@@ -140,9 +136,13 @@ local menu = awful.popup({
 	},
 	batT,
 	{
-		{text="󰕾 ",font="sans 18",widget=wibox.widget.textbox,},
+		{
+			{text="󰕾",font="sans 18",widget=wibox.widget.textbox,},
+			{text=" ",font="sans 6",widget=wibox.widget.textbox,},
+			layout=wibox.layout.align.horizontal,
+		},
 		bar,
-		{text=" ",widget=wibox.widget.textbox,},
+		{text="",font="sans 1",widget=wibox.widget.textbox,},
 		layout=wibox.layout.align.horizontal,
 		expand="center",
 	}

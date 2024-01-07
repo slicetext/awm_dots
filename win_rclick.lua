@@ -14,7 +14,7 @@ co=nil
 
 local close=wibox.widget{
 	{
-		text="Close Window",
+		text=" Close Window",
 		align="center",
 		widget=wibox.widget.textbox,
 	},
@@ -23,7 +23,7 @@ local close=wibox.widget{
 }
 local move=wibox.widget{
 	{
-		text="Move To Tag ",
+		text="󰓻 Move To Tag ",
 		align="center",
 		widget=wibox.widget.textbox,
 	},
@@ -32,7 +32,7 @@ local move=wibox.widget{
 }
 local resize=wibox.widget{
 	{
-		text="Resize Window",
+		text=" Resize Window",
 		align="center",
 		widget=wibox.widget.textbox,
 	},
@@ -49,7 +49,7 @@ local rcm=awful.popup{
     border_color=beautiful.border_control,
     shape=gears.shape.rounded_rect,
 	widget={
-		forced_width=dpi(90),
+		forced_width=dpi(100),
 		forced_height=dpi(50),
 		layout=wibox.layout.align.vertical,
 		expand="none",
@@ -67,7 +67,7 @@ end)
 
 local w1=wibox.widget{
 	{
-		text="1",
+		text="󰓹 1",
 		align="center",
 		widget=wibox.widget.textbox,
 	},
@@ -83,7 +83,7 @@ end)
 
 local w2=wibox.widget{
 	{
-		text="2",
+		text="󰓹 2",
 		align="center",
 		widget=wibox.widget.textbox,
 	},
@@ -98,7 +98,7 @@ w2:connect_signal("mouse::leave",function()
 end)
 local w3=wibox.widget{
 	{
-		text="3",
+		text="󰓹 3",
 		align="center",
 		widget=wibox.widget.textbox,
 	},
@@ -113,7 +113,7 @@ w3:connect_signal("mouse::leave",function()
 end)
 local w4=wibox.widget{
 	{
-		text="4",
+		text="󰓹 4",
 		align="center",
 		widget=wibox.widget.textbox,
 	},
@@ -174,7 +174,7 @@ end)
 awesome.connect_signal("win_rc::toggle",function(c)
 	rcm.visible=not rcm.visible
 	work_pop.visible=false
-	work_pop.x=mouse.coords().x+dpi(91)
+	work_pop.x=mouse.coords().x+dpi(105)
 	work_pop.y=mouse.coords().y-dpi(10)
 	rcm.x=mouse.coords().x
 	rcm.y=mouse.coords().y-dpi(10)

@@ -21,9 +21,11 @@ require("awful.hotkeys_popup.keys")
 -- Load Debian menu entries
 local debian = require("debian.menu")
 local has_fdo, freedesktop = pcall(require, "freedesktop")
-
+--local cr= require("cairo")
+local menubar_utils = require "menubar.utils"
 local rubato=require "lib.rubato"
 local user=require "settings"
+local get_icon=require("lib.util.get_icon")
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -320,18 +322,25 @@ awful.screen.connect_for_each_screen(function(s)
 	        widget_template = {
             {
                 {
-                    id     = 'clienticon',
-                    widget = awful.widget.clienticon,
+                    id     = "clienticon",
+					--widget = awful.widget.clienticon,
+					image="",
+					widget=wibox.widget.imagebox,
                 },
                 margins = 4,
                 widget  = wibox.container.margin,
             },
         id              = 'background_role',
-        forced_width    = 30,
-        forced_height   = 64,
+        --forced_width    = 30,
+        --forced_height   = 64,
         widget          = wibox.container.background,
         create_callback = function(self, c, index, objects) --luacheck: no unused
-            self:get_children_by_id('clienticon')[1].client = c
+			if(c.class~="Alacritty"and c.class~="kitty"and user.replace_term_icons==true)then
+            	self:get_children_by_id('clienticon')[1].image = get_icon(nil,c.class,c.class,false)
+			else
+            	self:get_children_by_id('clienticon')[1].image = get_icon(nil,user.icon_term,user.icon_term,false)
+			end
+			--self:get_children_by_id('icon')[1].image=get_icon(nil,c.class,c.class,false)
         end,
     },
 
@@ -795,7 +804,11 @@ client.connect_signal("request::titlebars", function(c)
 		{
         { -- Left
 			{widget=wibox.widget.textbox,text=" ",},
-            awful.titlebar.widget.iconwidget(c),
+			--awful.titlebar.widget.iconwidget(c),
+			{
+				image=get_icon(nil,c.class,c.class,false),
+				widget=wibox.widget.imagebox,
+			},
             buttons = buttons,
             layout  = wibox.layout.fixed.horizontal
         },
@@ -837,6 +850,8 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 if(user.music==true)then
 	require("music")
 end
+
+
 require("dash")
 require("binds")
 require("tools")

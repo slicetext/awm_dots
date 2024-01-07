@@ -1,3 +1,4 @@
+local home  = os.getenv('HOME') .. '/'
 settings={}
 --The theme is the colorscheme of the setup. Possible options include:
 --gruvbox, 
@@ -15,7 +16,7 @@ settings={}
 --fullerene,
 --solarized,
 --and sea
-settings.theme="oxocarbon"
+settings.theme="biscuit"
 
 --The font of the setup
 settings.font="sans 8"
@@ -58,5 +59,14 @@ settings.root_menu=true
 
 --Password for lockscreen. If this is blank, the screen won't lock. Lock the screen with Super+Escape
 settings.password="test"
+
+--Icon theme
+settings.icon_theme=home..".local/share/icons/Colloid-dark"
+
+--If the icons for kitty and alacritty should be replaced by a different icon
+settings.replace_term_icons=true
+
+--If the above is true, which icon should replace them?
+settings.icon_term="qterminal"
 
 return settings

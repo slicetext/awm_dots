@@ -120,12 +120,12 @@ theme.awesome_icon = theme_assets.awesome_icon(
 
 -- Define the icon theme for application icons. If not set then the icons
 -- from /usr/share/icons and /usr/share/icons/hicolor will be used.
-theme.icon_theme = "papirus"
+theme.icon_theme = "colloid-dark"
 
 
-theme.notification_width=dpi(150)
-theme.notification_height=dpi(75)
-theme.notification_shape=gears.shape.rounded_rect
+--theme.notification_width=dpi(150)
+--theme.notification_height=dpi(75)
+--theme.notification_shape=gears.shape.rounded_rect
 
 
 
