@@ -1,6 +1,9 @@
 # Sprint Speed: Low Quality Dotfiles
 ![Image of the setup](screen_shot.png)
 ### Installing
+⚠️ Warning⚠️ 
+These dot files in their default configuration will delete your custom alacritty theme if you have one and replace it with a themed version. The solution to this is to turn off the Alacritty theme switcher in [settings.lua](./settings.lua).
+
 ###### Clone the repo using `git clone --recursive` instead of `git clone` so that you install external libs as well
 
 ### Dependencies (I may have forgotten a couple)
@@ -8,6 +11,7 @@
 ###### -Sans font
 ###### -[Playerctl](https://github.com/altdesktop/playerctl)
 ###### -AwesomeWM Git Version
+###### -ansiweather
 ###### -Picom (Optional)*
 ###### \*I recommend Picom Allusive with [this](./extra/picom.conf) config
 

@@ -69,4 +69,7 @@ settings.replace_term_icons=true
 --If the above is true, which icon should replace them?
 settings.icon_term="qterminal"
 
+--The city you live in (For weather purposes)
+settings.city="denver"
+
 return settings

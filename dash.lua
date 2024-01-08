@@ -219,12 +219,14 @@ awesome.connect_signal("dash::toggle",function()
 	visible=not visible
 	if(visible==true)then
 		awesome.emit_signal("music::toggle")
+		awesome.emit_signal("weather::toggle")
 		menu.visible=true
 		upA:abort()
 		--menu.x=dpi(1210)
 		upA.target=dpi(1370)
 	else
 		awesome.emit_signal("music::toggle")
+		awesome.emit_signal("weather::toggle")
 		menu.visible=true
 		upA:abort()
 		--menu.x=dpi(1190)
