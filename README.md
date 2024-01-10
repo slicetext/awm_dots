@@ -4,7 +4,7 @@
 ⚠️ Warning⚠️ 
 These dot files in their default configuration will delete your custom alacritty theme if you have one and replace it with a themed version. The solution to this is to turn off the Alacritty theme switcher in [settings.lua](./settings.lua).
 
-###### Clone the repo using `git clone --recursive` instead of `git clone` so that you install external libs as well
+###### Clone the repo using `git clone --recursive https://github.com/slicetext/awm_dots.git ~/.config/awesome`. Replace the `~/.config/awesome` with something else if you're a NixOS nerd.
 
 ### Dependencies (I may have forgotten a couple)
 ###### -A nerd font

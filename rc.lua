@@ -445,10 +445,6 @@ root.buttons(gears.table.join(
 globalkeys = gears.table.join(
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
               {description="show help", group="awesome"}),
-    awful.key({ modkey,           }, "Left",   awful.tag.viewprev,
-              {description = "view previous", group = "tag"}),
-    awful.key({ modkey,           }, "Right",  awful.tag.viewnext,
-              {description = "view next", group = "tag"}),
 
     awful.key({ modkey,           }, "j",
         function ()
@@ -593,7 +589,43 @@ globalkeys = gears.table.join(
 	awful.key({modkey,}, "Escape", function ()
 		awesome.emit_signal("lock::toggle")
 	end,
-	{description="set layout to floating layout",group="awesome"})
+	{description="set layout to floating layout",group="awesome"}),
+	awful.key({"Mod4"}, "Right", function ()
+		awesome.emit_signal("game::right")
+	end,
+	{description="move game character right",group="awesome"}),
+	awful.key({"Mod4"}, "Left", function ()
+		awesome.emit_signal("game::left")
+	end,
+	{description="move game character left",group="awesome"}),
+	awful.key({"Mod4"}, "Up", function ()
+		awesome.emit_signal("game::up")
+	end,
+	{description="move game character up",group="awesome"}),
+	awful.key({"Mod4"}, "Down", function ()
+		awesome.emit_signal("game::down")
+	end,
+	{description="move game character down",group="awesome"}),
+	awful.key({"Mod4","Mod1"}, "Right", function ()
+		awesome.emit_signal("game::s_right")
+	end,
+	{description="move game character right",group="awesome"}),
+	awful.key({"Mod4","Mod1"}, "Left", function ()
+		awesome.emit_signal("game::s_left")
+	end,
+	{description="move game character left",group="awesome"}),
+	awful.key({"Mod4","Mod1"}, "Up", function ()
+		awesome.emit_signal("game::s_up")
+	end,
+	{description="move game character up",group="awesome"}),
+	awful.key({"Mod4","Mod1"}, "Down", function ()
+		awesome.emit_signal("game::s_down")
+	end,
+	{description="move game character down",group="awesome"}),
+	awful.key({"Mod4"}, "g", function ()
+		awesome.emit_signal("game::toggle")
+	end,
+	{description="move game character down",group="awesome"})
 )
 
 clientkeys = gears.table.join(
@@ -867,3 +899,4 @@ require("layout")
 --require("notif")
 require("win_rclick")
 require("weather")
+require("game")
