@@ -123,9 +123,9 @@ theme.awesome_icon = theme_assets.awesome_icon(
 theme.icon_theme = "colloid-dark"
 
 
---theme.notification_width=dpi(150)
---theme.notification_height=dpi(75)
---theme.notification_shape=gears.shape.rounded_rect
+theme.notification_width=dpi(150)
+theme.notification_height=dpi(75)
+theme.notification_shape=gears.shape.rounded_rect
 
 
 

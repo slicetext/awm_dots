@@ -111,6 +111,12 @@ local pow=wibox.widget{
 		--align="center",
 		widget=wibox.widget.textbox,
 }
+local noti=wibox.widget{
+		text=" 󰍡",
+		font="sans 10",
+		--align="center",
+		widget=wibox.widget.textbox,
+}
 local menu = awful.popup({
   ontop = true,
   visible = false,
@@ -137,6 +143,7 @@ local menu = awful.popup({
 		{
 			pow,
 			set,
+			noti,
 			layout=wibox.layout.fixed.horizontal,
 		},
 		layout=wibox.layout.align.horizontal,
@@ -318,4 +325,7 @@ set:connect_signal("button::press",function()
 end)
 pow:connect_signal("button::press",function()
 	awesome.emit_signal("power::toggle")
+end)
+noti:connect_signal("button::press",function()
+	awesome.emit_signal("notif::toggle")
 end)
