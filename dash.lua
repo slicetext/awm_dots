@@ -34,6 +34,21 @@ local bar = wibox.widget {
     widget              = wibox.widget.slider,
 	bar_active_color    = beautiful.bg_urgent,
 }
+local bright = wibox.widget {
+    --bar_shape           = gears.shape.rounded_rect,
+    bar_height          = 1,
+    --bar_color           = beautiful.border_focus,
+	bar_border_width    = 1,
+    handle_color        = beautiful.bg_normal,
+    handle_shape        = gears.shape.circle,
+    --handle_border_color = beautiful.border_control,
+	handle_color        = beautiful.bg_urgent,
+    --handle_border_width = 1,
+	handle_width        = 14,
+    value               = 25,
+    widget              = wibox.widget.slider,
+	bar_active_color    = beautiful.bg_urgent,
+}
 local wifiT= wibox.widget{
 	text="  ",
 	font="sans 26",
@@ -102,14 +117,14 @@ local menu = awful.popup({
   border_width=4,
   border_color=beautiful.border_control,
   x=dpi(1190),
-  y=dpi(625),
+  y=dpi(605),
   shape=gears.shape.rounded_rect,
   widget={
 	widget=wibox.container.margin,
 	margins=5,
 	{
 	forced_width=200,
-  	forced_height=90,
+  	forced_height=110,
 	layout=wibox.layout.fixed.vertical,
 	expand="none",
 	{
@@ -136,6 +151,7 @@ local menu = awful.popup({
 	},
 	batT,
 	{
+	{
 		{
 			{text="󰕾",font="sans 18",widget=wibox.widget.textbox,},
 			{text=" ",font="sans 6",widget=wibox.widget.textbox,},
@@ -145,7 +161,23 @@ local menu = awful.popup({
 		{text="",font="sans 1",widget=wibox.widget.textbox,},
 		layout=wibox.layout.align.horizontal,
 		expand="center",
-	}
+		forced_height=15,
+	},
+	{
+		{
+			{text="󰃠",font="sans 18",widget=wibox.widget.textbox,},
+			{text=" ",font="sans 6",widget=wibox.widget.textbox,},
+			layout=wibox.layout.align.horizontal,
+		},
+		bright,
+		{text="",font="sans 1",widget=wibox.widget.textbox,},
+		layout=wibox.layout.align.horizontal,
+		expand="center",
+		forced_height=15,
+	},
+	layout=wibox.layout.fixed.vertical,
+	spacing=5,
+	},
   },
   },
 })
@@ -164,6 +196,9 @@ local function volume()
 
 	awful.spawn.easy_async_with_shell("sh ~/.config/awesome/vol.sh",function(out)
 		bar.value=tonumber(out)
+	end)
+	awful.spawn.easy_async_with_shell("brightnessctl -m | awk -F, '{print substr($4, 0, length($4)-1)}'",function(out)
+		bright.value=tonumber(out)
 	end)
 	awful.spawn.easy_async_with_shell("nmcli radio wifi",function(out)
 		if(out:match("enabled")) then
@@ -213,6 +248,9 @@ local up=gears.timer({
 
 bar:connect_signal("property::value", function()
     awful.spawn("pactl set-sink-volume 0 "..tostring(bar.value).."%")
+end)
+bright:connect_signal("property::value", function()
+    awful.spawn("brightnessctl s "..tostring(bright.value).."%")
 end)
 awesome.connect_signal("dash::toggle",function()
 	if(user.animations==true)then

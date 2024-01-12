@@ -78,7 +78,7 @@ local player = awful.popup({
   border_width=4,
 border_color=beautiful.border_control,
   --placement=awful.placement.bottom_right,
-  y=dpi(625),
+  y=dpi(605),
   x=dpi(1130),
   shape=gears.shape.rounded_rect,
   widget = {
@@ -181,7 +181,7 @@ awesome.connect_signal("music::toggle",function()
 		player.visible=true
 		upA:abort()
 		--menu.x=dpi(1190)
-		player.y=dpi(515)
+		player.y=dpi(495)
 		upA.target=dpi(1140)
 	end
 	else

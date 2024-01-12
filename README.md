@@ -12,6 +12,7 @@ These dot files in their default configuration will delete your custom alacritty
 ###### -[Playerctl](https://github.com/altdesktop/playerctl)
 ###### -AwesomeWM Git Version
 ###### -ansiweather
+###### -brightnessctl
 ###### -Picom (Optional)*
 ###### \*I recommend Picom Allusive with [this](./extra/picom.conf) config
 

@@ -127,6 +127,7 @@ awesome.connect_signal("game::s_down",function()
 	vertic.target=player.y+400
 end)
 
+secs=0
 awesome.connect_signal("game::toggle",function()
 	player.visible=not player.visible
 	enemy.visible=not enemy.visible
@@ -135,9 +136,9 @@ awesome.connect_signal("game::toggle",function()
 	vertic.target=0
 	horizontal_e.target=500
 	vertic_e.target=500
+	secs=0
 	if(player.visible==true)then naughty.notify({title="Silly Cube Game",text="Game Started"}) end
 end)
-secs=0
 e_timer=gears.timer{
 	autostart=true,
 	timeout=0.1,
@@ -152,6 +153,7 @@ e_timer=gears.timer{
 		if(player.visible==true and (player.x==enemy.x and player.y==enemy.y))then
 			naughty.notify({title="Silly Cube Game",text="You lost."})
 			awesome.emit_signal("game::toggle")
+			secs=0
 		end
 	end
 }

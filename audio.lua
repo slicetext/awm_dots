@@ -66,3 +66,13 @@ awesome.connect_signal("volume::mute",function()
 	ud.text="󰝟"
 	pop.visible=true
 end)
+awesome.connect_signal("bright::up",function()
+	awful.spawn("brightnessctl s +10%")
+	ud.text="󰃠"
+	pop.visible=true
+end)
+awesome.connect_signal("bright::down",function()
+	awful.spawn("brightnessctl s 10%-")
+	ud.text="󰃞"
+	pop.visible=true
+end)

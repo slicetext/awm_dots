@@ -72,7 +72,7 @@ awesome.connect_signal("weather::toggle",function()
 		player.visible=true
 		upA:abort()
 		--menu.x=dpi(1190)
-		player.y=dpi(405)
+		player.y=dpi(385)
 		upA.target=dpi(1140)
 	end
 	else

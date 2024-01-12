@@ -558,6 +558,14 @@ globalkeys = gears.table.join(
 		awesome.emit_signal("volume::mute")
 	end,
 	{description="mute Volume",group="awesome"}),
+	awful.key({}, "XF86MonBrightnessUp", function ()
+		awesome.emit_signal("bright::up")
+	end,
+	{description="increase brightness",group="awesome"}),
+	awful.key({}, "XF86MonBrightnessDown", function ()
+		awesome.emit_signal("bright::down")
+	end,
+	{description="decrease brightness",group="awesome"}),
 	awful.key({modkey,}, "m", function ()
 		awesome.emit_signal("dash::toggle")
 	end,
