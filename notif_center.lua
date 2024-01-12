@@ -36,8 +36,12 @@ local create=function(icon,n)
 				},
 				{
 					{
-						markup="<b>"..n.title.."</b>",
-						widget=wibox.widget.textbox,
+						{
+							markup="<b>"..n.title.."</b>",
+							widget=wibox.widget.textbox,
+						},
+						{widget=wibox.widget.textbox,text=os.date("%I : %M"),align="right",},
+						layout=wibox.layout.align.horizontal,
 					},
 					{
 						text=n.text,
@@ -65,6 +69,7 @@ local clear_notifs=wibox.widget{
 	},
 	widget=wibox.container.background,
 	bg=beautiful.bg_minimize,
+	shape=gears.shape.rounded_rect,
 }
 
 local menu = awful.popup({
@@ -114,6 +119,12 @@ end)
 
 clear_notifs:connect_signal("button::press",function()
 	notifbox:reset(notifbox)
+end)
+clear_notifs:connect_signal("mouse::enter",function()
+	clear_notifs.bg=beautiful.bg_focus
+end)
+clear_notifs:connect_signal("mouse::leave",function()
+	clear_notifs.bg=beautiful.bg_minimize
 end)
 
 awesome.connect_signal("notif::toggle",function()
