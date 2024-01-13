@@ -18,7 +18,7 @@ local notifbox=wibox.widget{
 	scrollbar_enabled=false,
 	spacing=3,
 }
-
+visible=false
 local create=function(icon,n)
 	local box=wibox.widget{
 		{
@@ -108,6 +108,12 @@ local menu = awful.popup({
    },
 })
 
+local anim=rubato.timed{
+	duration=1/6,
+	into=1/12,
+	easing=rubato.quadratic,
+	subscribed=function(pos) menu.x=pos end,
+}
 
 naughty.connect_signal("added", function(n)
 	local appicon = n.icon or n.app_icon
@@ -128,5 +134,17 @@ clear_notifs:connect_signal("mouse::leave",function()
 end)
 
 awesome.connect_signal("notif::toggle",function()
-	menu.visible=not menu.visible
+	if(user.animations==true)then
+		visible=not visible
+		if(menu.visible==true)then
+			menu.visible=false
+			anim.target=dpi(-220)
+		else
+			menu.visible=true
+			anim.target=dpi(15)
+		end
+	else
+		menu.x=dpi(205)
+		menu.visible=not menu.visible
+	end
 end)

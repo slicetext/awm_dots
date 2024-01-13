@@ -62,7 +62,7 @@ local upA=rubato.timed{
 awesome.connect_signal("weather::toggle",function()
 	if(user.animations==true)then
 	visible=not visible
-	if(visible==true)then
+	if(visible==false)then
 		player.visible=true
 		upA:abort()
 		--menu.x=dpi(1210)
