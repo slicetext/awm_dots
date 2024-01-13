@@ -18,9 +18,8 @@ visible=true
 
 local temp=wibox.widget{
 	text="1 Million Billion Degrees",
-	font="sans 30",
-	valign="center",
-	halign="right",
+	font="sans 22",
+	--valign="center",
 	widget=wibox.widget.textbox,
 }
 
@@ -45,11 +44,14 @@ border_color=beautiful.border_control,
     forced_width = 210,
     forced_height = 100,
 	{
-		{text="Feels Like",valign="top",halign="right",widget=wibox.widget.textbox,},
+	{
 		temp,
 		sun_img,
-		layout=wibox.layout.stack,
+		layout=wibox.layout.align.horizontal,
 	},
+	{text="Feels Like",valign="top",halign="left",widget=wibox.widget.textbox,},
+	layout=wibox.layout.stack,
+  }
   }
 })
 local upA=rubato.timed{
@@ -81,7 +83,7 @@ awesome.connect_signal("weather::toggle",function()
 end
 end)
 function get_weather()
-	awful.spawn.easy_async_with_shell("ansiweather -l "..user.city.." -u imperial -H true -a false -s true | tr '-' '\\n' | grep 'Feels like: ' | cut -d ':' -f 2",function(out)
+	awful.spawn.easy_async_with_shell("ansiweather -l "..user.city.." -u imperial -H true -a false -s true | sed '/- /s//\\n/g' | grep 'Feels like: ' | cut -d ':' -f 2",function(out)
 		temp.text=""..out
 	end)
 end
