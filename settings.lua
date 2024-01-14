@@ -16,7 +16,7 @@ settings={}
 --fullerene,
 --solarized,
 --and sea
-settings.theme="paper"
+settings.theme="oxocarbon"
 
 --The font of the setup
 settings.font="sans 8"

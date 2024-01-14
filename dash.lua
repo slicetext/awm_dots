@@ -340,5 +340,6 @@ awesome.connect_signal("dash::false",function()
 		--upA:abort()
 		--menu.x=dpi(1210)
 		upA.target=dpi(1370)
+		visible=not visible
 	end
 end)
