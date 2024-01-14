@@ -61,7 +61,7 @@ settings.root_menu=true
 settings.password="test"
 
 --Icon theme
-settings.icon_theme=home..".local/share/icons/Colloid-dark"
+settings.icon_theme=home..".local/share/icons/Colloid"
 
 --If the icons for kitty and alacritty should be replaced by a different icon
 settings.replace_term_icons=true

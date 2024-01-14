@@ -137,8 +137,8 @@ awesome.connect_signal("notif::toggle",function()
 	if(user.animations==true)then
 		visible=not visible
 		if(menu.visible==true)then
-			menu.visible=false
 			anim.target=dpi(-220)
+			menu.visible=false
 		else
 			menu.visible=true
 			anim.target=dpi(15)

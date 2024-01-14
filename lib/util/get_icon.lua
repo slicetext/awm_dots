@@ -9,6 +9,9 @@ local function Get_icon(client, program_string, class_string, is_steam)
   program_string = program_string or nil
   class_string = class_string or nil
   is_steam = is_steam or nil
+  if(program_string=="Chromium-browser")then
+	  program_string="chromium"
+  end
 
   if (client or program_string or class_string) then
     local clientName

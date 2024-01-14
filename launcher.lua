@@ -71,7 +71,7 @@ function open()
 		textbox=promptb,
 		exe_callback=function(cmd)
 			launcher.visible=false
-			awful.spawn.with_shell(cmd)
+			awful.spawn.with_shell("bash -ci "..cmd)
 		end
 	}
 end
