@@ -13,6 +13,10 @@ local function Get_icon(client, program_string, class_string, is_steam)
 	  program_string="chromium"
   end
 
+  if(program_string=="Nemo")then
+	  program_string="nemo"
+  end
+
   if (client or program_string or class_string) then
     local clientName
     if is_steam then
