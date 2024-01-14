@@ -16,6 +16,9 @@ local function Get_icon(client, program_string, class_string, is_steam)
   if(program_string=="Nemo")then
 	  program_string="nemo"
   end
+  if(program_string=="Vmplayer")then
+	  program_string="vmware"
+  end
 
   if (client or program_string or class_string) then
     local clientName

@@ -71,6 +71,16 @@ local clear_notifs=wibox.widget{
 	bg=beautiful.bg_minimize,
 	shape=gears.shape.rounded_rect,
 }
+local close=wibox.widget{
+	{
+		text="  ",
+		font="sans 12",
+		widget=wibox.widget.textbox,
+	},
+	widget=wibox.container.background,
+	bg=beautiful.bg_minimize,
+	shape=gears.shape.rounded_rect,
+}
 
 local menu = awful.popup({
   ontop = true,
@@ -88,10 +98,11 @@ local menu = awful.popup({
   		forced_height=510,
 		{
 			{
-				{text="",widget=wibox.widget.textbox,},
-				{text="Notifications",font="sans 14",widget=wibox.widget.textbox,},
 				clear_notifs,
+				{text="Notifications",font="sans 14",widget=wibox.widget.textbox,},
+				close,
 				layout=wibox.layout.align.horizontal,
+				expand="none",
 			},
 			widget=wibox.container.margin,
 			margins=3,
@@ -114,6 +125,7 @@ local anim=rubato.timed{
 	easing=rubato.quadratic,
 	subscribed=function(pos) menu.x=pos end,
 }
+anim.target=dpi(-220)
 
 naughty.connect_signal("added", function(n)
 	local appicon = n.icon or n.app_icon
@@ -132,17 +144,23 @@ end)
 clear_notifs:connect_signal("mouse::leave",function()
 	clear_notifs.bg=beautiful.bg_minimize
 end)
+close:connect_signal("mouse::enter",function()
+	close.bg=beautiful.bg_focus
+end)
+close:connect_signal("mouse::leave",function()
+	close.bg=beautiful.bg_minimize
+end)
+close:connect_signal("button::press",function()
+	anim.target=dpi(-225)
+end)
 
 awesome.connect_signal("notif::toggle",function()
+	local visib
 	if(user.animations==true)then
-		visible=not visible
-		if(menu.visible==true)then
-			anim.target=dpi(-220)
-			menu.visible=false
-		else
-			menu.visible=true
-			anim.target=dpi(15)
-		end
+		menu.visible=true
+		visib=true
+		anim.target=dpi(15)
+		awesome.emit_signal("dash::false")
 	else
 		menu.x=dpi(205)
 		menu.visible=not menu.visible

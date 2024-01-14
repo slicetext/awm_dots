@@ -331,3 +331,14 @@ end)
 noti:connect_signal("button::press",function()
 	awesome.emit_signal("notif::toggle")
 end)
+
+awesome.connect_signal("dash::false",function()
+	if(visible==false)then
+		awesome.emit_signal("music::toggle")
+		awesome.emit_signal("weather::toggle")
+		menu.visible=true
+		--upA:abort()
+		--menu.x=dpi(1210)
+		upA.target=dpi(1370)
+	end
+end)
