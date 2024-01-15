@@ -13,6 +13,7 @@ These dot files in their default configuration will delete your custom alacritty
 ###### -AwesomeWM Git Version
 ###### -ansiweather
 ###### -brightnessctl
+###### -apcalc
 ###### -Picom (Optional)*
 ###### \*I recommend Picom Allusive with [this](./extra/picom.conf) config
 
