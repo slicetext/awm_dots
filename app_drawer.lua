@@ -12,9 +12,29 @@ local user=require("settings")
 local rubato=require "lib.rubato"
 local Gio = require("lgi").Gio
 local get_icon=require("lib.util.get_icon")
+-- Source: http://lua-users.org/wiki/MakingLuaLikePhp
+-- Credit: http://richard.warburton.it/
+function explode(div,str)
+    if (div=='') then return false end
+    local pos,arr = 0,{}
+    for st,sp in function() return string.find(str,div,pos,true) end do
+        table.insert(arr,string.sub(str,pos,st-1))
+        pos = sp + 1
+    end
+    table.insert(arr,string.sub(str,pos))
+    return arr
+end
 
 local apps=Gio.AppInfo.get_all()
 local running=false
+local flatpak_apps={}
+local flatpak_apps_execute={}
+awful.spawn.easy_async_with_shell("flatpak list --app --columns=name",function(out)
+	flatpak_apps=explode("\n",out)
+end)
+awful.spawn.easy_async_with_shell("flatpak list --app --columns=app",function(out)
+	flatpak_apps=explode("\n",out)
+end)
 
 local list=wibox.widget{
 	margins=5,
@@ -24,7 +44,7 @@ local list=wibox.widget{
 	spacing=3,
 }
 
-local entry_template=function(name,info,description)
+local entry_template=function(name,info,description,id)
 	local temp=wibox.widget{
 		{
 			image=get_icon(nil,info,info,false),
@@ -34,7 +54,11 @@ local entry_template=function(name,info,description)
 			widget=wibox.widget.imagebox,
 			buttons={
 				awful.button({},1, function()
-					awful.spawn.with_shell(info)
+					if(string.match(info,"flatpak"))then
+						awful.spawn.with_shell("flatpak run "..id:gsub(".desktop",""))
+					else
+						awful.spawn.with_shell(info)
+					end
 					awesome.emit_signal("drawer::toggle")
 				end),
 			},
@@ -105,13 +129,13 @@ local drawer=awful.popup{
 filter=function(input)
 	list:reset(list)
 	for _, entry in ipairs(apps) do
-		if((string.match(entry:get_executable(),input))or(string.match(entry:get_name():gsub("&", "&amp;"):gsub("<", "&lt;"):gsub("'", "&#39;"),input)))then
-			list:insert(1,entry_template(entry:get_name():gsub("&", "&amp;"):gsub("<", "&lt;"):gsub("'", "&#39;"),entry:get_executable(),entry:get_description()))
+		if((string.match(entry:get_executable():lower(),input:lower()))or(string.match(entry:get_name():gsub("&", "&amp;"):gsub("<", "&lt;"):gsub("'", "&#39;"):lower(),input:lower())))then
+			list:insert(1,entry_template(entry:get_name():gsub("&", "&amp;"):gsub("<", "&lt;"):gsub("'", "&#39;"),entry:get_executable(),entry:get_description(),entry:get_id()))
 		end
 	end
 	awful.spawn.easy_async_with_shell("calc "..input,function(out)
 		if(out~="")then
-			list:insert(1,entry_template("Calculator","kcalc",input.."="..string.gsub(out, "%s+", "")))
+			list:insert(1,entry_template("Calculator","kcalc",input.."="..string.gsub(out, "%s+", "","kcalc")))
 		end
 	end)
 end
@@ -136,6 +160,7 @@ awesome.connect_signal("drawer::toggle",function()
 		search()
 	else
 		list:reset(list)
+		filter("")
 		if(running==true)then
 			root.fake_input("key_press","Return")
 			root.fake_input("key_release","Return")
