@@ -52,6 +52,8 @@ local entry_template=function(name,info,description,id)
 			forced_width=dpi(64),
 			forced_height=dpi(64),
 			widget=wibox.widget.imagebox,
+			exe=info,
+			id="image",
 			buttons={
 				awful.button({},1, function()
 					if(string.match(info,"flatpak"))then

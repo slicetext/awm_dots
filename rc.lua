@@ -641,7 +641,11 @@ globalkeys = gears.table.join(
 	awful.key({"Mod4"}, "a", function ()
 		awesome.emit_signal("drawer::toggle")
 	end,
-	{description="toggle app drawer",group="awesome"})
+	{description="toggle app drawer",group="awesome"}),
+	awful.key({"Mod4","Shift"},"g", function ()
+		awesome.emit_signal("pong::toggle")
+	end,
+	{description="toggle pong",group="awesome"})
 )
 
 clientkeys = gears.table.join(
@@ -918,3 +922,4 @@ require("weather")
 require("game")
 require("notif_center")
 require("app_drawer")
+require("pong")
