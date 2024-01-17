@@ -25,7 +25,7 @@ These dot files in their default configuration will delete your custom alacritty
 
 ### Theming
 ###### This is a theme file for the paper colorscheme
-```
+```lua
 file={} --Defines the theme
 file.bg_normal     = "#f2eede" --color of background
 file.bg_minimize   = "#bfbcaf" --color of various parts of the bar

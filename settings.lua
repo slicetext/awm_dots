@@ -72,4 +72,28 @@ settings.icon_term="qterminal"
 --The city you live in (For weather purposes)
 settings.city="denver"
 
+--List of desktop icons
+settings.desktop_icons={
+	{
+		"Firefox",
+		"firefox",
+		"firefox",
+	},
+	{
+		"Chromium",
+		"bash -ci chromium",
+		"chromium-browser"
+	},
+	{
+		"Alacritty",
+		"alacritty",
+		"qterminal",
+	},
+	{
+		"Nemo",
+		"nemo",
+		"nemo",
+	},
+}
+
 return settings

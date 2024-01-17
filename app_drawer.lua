@@ -145,7 +145,7 @@ search=function()
 	running=true
 	awful.prompt.run{
 		textbox=searchbox,
-		prompt=" :: ",
+		prompt=" 󰍉 ",
 		changed_callback=function(input)
 			filter(input)
 		end,

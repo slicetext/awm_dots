@@ -10,20 +10,37 @@ naughty.connect_signal("request::display",function(n)
 	naughty.layout.box{
 		notification=n,
 		bg=beautiful.bg_normal,
+  		border_width=1,
+  		border_color=beautiful.border_control,
+		vexpand=true,
 		widget_template={
 			widget=wibox.container.margin,
 			margins=10,
+			vexpand=true,
 			{
 				forced_width=dpi(200),
-				forced_height=dpi(100),
-				naughty.widget.icon,
+				--forced_height=dpi(100),
+				vexpand=true,
 				{
-					naughty.widget.title,
-					naughty.widget.message,
-					layout=wibox.layout.fixed.vertical,
+					naughty.widget.icon,
+					widget=wibox.container.margin,
+					margins=2,
+				},
+				{
+					{
+						markup="<b>"..n.title.."</b>",
+						widget=wibox.widget.textbox,
+					},
+					{
+						text=n.text,
+						widget=wibox.widget.textbox,
+						ellipsize="none",
+						vexpand=true,
+					},
+					layout=wibox.layout.align.vertical,
 				},
 				expand="none",
-				layout=wibox.layout.align.horizontal,
+				layout=wibox.layout.fixed.horizontal,
 			}
 		},
 	}
