@@ -83,8 +83,8 @@ border_color=beautiful.border_control,
   shape=gears.shape.rounded_rect,
   widget = {
     widget = wibox.container.margin,
-	margins=5,
-    forced_width = 210,
+	margins=10,
+    forced_width = 215,
     forced_height = 100,
 	{
 		widget=wibox.container.margin,
@@ -175,13 +175,13 @@ awesome.connect_signal("music::toggle",function()
 		player.visible=true
 		upA:abort()
 		--menu.x=dpi(1210)
-		player.y=dpi(625)
+		player.y=dpi(600)
 		upA.target=dpi(1400)
 	else
 		player.visible=true
 		upA:abort()
 		--menu.x=dpi(1190)
-		player.y=dpi(495)
+		player.y=dpi(480)
 		upA.target=dpi(1140)
 	end
 	else

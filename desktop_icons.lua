@@ -10,14 +10,27 @@ local get_icon=require("lib.util.get_icon")
 
 local grid=wibox.layout{
 	layout=wibox.layout.grid,
+	forced_num_rows=8,
+	orientation="vertical",
+	forced_width=user.width,
+	homogeneous=true,
+	forced_width=user.width,
+	forced_height=user.height-30,
 }
 
 local iconbox=awful.popup{
   ontop = false,
   visible = true,
-  placement=awful.placement.maximize,
+  placement=awful.placement.top,
   bg="#00000000",
   widget={
+	buttons={
+		awful.button({},3,function()
+			awesome.emit_signal("rclick::toggle")
+		end),
+	},
+	forced_width=user.width,
+	forced_height=user.height-30,
 	{
 		grid,
 		layout=wibox.layout.manual,
@@ -53,7 +66,14 @@ create_icon=function(i)
 	}
 	return icon_tb
 end
-
+num=0
+n_col=1
 for _ , i in pairs(user.desktop_icons)do
 	grid:add(create_icon(i))
+	if(num+1==8)then
+		grid:insert_column(n_col+1)
+		n_col=n_col+1
+		num=-1
+	end
+	num=num+1
 end

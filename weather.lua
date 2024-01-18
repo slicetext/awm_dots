@@ -40,8 +40,8 @@ border_color=beautiful.border_control,
   shape=gears.shape.rounded_rect,
   widget = {
     widget = wibox.container.margin,
-	margins=5,
-    forced_width = 210,
+	margins=10,
+    forced_width = 215,
     forced_height = 100,
 	{
 	{
@@ -50,7 +50,7 @@ border_color=beautiful.border_control,
 		layout=wibox.layout.align.horizontal,
 	},
 	{text="Feels Like",valign="top",halign="left",widget=wibox.widget.textbox,},
-	layout=wibox.layout.stack,
+	layout=wibox.layout.fixed.vertical,
   }
   }
 })
@@ -74,7 +74,7 @@ awesome.connect_signal("weather::toggle",function()
 		player.visible=true
 		upA:abort()
 		--menu.x=dpi(1190)
-		player.y=dpi(385)
+		player.y=dpi(370)
 		upA.target=dpi(1140)
 	end
 	else

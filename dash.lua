@@ -123,16 +123,17 @@ local menu = awful.popup({
   border_width=4,
   border_color=beautiful.border_control,
   x=dpi(1190),
-  y=dpi(605),
+  y=dpi(590),
   shape=gears.shape.rounded_rect,
   widget={
 	widget=wibox.container.margin,
-	margins=5,
+	margins=8,
 	{
-	forced_width=200,
-  	forced_height=110,
+	forced_width=195,
+  	forced_height=120,
 	layout=wibox.layout.fixed.vertical,
 	expand="none",
+	{
 	{
 		{
 			format="%a, %b %d %Y",
@@ -148,6 +149,9 @@ local menu = awful.popup({
 		},
 		layout=wibox.layout.align.horizontal,
 	},
+	widget=wibox.container.margin,
+	margins={top=0,bottom=2,left=0,right=0},
+	},
 	{
 		wifi,
 		notif,
@@ -156,7 +160,14 @@ local menu = awful.popup({
 		expand="none",
 		layout=wibox.layout.align.horizontal,
 	},
-	batT,
+	{
+		{
+			batT,
+			layout=wibox.layout.align.vertical,
+		},
+		widget=wibox.container.margin,
+		margins=5,
+	},
 	{
 	{
 		{

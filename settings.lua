@@ -96,4 +96,9 @@ settings.desktop_icons={
 	},
 }
 
+--Screen Width
+settings.width=1366
+--Screen Height
+settings.height=768
+
 return settings
