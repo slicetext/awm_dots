@@ -14,14 +14,14 @@ local grid=wibox.layout{
 	orientation="vertical",
 	forced_width=user.width,
 	homogeneous=true,
-	forced_width=user.width,
-	forced_height=user.height-30,
+	forced_width=user.width-30,
+	forced_height=user.height,
 }
 
 local iconbox=awful.popup{
   ontop = false,
   visible = true,
-  placement=awful.placement.top,
+  placement=awful.placement.top_right,
   bg="#00000000",
   widget={
 	buttons={
@@ -29,8 +29,8 @@ local iconbox=awful.popup{
 			awesome.emit_signal("rclick::toggle")
 		end),
 	},
-	forced_width=user.width,
-	forced_height=user.height-30,
+	forced_width=user.width-40,
+	forced_height=user.height,
 	{
 		grid,
 		layout=wibox.layout.manual,
@@ -69,7 +69,11 @@ end
 num=0
 n_col=1
 for _ , i in pairs(user.desktop_icons)do
-	grid:add(create_icon(i))
+	if(i[1]~="")then
+		grid:add(create_icon(i))
+	else
+		grid:add({forced_height=64,forced_width=64,layout=wibox.layout.manual,})
+	end
 	if(num+1==8)then
 		grid:insert_column(n_col+1)
 		n_col=n_col+1

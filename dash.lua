@@ -51,7 +51,8 @@ local bright = wibox.widget {
 }
 local wifiT= wibox.widget{
 	text="  ",
-	font="sans 26",
+	font="sans 20",
+	align="center",
 	widget=wibox.widget.textbox,
 }
 local wifi = wibox.widget {
@@ -64,7 +65,8 @@ local wifi = wibox.widget {
 }
 local notifT= wibox.widget{
 	text=" 󰂚 ",
-	font="sans 26",
+	align="center",
+	font="sans 20",
 	widget=wibox.widget.textbox,
 }
 local notif = wibox.widget {
@@ -77,7 +79,8 @@ local notif = wibox.widget {
 }
 local toothT= wibox.widget{
 	text="  ",
-	font="sans 26",
+	align="center",
+	font="sans 20",
 	color=beautiful.fg_urgent,
 	widget=wibox.widget.textbox,
 }
@@ -123,7 +126,7 @@ local menu = awful.popup({
   border_width=4,
   border_color=beautiful.border_control,
   x=dpi(1190),
-  y=dpi(590),
+  y=dpi(620),
   shape=gears.shape.rounded_rect,
   widget={
 	widget=wibox.container.margin,
@@ -158,7 +161,8 @@ local menu = awful.popup({
 		tooth,
 		spacing=2.5,
 		expand="none",
-		layout=wibox.layout.align.horizontal,
+		layout=wibox.layout.flex.horizontal,
+		align="center",
 	},
 	{
 		{
@@ -222,19 +226,19 @@ local function volume()
 		if(out:match("enabled")) then
 			wifi.bg=beautiful.bg_urgent
 		else
-			wifi.bg=beautiful.bg_normal
+			wifi.bg=beautiful.bg_minimize
 		end
 	end)
 		if(nottoggle==true) then
 			notif.bg=beautiful.bg_urgent
 		else
-			notif.bg=beautiful.bg_normal
+			notif.bg=beautiful.bg_minimize
 		end
 	awful.spawn.easy_async_with_shell("hcitool dev | tail -n +2",function(out)
 		if(out~="")then
 			tooth.bg=beautiful.bg_urgent
 		else
-			tooth.bg=beautiful.bg_normal
+			tooth.bg=beautiful.bg_minimize
 		end
 	end)
 	awful.spawn.easy_async_with_shell("cat /sys/class/power_supply/BAT0/capacity",function(out)
@@ -279,14 +283,14 @@ awesome.connect_signal("dash::toggle",function()
 		menu.visible=true
 		--upA:abort()
 		--menu.x=dpi(1210)
-		upA.target=dpi(1370)
+		upA.target=dpi(-500)
 	else
 		awesome.emit_signal("music::toggle")
 		awesome.emit_signal("weather::toggle")
 		menu.visible=true
 		--upA:abort()
 		--menu.x=dpi(1190)
-		upA.target=dpi(1140)
+		upA.target=dpi(40)
 	end
 	else
 		awesome.emit_signal("music::toggle")

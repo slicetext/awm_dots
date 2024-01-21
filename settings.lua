@@ -25,7 +25,7 @@ settings.font="sans 8"
 --settings.wallpaper="~/.config/awesome/bg/oxocarbon.png"
 
 --The profile picture on the lockscreen. Uncomment the next line to set a custom image. Note that you cannot use ~ to abbreviate the path to the icon.
---settings.user_icon="~/.config/awesome/icons/dark/max2.png"
+--settings.user_icon=home..".config/awesome/icons/dark/max2.png"
 
 --The defualt terminal to use
 settings.terminal="alacritty"
@@ -87,12 +87,29 @@ settings.desktop_icons={
 	{
 		"Alacritty",
 		"alacritty",
-		"qterminal",
+		"alacritty",
 	},
 	{
 		"Nemo",
 		"nemo",
 		"nemo",
+	},
+	{
+		"G4Music",
+		"flatpak run com.github.neithern.g4music",
+		"com.github.neithern.g4music",
+	},
+}
+
+--
+settings.dock_pinned={
+	{
+		"firefox",
+		"firefox",
+	},
+	{
+		"alacritty",
+		"alacritty",
 	},
 }
 

@@ -11,7 +11,7 @@ file.fg_minimize   = "#f2f4f8"
 file.border_normal = "#f2f4f8"
 file.border_focus  = "#33b1ff"
 file.border_marked = "#33b1ff"
-file.border_control= "#ee5396"
+file.border_control= "#33b1ff"
 file.wallpaper     = "~/.config/awesome/bg/oxocarbon.png"
 file.light         = false
 return file

@@ -134,7 +134,12 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 
 -- {{{ Wibar
 -- Create a textclock widget
-mytextclock = wibox.widget.textclock("  %I:%M %p  ")
+mytextclock = wibox.widget{
+	format="%I\n%M",
+	orientation="vertical",
+	widget=wibox.widget.textclock,
+	align="center",
+}
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -197,7 +202,8 @@ end
 screen.connect_signal("property::geometry", set_wallpaper)
 
 local trayT = wibox.widget{
-	text=" ",
+	text="󰅃",
+	align="center",
 	widget=wibox.widget.textbox,
 }
 trayT:connect_signal("button::press",function()
@@ -212,8 +218,9 @@ local launcherb = wibox.widget{
 	{
 	--image="~/.config/awesome/icons/awm.png",
 	--resize=true,
-	text=" 󰑮 ",
+	text="󰑮",
 	font="sans 14",
+	align="center",
 	widget=wibox.widget.textbox,
 	},
 	bg=beautiful.bg_focus,
@@ -232,6 +239,7 @@ end)
 layoutb=wibox.widget{
 	text="󰋁",
 	font="sans 16",
+	align="center",
 	widget=wibox.widget.textbox,
 }
 layoutb:connect_signal("button::press",function()
@@ -259,9 +267,9 @@ awful.screen.connect_for_each_screen(function(s)
 	awesome.connect_signal("tray::toggle",function()
 		s.systray.visible=not s.systray.visible
 		if(s.systray.visible==true)then
-			trayT.text=" "
+			trayT.text="󰅀"
 		else
-			trayT.text=" "
+			trayT.text="󰅃"
 		end
 	end)
     -- Create an imagebox widget which will contain an icon indicating which layout we're using.
@@ -278,18 +286,46 @@ awful.screen.connect_for_each_screen(function(s)
         filter  = awful.widget.taglist.filter.all,
 		background=beautiful.bg_minimize,
         buttons = taglist_buttons,
-		style   = {
-        	shape = gears.shape.circle
-    	},
-		layout   = {
-        	spacing = 10,
-        	spacing_widget = {
-            	color  = '#dddddd00',
-         		shape  = gears.shape.circle,
-            	widget = wibox.widget.separator,
-        	},
-        	layout  = wibox.layout.fixed.horizontal
-    	},
+		orientation="vertical",
+		layout={
+			layout=wibox.layout.fixed.vertical,
+		},
+		widget_template={
+			widget=wibox.container.margin,
+			margins=5,
+			{
+				widget=wibox.container.background,
+				shape=gears.shape.rounded_rect,
+				forced_width=1,
+				forced_height=50,
+				bg=beautiful.bg_normal,
+				id="bg",
+			},
+			create_callback=function(self,tag)                
+				self.animate = rubato.timed {
+                    duration = 0.15,
+                    subscribed = function (h)
+                        self:get_children_by_id('bg')[1].forced_height = h
+                    end
+                }
+				self.update=function()
+					if(tag.selected)then
+						self:get_children_by_id('bg')[1].bg=beautiful.bg_urgent
+						self.animate.target=50
+					elseif(#tag:clients()>0)then
+						self:get_children_by_id('bg')[1].bg=beautiful.bg_focus
+						self.animate.target=40
+					else
+						self:get_children_by_id('bg')[1].bg=beautiful.bg_normal
+						self.animate.target=30
+					end
+				end
+				self.update()
+			end,
+			update_callback=function(self)
+				self.update()
+			end,
+		}
     }
 
     -- Create a tasklist widget
@@ -317,7 +353,7 @@ awful.screen.connect_for_each_screen(function(s)
             widget = wibox.container.place,
         },
         spacing = 5,
-        layout  = wibox.layout.fixed.horizontal
+        layout  = wibox.layout.fixed.vertical
     },
 	        widget_template = {
             {
@@ -372,32 +408,24 @@ awful.screen.connect_for_each_screen(function(s)
 
 	}
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "bottom", screen = s , height=30,})
+    s.mywibox = awful.wibar({ position = "left", screen = s , width=30,})
 
     -- Add widgets to the wibox
     s.mywibox:setup {
-        layout = wibox.layout.align.horizontal,
+        layout = wibox.layout.align.vertical,
 		expand="none",
 		{
 		margins=5,
 		widget=wibox.container.margin,
         { -- Left widgets
-            layout = wibox.layout.fixed.horizontal,
+            layout = wibox.layout.fixed.vertical,
             --mylauncher,
 			launcherb,
 			spacing=5,
 			{
 				{
-					{
-						text=" ",
-						widget=wibox.widget.textbox,
-					},
             		s.mytaglist,
-					{
-						text=" ",
-						widget=wibox.widget.textbox,
-					},
-					layout=wibox.layout.align.horizontal,
+					layout=wibox.layout.align.vertical,
 				},
 				widget=wibox.container.background,
 				shape=gears.shape.rounded_rect,
@@ -407,19 +435,23 @@ awful.screen.connect_for_each_screen(function(s)
 			
         },
 		},
-        s.mytasklist, -- Middle widget
+		{layout=wibox.layout.align.vertical},
 		{
 		margins=5,
 		widget=wibox.container.margin,
         {  --Right widgets
-            layout = wibox.layout.fixed.horizontal,
+            layout = wibox.layout.fixed.vertical,
             --mykeyboardlayout,
 			trayT,
             s.systray,
 			{	
 				{
-					mytextclock,
-					layout=wibox.layout.align.horizontal,
+					{
+						mytextclock,
+						layout=wibox.layout.align.vertical,
+					},
+					widget=wibox.container.margin,
+					margins={left=1,right=1,top=10,bottom=10,},
 				},
 				widget=wibox.container.background,
 				shape=gears.shape.rounded_rect,
@@ -850,23 +882,21 @@ client.connect_signal("request::titlebars", function(c)
         end)
     )
 
-    awful.titlebar(c,{position="top"}) : setup {
+    awful.titlebar(c,{position="top",size=25}) : setup {
 		widget=wibox.container.margin,
-		margins=10,
+		margins=2,
 		{
         { -- Left
-			{widget=wibox.widget.textbox,text=" ",},
 			--awful.titlebar.widget.iconwidget(c),
 			{
 				image=get_icon(nil,c.class,c.class,false),
 				widget=wibox.widget.imagebox,
 			},
             buttons = buttons,
-            layout  = wibox.layout.fixed.horizontal
+            layout  = wibox.layout.fixed.horizontal,
+			widget=wibox.container.background,
+			bg=beautiful.bg_minimize,
         },
-			widget=wibox.container.margin,
-			margins=2,
-		},
         { -- Middle
             { -- Title
                 align  = "center",
@@ -879,15 +909,13 @@ client.connect_signal("request::titlebars", function(c)
 			awful.titlebar.widget.minimizebutton(c),
             awful.titlebar.widget.maximizedbutton(c),
             awful.titlebar.widget.closebutton    (c),
-			{widget=wibox.widget.textbox,text=" ",},
             layout = wibox.layout.fixed.horizontal(),
 			widget=wibox.container.margin,
 			margins=2,
         },
         layout = wibox.layout.align.horizontal,
-		widget=wibox.container.margin,
-		margins=2,
     }
+	}
 end)
 beautiful.useless_gap = 5
 beautiful.gap_single_client = true
@@ -924,3 +952,4 @@ require("notif_center")
 require("app_drawer")
 require("pong")
 require("desktop_icons")
+require("dock")
