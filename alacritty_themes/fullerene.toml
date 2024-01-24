@@ -1,0 +1,33 @@
+[window]
+opacity = 1
+
+  [window.padding]
+  x = 10
+  y = 10
+
+[colors.primary]
+background = "#1f1f1f"
+foreground = "#c6c6c6"
+
+[colors.normal]
+black = "#1f1f1f"
+red = "#c1374b"
+green = "#23976c"
+yellow = "#a7812c"
+blue = "#2a52a9"
+magenta = "#9366db"
+cyan = "#2e91a8"
+white = "#c6c6c6"
+
+[colors.bright]
+black = "#1f1f1f"
+red = "#c1374b"
+green = "#23976c"
+yellow = "#a7812c"
+blue = "#2a52a9"
+magenta = "#9366db"
+cyan = "#2e91a8"
+white = "#c6c6c6"
+
+[font.normal]
+family = "DroidSansM Nerd Font Mono"

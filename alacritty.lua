@@ -14,9 +14,9 @@ end
 
 if(user.terminal=="alacritty"and user.alacritty_theme_switcher and has_value(alacritty_theme_list,user.theme))then
 	local file=user.theme
-	awful.spawn.with_shell("rm ~/.config/alacritty/alacritty.yml")
-	awful.spawn.with_shell("cp -r ~/.config/awesome/alacritty_themes/"..file..".yml ~/.config/alacritty/alacritty.yml")
+	awful.spawn.with_shell("rm ~/.config/alacritty/alacritty.toml")
+	awful.spawn.with_shell("cp -r ~/.config/awesome/alacritty_themes/"..file..".toml ~/.config/alacritty/alacritty.toml")
 else
-	awful.spawn.with_shell("rm ~/.config/alacritty/alacritty.yml")
-	awful.spawn.with_shell("cp -r ~/.config/awesome/alacritty_themes/oxocarbon.yml ~/.config/alacritty/alacritty.yml")
+	awful.spawn.with_shell("rm ~/.config/alacritty/alacritty.toml")
+	awful.spawn.with_shell("cp -r ~/.config/awesome/alacritty_themes/oxocarbon.toml ~/.config/alacritty/alacritty.toml")
 end
