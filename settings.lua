@@ -118,4 +118,7 @@ settings.width=1366
 --Screen Height
 settings.height=768
 
+--Amount of gap
+settings.gap=10
+
 return settings

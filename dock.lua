@@ -47,7 +47,7 @@ local hot = awful.popup({
   placement=awful.placement.bottom,
   bg="#00000000",
   widget={
-	forced_height=dpi(12),
+	forced_height=dpi(user.gap),
 	forced_width=dpi(400),
 	layout=wibox.layout.align.horizontal,
   }
@@ -84,9 +84,9 @@ gen_icon2=function(i)
 		buttons={
 			awful.button({},1,function()
 				if(app==client.focus)then
-					app.minimized=not app.minimized
+					i.minimized=not i.minimized
 				else
-					client.focus=app
+					client.focus=i
 				end
 			end),
 		}

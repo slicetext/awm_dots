@@ -917,7 +917,7 @@ client.connect_signal("request::titlebars", function(c)
     }
 	}
 end)
-beautiful.useless_gap = 5
+beautiful.useless_gap = user.gap
 beautiful.gap_single_client = true
 -- Enable sloppy focus, so that focus follows mouse.
 client.connect_signal("mouse::enter", function(c)
@@ -953,3 +953,4 @@ require("app_drawer")
 require("pong")
 require("desktop_icons")
 require("dock")
+--require("render")

@@ -147,7 +147,9 @@ search=function()
 		textbox=searchbox,
 		prompt=" 󰍉 ",
 		changed_callback=function(input)
-			filter(input)
+			if(input~="")then
+				filter(input)
+			end
 		end,
 		exe_callback=function(input)
 			running=false
@@ -162,7 +164,6 @@ awesome.connect_signal("drawer::toggle",function()
 		search()
 	else
 		list:reset(list)
-		filter("")
 		if(running==true)then
 			root.fake_input("key_press","Return")
 			root.fake_input("key_release","Return")
