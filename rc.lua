@@ -234,7 +234,7 @@ mytextclock:connect_signal("button::press", function()
 	awesome.emit_signal("dash::toggle")
 end)
 launcherb:connect_signal("button::press",function()
-	awesome.emit_signal("launch::toggle")
+	awesome.emit_signal("drawer::toggle")
 end)
 layoutb=wibox.widget{
 	text="󰋁",
@@ -262,6 +262,7 @@ awful.screen.connect_for_each_screen(function(s)
 	--systray
 	s.systray = wibox.widget({
 		visible=false,
+		orientation="vertical",
 		widget=wibox.widget.systray,
 	})
 	awesome.connect_signal("tray::toggle",function()
@@ -318,6 +319,8 @@ awful.screen.connect_for_each_screen(function(s)
 					else
 						self:get_children_by_id('bg')[1].bg=beautiful.bg_normal
 						self.animate.target=30
+					end
+					for client in pairs(tag:clients())do
 					end
 				end
 				self.update()
@@ -408,7 +411,7 @@ awful.screen.connect_for_each_screen(function(s)
 
 	}
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "left", screen = s , width=30,})
+    s.mywibox = awful.wibar({ position = "left", screen = s , width=30,border_color=beautiful.border_control,border_width=beautiful.bar_border})
 
     -- Add widgets to the wibox
     s.mywibox:setup {
@@ -942,6 +945,7 @@ if(user.root_menu)then
 	require("rclick")
 end
 require("alacritty")
+require("firefox")
 require("lock")
 require("layout")
 require("notif")
@@ -953,4 +957,4 @@ require("app_drawer")
 require("pong")
 require("desktop_icons")
 require("dock")
---require("render")
+--require("camera")

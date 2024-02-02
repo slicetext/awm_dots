@@ -31,20 +31,24 @@ lib.draw=function(win,pixels,color)
 	end
 end
 lib.draw_rect=function(win,coords,size,color)
-	for i=1,size[1],1 do
-		for j=1,size[2],1 do
-			lib.draw(win,{{i+coords[1],j+coords[2]}},color)
-		end
-	end
+		local w={
+			widget=wibox.container.background,
+			forced_width=size[1],
+			forced_height=size[2],
+			bg=color,
+			point={x=coords[1],y=coords[2]},
+			id=tostring(num),
+		}
+		win:add(w)
 end
-lib.draw_img=function(win,coords,img_path,size)
+lib.draw_img=function(win,coords,img_path)
 	pic=require(img_path)
 	for k=1,#pic,1 do
 		local image=require(img_path)[k]
 		for i=1,#image.img,size do
 			for j=1,#(image.img[i]),1 do
 				if(image.img[i][j]~=" ")then
-					lib.draw_rect(win,{(j-1)*size+coords[1],(i-1)*size+coords[2]},{size,size},image.color)
+					lib.draw(win,{{j+coords[1],i+coords[2]}},image.color)
 				end
 			end
 		end
@@ -68,7 +72,5 @@ local window=awful.popup{
 return l
 end
 
-win=lib.spawn_win(500,200)
-lib.draw_img(win,{20,20},"awm_img.one",4)
 
 return lib

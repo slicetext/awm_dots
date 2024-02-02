@@ -15,8 +15,9 @@ settings={}
 --camellia,
 --fullerene,
 --solarized,
+--outline,
 --and sea
-settings.theme="gruvbox"
+settings.theme="swamp"
 
 --The font of the setup
 settings.font="sans 8"
@@ -32,6 +33,12 @@ settings.terminal="alacritty"
 
 --If your terminal is alacritty settings this to true will set your alacritty theme to the current theme of the desktop
 settings.alacritty_theme_switcher=true
+
+--Switch firefox themes based on your current theme
+settings.firefox_theme_switcher=true
+
+--Path to firefox profile (for the theme switcher)
+settings.firefox_path="~/.mozilla/firefox/zc1miyqg.default-release/chrome"
 
 --Use animations (recommended)
 settings.animations=true

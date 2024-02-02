@@ -35,6 +35,7 @@ theme.fg_focus      = file.fg_focus
 theme.fg_urgent     = file.fg_urgent
 theme.fg_minimize   = file.fg_minimize
 theme.button_outline= file.button_outline or 0
+theme.bar_border    = file.bar_border or 0
 
 theme.useless_gap   = dpi(0)
 theme.border_width  = dpi(1)
