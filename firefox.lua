@@ -1,7 +1,7 @@
 user=require("settings")
 awful=require("awful")
 naughty=require("naughty")
-local firefox_theme_list={"biscuit","outline","oxocarbon","swamp"}
+local firefox_theme_list={"biscuit","outline","oxocarbon","swamp","rose_pine","solarized","fullerene","tokyo_night","hacker","camellia","nordic"}
 local function has_value (tab, val)
     for index, value in ipairs(tab) do
         if value == val then
