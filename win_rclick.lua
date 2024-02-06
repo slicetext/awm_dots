@@ -7,6 +7,8 @@ local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
+local gfs = require("gears.filesystem")
+local conf_path = gfs.get_configuration_dir()
 require("awful.autofocus")
 local user=require("settings")
 
@@ -39,6 +41,25 @@ local resize=wibox.widget{
 	bg=beautiful.bg_normal,
 	widget=wibox.container.background,
 }
+local mute=wibox.widget{
+	{
+		text=" Mute App",
+		align="center",
+		widget=wibox.widget.textbox,
+	},
+	bg=beautiful.bg_normal,
+	widget=wibox.container.background,
+}
+local unmute=wibox.widget{
+	{
+		text=" Unmute App",
+		align="center",
+		widget=wibox.widget.textbox,
+	},
+	bg=beautiful.bg_normal,
+	widget=wibox.container.background,
+}
+
 
 local rcm=awful.popup{
 	visible=false,
@@ -50,13 +71,15 @@ local rcm=awful.popup{
     shape=gears.shape.rounded_rect,
 	widget={
 		forced_width=dpi(100),
-		forced_height=dpi(50),
-		layout=wibox.layout.align.vertical,
+		forced_height=dpi(82),
+		layout=wibox.layout.flex.vertical,
 		expand="none",
 
 		close,
 		move,
 		resize,
+		mute,
+		unmute,
 	},
 }
 resize:connect_signal("button::press",function()
@@ -205,6 +228,28 @@ resize:connect_signal("mouse::enter",function()
 end)
 resize:connect_signal("mouse::leave",function()
 	resize.bg=beautiful.bg_normal
+end)
+mute:connect_signal("mouse::enter",function()
+	mute.bg=beautiful.bg_minimize
+	work_pop.visible=false
+end)
+mute:connect_signal("mouse::leave",function()
+	mute.bg=beautiful.bg_normal
+end)
+mute:connect_signal("button::press",function()
+	awful.spawn.easy_async(conf_path.."lib/util/app_mute.sh "..string.lower(client.focus.class).." mute")
+	rcm.visible=false
+end)
+unmute:connect_signal("mouse::enter",function()
+	unmute.bg=beautiful.bg_minimize
+	work_pop.visible=false
+end)
+unmute:connect_signal("mouse::leave",function()
+	unmute.bg=beautiful.bg_normal
+end)
+unmute:connect_signal("button::press",function()
+	awful.spawn.easy_async(conf_path.."lib/util/app_mute.sh "..string.lower(client.focus.class).." unmute")
+	rcm.visible=false
 end)
 work_pop:connect_signal("mouse::leave",function()
 	work_pop.visible=false
