@@ -96,6 +96,8 @@ theme.titlebar_maximized_button_focus_active  = gears.color.recolor_image(icon_p
 
 theme.wallpaper = user.wallpaper or file.wallpaper or "~/.config/awesome/bg/oxocarbon.png"
 
+theme.gear_icon=gears.color.recolor_image(icon_path.."gear.png",theme.fg_normal)
+
 -- You can use your own layout icons like this:
 theme.layout_fairh = gears.color.recolor_image(themes_path.."default/layouts/fairhw.png",theme.fg_normal)
 theme.layout_fairv = gears.color.recolor_image(themes_path.."default/layouts/fairvw.png",theme.fg_normal)

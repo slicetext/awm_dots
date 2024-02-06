@@ -27,14 +27,6 @@ end
 
 local apps=Gio.AppInfo.get_all()
 local running=false
-local flatpak_apps={}
-local flatpak_apps_execute={}
-awful.spawn.easy_async_with_shell("flatpak list --app --columns=name",function(out)
-	flatpak_apps=explode("\n",out)
-end)
-awful.spawn.easy_async_with_shell("flatpak list --app --columns=app",function(out)
-	flatpak_apps=explode("\n",out)
-end)
 
 local list=wibox.widget{
 	margins=5,
@@ -137,7 +129,7 @@ filter=function(input)
 	end
 	awful.spawn.easy_async_with_shell("calc "..input,function(out)
 		if(out~="")then
-			list:insert(1,entry_template("Calculator","kcalc",input.."="..string.gsub(out, "%s+", "","kcalc")))
+			list:insert(1,entry_template("Calculator","kcalc",input.."="..string.gsub(out, "%s+", ""),"kcalc"))
 		end
 	end)
 end
