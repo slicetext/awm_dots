@@ -885,7 +885,7 @@ client.connect_signal("request::titlebars", function(c)
         end)
     )
 
-    awful.titlebar(c,{position="top",size=25}) : setup {
+    awful.titlebar(c,{position="left",size=25}) : setup {
 		widget=wibox.container.margin,
 		margins=2,
 		{
@@ -896,14 +896,15 @@ client.connect_signal("request::titlebars", function(c)
 				widget=wibox.widget.imagebox,
 			},
             buttons = buttons,
-            layout  = wibox.layout.fixed.horizontal,
+            layout  = wibox.layout.fixed.vertical,
 			widget=wibox.container.background,
 			bg=beautiful.bg_minimize,
         },
         { -- Middle
             { -- Title
                 align  = "center",
-                widget = awful.titlebar.widget.titlewidget(c)
+                --widget = awful.titlebar.widget.titlewidget(c)
+				widget=wibox.widget.textbox,
             },
             buttons = buttons,
             layout  = wibox.layout.flex.horizontal
@@ -912,11 +913,11 @@ client.connect_signal("request::titlebars", function(c)
 			awful.titlebar.widget.minimizebutton(c),
             awful.titlebar.widget.maximizedbutton(c),
             awful.titlebar.widget.closebutton    (c),
-            layout = wibox.layout.fixed.horizontal(),
+            layout = wibox.layout.fixed.vertical(),
 			widget=wibox.container.margin,
 			margins=2,
         },
-        layout = wibox.layout.align.horizontal,
+        layout = wibox.layout.align.vertical,
     }
 	}
 end)

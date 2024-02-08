@@ -87,12 +87,12 @@ theme.menu_border_width = dpi(1)
 --theme.bg_widget = "#cc0000"
 
 -- Define the image to load
-theme.titlebar_close_button_focus  = gears.color.recolor_image(icon_path.."dark/close2.png",theme.fg_normal)
-theme.titlebar_minimize_button_focus  = gears.color.recolor_image(icon_path.."dark/min.png",theme.fg_normal)
-theme.titlebar_maximized_button_normal_inactive = gears.color.recolor_image(icon_path.."dark/max2.png",theme.fg_normal)
-theme.titlebar_maximized_button_focus_inactive  = gears.color.recolor_image(icon_path.."dark/max2.png",theme.fg_normal)
-theme.titlebar_maximized_button_normal_active = gears.color.recolor_image(icon_path.."dark/minimize.png",theme.fg_normal)
-theme.titlebar_maximized_button_focus_active  = gears.color.recolor_image(icon_path.."dark/minimize.png",theme.fg_normal)
+theme.titlebar_close_button_focus  = gears.color.recolor_image(icon_path.."window.png",theme.bg_urgent)
+theme.titlebar_minimize_button_focus  = gears.color.recolor_image(icon_path.."window.png",theme.bg_minimize)
+theme.titlebar_maximized_button_normal_inactive = gears.color.recolor_image(icon_path.."window.png",theme.border_focus)
+theme.titlebar_maximized_button_focus_inactive  = gears.color.recolor_image(icon_path.."window.png",theme.border_focus)
+theme.titlebar_maximized_button_normal_active = gears.color.recolor_image(icon_path.."window.png",theme.border_focus)
+theme.titlebar_maximized_button_focus_active  = gears.color.recolor_image(icon_path.."window.png",theme.border_focus)
 
 theme.wallpaper = user.wallpaper or file.wallpaper or "~/.config/awesome/bg/oxocarbon.png"
 

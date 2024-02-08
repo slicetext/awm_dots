@@ -17,7 +17,7 @@ settings={}
 --solarized,
 --outline,
 --and sea
-settings.theme="rose_pine"
+settings.theme="biscuit"
 
 --The font of the setup
 settings.font="sans 8"
