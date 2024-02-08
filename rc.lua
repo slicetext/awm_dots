@@ -897,8 +897,8 @@ client.connect_signal("request::titlebars", function(c)
 			},
             buttons = buttons,
             layout  = wibox.layout.fixed.vertical,
-			widget=wibox.container.background,
-			bg=beautiful.bg_minimize,
+			widget=wibox.container.margin,
+			margins=2
         },
         { -- Middle
             { -- Title
@@ -910,10 +910,13 @@ client.connect_signal("request::titlebars", function(c)
             layout  = wibox.layout.flex.horizontal
         },
         { -- Right
-			awful.titlebar.widget.minimizebutton(c),
-            awful.titlebar.widget.maximizedbutton(c),
-            awful.titlebar.widget.closebutton    (c),
-            layout = wibox.layout.fixed.vertical(),
+			{
+				awful.titlebar.widget.minimizebutton(c),
+            	awful.titlebar.widget.maximizedbutton(c),
+            	awful.titlebar.widget.closebutton    (c),
+				spacing=5,
+            	layout = wibox.layout.fixed.vertical(),
+			},
 			widget=wibox.container.margin,
 			margins=2,
         },
