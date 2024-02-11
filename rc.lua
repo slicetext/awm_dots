@@ -680,7 +680,11 @@ globalkeys = gears.table.join(
 	awful.key({"Mod4","Shift"},"g", function ()
 		awesome.emit_signal("pong::toggle")
 	end,
-	{description="toggle pong",group="awesome"})
+	{description="toggle pong",group="awesome"}),
+	awful.key({modkey},"q", function ()
+		awesome.emit_signal("overview::toggle")
+	end,
+	{description="toggle overview",group="awesome"})
 )
 
 clientkeys = gears.table.join(
@@ -963,4 +967,5 @@ require("desktop_icons")
 require("dock")
 require("term")
 require("bg_system")
+require("overview")
 --require("camera")
