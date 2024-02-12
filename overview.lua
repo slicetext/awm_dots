@@ -30,11 +30,26 @@ local view=awful.popup {
             layout          = wibox.layout.grid.horizontal
         },
         widget_template = {
+			{
 			widget=wibox.container.margin,
-			margins=10,
+			margins=5,
+			{
+			widget=wibox.container.margin,
+			margins=0,
             {
 				{
 					{
+					{
+                	{
+                    	id     = "tagname",
+                    	forced_height = 20,
+                    	forced_width  = 240,
+                    	widget = wibox.widget.textbox,
+						placement=awful.placement.bottom,
+						align="left",
+						font="sans 5",
+						valign="top",
+                	},
                 	{
                     	id            = "image_roll",
                     	margins       = 4,
@@ -43,12 +58,15 @@ local view=awful.popup {
                     	widget        = wibox.widget.imagebox,
 						halign="center",
                 	},
+					layout=wibox.layout.stack,
+					},
                 	{
                     	id     = "text",
                     	forced_height = 20,
                     	forced_width  = 240,
                     	widget = wibox.widget.textbox,
 						placement=awful.placement.bottom,
+						align="center",
                 	},
 					layout=wibox.layout.fixed.vertical,
 					expand="none",
@@ -62,17 +80,22 @@ local view=awful.popup {
 				forced_height=100,
 				forced_width=128,
 				widget=wibox.container.margin,
-				margins=5,
+				margins=0,
             },
+			},
             id              = "bg",
             widget          = wibox.container.background,
 			bg=beautiful.bg_minimize,
 			shape=gears.shape.rounded_rect,
+		},
+		widget=wibox.container.margin,
+		margins=10,
             create_callback = function(self, c) --luacheck: no unused
 				self.t = c.screen.selected_tag
 				self.screenshot=function()
 					self:get_children_by_id("image_roll")[1].image=get_icon(c)
 					self:get_children_by_id("text")[1].text=c.name
+					self:get_children_by_id("tagname")[1].text=c.first_tag.name
 					if(c.active==true)then
 						self:get_children_by_id("bg")[1].bg=beautiful.bg_focus
 					else
@@ -84,6 +107,10 @@ local view=awful.popup {
 					awful.button({},1,function()
 						c.minimized=false
 						c.first_tag:view_only()
+					end),
+					awful.button({},3,function()
+						c.minimized=false
+						c:move_to_tag(self.t)
 					end)
 				}
             end,
