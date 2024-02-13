@@ -17,7 +17,7 @@ settings={}
 --solarized,
 --outline,
 --and sea
-settings.theme="fullerene"
+settings.theme="gruvbox"
 
 --The font of the setup
 settings.font="sans 8"
