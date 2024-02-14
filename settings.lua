@@ -79,6 +79,9 @@ settings.icon_term="qterminal"
 --The city you live in (For weather purposes)
 settings.city="denver"
 
+--Your default browser
+settings.browser="firefox"
+
 --List of desktop icons
 settings.desktop_icons={
 	{

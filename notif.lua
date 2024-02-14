@@ -5,8 +5,48 @@ wibox=require("wibox")
 beautiful=require("beautiful")
 xresources=require("beautiful.xresources")
 dpi=xresources.apply_dpi
+local ruled=require("ruled")
 
 naughty.connect_signal("request::display",function(n)
+	if(n.urgency=="critical")then
+	naughty.layout.box{
+		notification=n,
+		bg=beautiful.bg_minimize,
+  		border_width=1,
+  		border_color=beautiful.bg_urgent,
+		vexpand=true,
+		widget_template={
+			widget=wibox.container.margin,
+			margins=10,
+			vexpand=true,
+			{
+				forced_width=dpi(200),
+				--forced_height=dpi(100),
+				vexpand=true,
+				{
+					naughty.widget.icon,
+					widget=wibox.container.margin,
+					margins=2,
+				},
+				{
+					{
+						markup="<b>"..n.title.."</b>",
+						widget=wibox.widget.textbox,
+					},
+					{
+						text=n.text,
+						widget=wibox.widget.textbox,
+						ellipsize="none",
+						vexpand=true,
+					},
+					layout=wibox.layout.align.vertical,
+				},
+				expand="none",
+				layout=wibox.layout.fixed.horizontal,
+			}
+		},
+	}
+	else
 	naughty.layout.box{
 		notification=n,
 		bg=beautiful.bg_normal,
@@ -44,4 +84,5 @@ naughty.connect_signal("request::display",function(n)
 			}
 		},
 	}
+	end
 end)

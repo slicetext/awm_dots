@@ -12,6 +12,7 @@ local user=require("settings")
 local rubato=require "lib.rubato"
 local Gio = require("lgi").Gio
 local get_icon=require("lib.util.get_icon")
+local gfs = require("gears.filesystem")
 -- Source: http://lua-users.org/wiki/MakingLuaLikePhp
 -- Credit: http://richard.warburton.it/
 function explode(div,str)
@@ -36,7 +37,7 @@ local list=wibox.widget{
 	spacing=3,
 }
 
-local entry_template=function(name,info,description,id)
+local entry_template=function(name,info,description,id,use_id)
 	local temp=wibox.widget{
 		{
 			image=get_icon(nil,info,info,false),
@@ -50,6 +51,8 @@ local entry_template=function(name,info,description,id)
 				awful.button({},1, function()
 					if(string.match(info,"flatpak"))then
 						awful.spawn.with_shell("flatpak run "..id:gsub(".desktop",""))
+					elseif(use_id)then
+						awful.spawn.with_shell(id)
 					else
 						awful.spawn.with_shell(info)
 					end
@@ -77,6 +80,42 @@ local entry_template=function(name,info,description,id)
 	return temp
 end
 
+local entry_template_func=function(name,description,command)
+	local temp=wibox.widget{
+		{
+			image=beautiful.gear_icon,
+			resize=true,
+			forced_width=dpi(64),
+			forced_height=dpi(64),
+			widget=wibox.widget.imagebox,
+			exe=info,
+			id="image",
+			buttons={
+				awful.button({},1, function()
+					awesome.emit_signal(command)
+					awesome.emit_signal("drawer::toggle")
+				end),
+			},
+		},
+		{
+			{
+				markup="<b>"..name.."</b>",
+				widget=wibox.widget.textbox,
+			},
+			{
+				text=description,
+				widget=wibox.widget.textbox,
+				ellipsize="end",
+				forced_height=dpi(20),
+			},
+			{text=" ",widget=wibox.widget.textbox,},
+			layout=wibox.layout.align.vertical,
+		},
+		layout=wibox.layout.align.horizontal,
+		widget=wibox.container.background,
+	}
+	return temp
+end
 local searchbox=wibox.widget{
 	text=" 󰍉 Search",
 	id="searchbox",
@@ -122,16 +161,26 @@ local drawer=awful.popup{
 }
 filter=function(input)
 	list:reset(list)
+	list:insert(1,entry_template("Search With Google",user.browser,"Search "..input:gsub("%s+","").." with Google","bash -ci '"..user.browser.." https://www.google.com/search?q="..input:gsub("%s+","").."'",true))
 	for _, entry in ipairs(apps) do
 		if((string.match(entry:get_executable():lower(),input:lower()))or(string.match(entry:get_name():gsub("&", "&amp;"):gsub("<", "&lt;"):gsub("'", "&#39;"):lower(),input:lower())))then
-			list:insert(1,entry_template(entry:get_name():gsub("&", "&amp;"):gsub("<", "&lt;"):gsub("'", "&#39;"),entry:get_executable(),entry:get_description(),entry:get_id()))
+			list:insert(1,entry_template(entry:get_name():gsub("&", "&amp;"):gsub("<", "&lt;"):gsub("'", "&#39;"),entry:get_executable(),entry:get_description(),entry:get_id(),false))
 		end
 	end
 	awful.spawn.easy_async_with_shell("calc "..input,function(out)
 		if(out~="")then
-			list:insert(1,entry_template("Calculator","kcalc",input.."="..string.gsub(out, "%s+", ""),"kcalc"))
+			list:insert(1,entry_template("Calculator","kcalc",input.."="..string.gsub(out, "%s+", ""),"kcalc",false))
 		end
 	end)
+	if(string.match("open overview",input:lower()))then
+		list:insert(1,entry_template_func("Open Overview","Open the overview widget","overview::toggle"))
+	end
+	if(string.match("open dashboard",input:lower()))then
+		list:insert(1,entry_template_func("Open Dashboard","Open the dashboard widget","dash::toggle"))
+	end
+	if(string.match("open notification panel",input:lower()))then
+		list:insert(1,entry_template_func("Open Notification Panel","Open the notification panel widget","notif::toggle"))
+	end
 end
 search=function()
 	running=true
