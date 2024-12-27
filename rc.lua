@@ -690,7 +690,7 @@ globalkeys = gears.table.join(
 	end,
 	{description="next monitor",group="awesome"}),
 	awful.key({modkey,"Shift"},"`", function ()
-		awful.screen.focus_relative(-1)
+        client.focus:move_to_screen()
 	end,
 	{description="prev monitor",group="awesome"})
 )
@@ -819,7 +819,7 @@ awful.rules.rules = {
                      keys = clientkeys,
                      buttons = clientbuttons,
                      screen = awful.screen.preferred,
-                     placement = awful.placement.no_overlap+awful.placement.no_offscreen
+                     placement = awful.placement.centered,
      }
     },
 
