@@ -14,6 +14,7 @@ These dot files in their default configuration will delete your custom alacritty
 ###### -ansiweather
 ###### -brightnessctl
 ###### -apcalc
+###### -apci
 ###### -Picom (Optional)*
 ###### \*I recommend Picom Allusive with [this](./extra/picom.conf) config
 

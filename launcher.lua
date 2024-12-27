@@ -7,10 +7,13 @@ local naughty = require("naughty")
 local gears = require("gears")
 
 local launcher=wibox{
+    screen=awful.screen.focused(),
 	width=dpi(200),
 	height=dpi(25),
-	y=dpi(730),
-	x=dpi(35),
+	--y=awful.screen.focused().geometry.y-dpi(30),
+	--x=awful.screen.focused().geometry.x,
+    x=awful.screen.focused({client=true}).geometry.x+40,
+    y=awful.screen.focused({client=true}).geometry.y+awful.screen.focused({client=true}).geometry.height-dpi(35),
 	window_type="dock",
 	bg=beautiful.bg_normal,
 	border_width=1,
@@ -88,6 +91,8 @@ function copy()
 end
 awesome.connect_signal("launch::toggle",function()
 	promptt.txt.text=" 󰑮 "
+    launcher.x=awful.screen.focused({client=true}).geometry.x+40
+    launcher.y=awful.screen.focused({client=true}).geometry.y+awful.screen.focused({client=true}).geometry.height-dpi(35)
 	launcher.visible=not launcher.visible
 	if(launcher.visible==true)then
 		open()
@@ -95,6 +100,8 @@ awesome.connect_signal("launch::toggle",function()
 end)
 awesome.connect_signal("copy::toggle",function()
 	promptt.txt.text="  "
+    launcher.x=awful.screen.focused({client=true}).geometry.x+40
+    launcher.y=awful.screen.focused({client=true}).geometry.y+awful.screen.focused({client=true}).geometry.height-dpi(35)
 	launcher.visible=not launcher.visible
 	if(launcher.visible==true)then
 		copy()

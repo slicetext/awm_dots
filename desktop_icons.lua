@@ -8,15 +8,19 @@ dpi=xresources.apply_dpi
 user=require("settings")
 local get_icon=require("lib.util.get_icon")
 
-local grid=wibox.layout{
+local grid
+awful.screen.connect_for_each_screen(function(s)
+grid=wibox.layout{
 	layout=wibox.layout.grid,
+    screen=awful.screen.primary,
 	forced_num_rows=8,
 	orientation="vertical",
 	forced_width=user.width,
 	homogeneous=true,
-	forced_width=user.width-30,
-	forced_height=user.height,
+	forced_width =s.geometry.width+s.geometry.x-30,
+	forced_height=s.geometry.height+s.geometry.y,
 }
+end)
 
 local iconbox=awful.popup{
   ontop = false,

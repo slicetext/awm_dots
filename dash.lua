@@ -125,8 +125,8 @@ local menu = awful.popup({
   visible = false,
   border_width=1,
   border_color=beautiful.border_control,
-  x=dpi(1190),
-  y=dpi(620),
+  x=awful.screen.focused().geometry.x+dpi(20),
+  y=awful.screen.focused().geometry.y+awful.screen.focused().geometry.height-dpi(20),
   shape=gears.shape.rounded_rect,
   widget={
 	widget=wibox.container.margin,
@@ -290,7 +290,8 @@ awesome.connect_signal("dash::toggle",function()
 		menu.visible=true
 		--upA:abort()
 		--menu.x=dpi(1190)
-		upA.target=dpi(40)
+		upA.target=dpi(awful.screen.focused().geometry.x+dpi(40))
+        menu.y=awful.screen.focused().geometry.y+awful.screen.focused().geometry.height-dpi(150)
 	end
 	else
 		awesome.emit_signal("music::toggle")

@@ -200,6 +200,7 @@ end
 
 
 awesome.connect_signal("drawer::toggle",function()
+    drawer.screen=awful.screen.focused({client=true})
 	drawer.visible=not drawer.visible
 	if(drawer.visible==true)then
 		search()

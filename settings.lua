@@ -17,7 +17,7 @@ settings={}
 --solarized,
 --outline,
 --and sea
-settings.theme="gruvbox"
+settings.theme="oxocarbon"
 
 --The font of the setup
 settings.font="sans 8"
@@ -91,7 +91,7 @@ settings.desktop_icons={
 	},
 	{
 		"Chromium",
-		"bash -ci chromium",
+		"flatpak run io.github.ungoogled_software.ungoogled_chromium",
 		"chromium-browser"
 	},
 	{
@@ -124,9 +124,9 @@ settings.dock_pinned={
 }
 
 --Screen Width
-settings.width=1366
+settings.width=1920
 --Screen Height
-settings.height=768
+settings.height=1080
 
 --Amount of gap
 settings.gap=10

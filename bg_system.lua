@@ -17,6 +17,7 @@ local update=gears.timer{
 		end)
 	end
 }
+local charge_notif=false
 local update2=gears.timer{
 	timout=3000,
 	autostart=true,
@@ -27,6 +28,14 @@ local update2=gears.timer{
 				done=true
 			elseif(tonumber(out)>10)then
 				done=false
+			end
+		end)
+		awful.spawn.easy_async_with_shell("acpi -b | grep Discharging",function(out)
+			if(out=="" and charge_notif==false)then
+				charge_notif=true
+				naughty.notify({title="System",text="Device is Charging.",icon=beautiful.gear_icon})
+			elseif(out~="")then
+				charge_notif=false
 			end
 		end)
 	end

@@ -20,7 +20,7 @@ naughty.connect_signal("request::display",function(n)
 			margins=10,
 			vexpand=true,
 			{
-				forced_width=dpi(200),
+				--forced_width=dpi(200),
 				--forced_height=dpi(100),
 				vexpand=true,
 				{
@@ -39,7 +39,8 @@ naughty.connect_signal("request::display",function(n)
 						ellipsize="none",
 						vexpand=true,
 					},
-					layout=wibox.layout.align.vertical,
+					layout=wibox.layout.flex.vertical,
+					vexpand=true,
 				},
 				expand="none",
 				layout=wibox.layout.fixed.horizontal,
@@ -58,7 +59,7 @@ naughty.connect_signal("request::display",function(n)
 			margins=10,
 			vexpand=true,
 			{
-				forced_width=dpi(200),
+				--forced_width=dpi(200),
 				--forced_height=dpi(100),
 				vexpand=true,
 				{

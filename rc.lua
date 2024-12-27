@@ -195,7 +195,7 @@ local function set_wallpaper(s)
         if type(wallpaper) == "function" then
             wallpaper = wallpaper(s)
         end
-        gears.wallpaper.maximized(wallpaper, s, true)
+        gears.wallpaper.maximized(wallpaper, s)
     end
 end
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
@@ -684,7 +684,15 @@ globalkeys = gears.table.join(
 	awful.key({modkey},"q", function ()
 		awesome.emit_signal("overview::toggle")
 	end,
-	{description="toggle overview",group="awesome"})
+	{description="toggle overview",group="awesome"}),
+	awful.key({modkey},"`", function ()
+		awful.screen.focus_relative(1)
+	end,
+	{description="next monitor",group="awesome"}),
+	awful.key({modkey,"Shift"},"`", function ()
+		awful.screen.focus_relative(-1)
+	end,
+	{description="prev monitor",group="awesome"})
 )
 
 clientkeys = gears.table.join(

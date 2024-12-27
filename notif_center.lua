@@ -159,7 +159,8 @@ awesome.connect_signal("notif::toggle",function()
 	if(user.animations==true)then
 		menu.visible=true
 		visib=true
-		anim.target=dpi(15)
+        menu.y=awful.screen.focused().geometry.y+dpi(10)
+		anim.target=dpi(awful.screen.focused().geometry.x+dpi(40))
 		awesome.emit_signal("dash::false")
 	else
 		menu.x=dpi(205)

@@ -74,8 +74,8 @@ awesome.connect_signal("weather::toggle",function()
 		player.visible=true
 		upA:abort()
 		--menu.x=dpi(1190)
-		player.y=dpi(400)
-		upA.target=dpi(40)
+        player.y=awful.screen.focused().geometry.y+awful.screen.focused().geometry.height-dpi(380)
+		upA.target=dpi(awful.screen.focused().geometry.x+dpi(40))
 	end
 	else
 	player.x=dpi(1130)
