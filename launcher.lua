@@ -91,8 +91,8 @@ function copy()
 end
 awesome.connect_signal("launch::toggle",function()
 	promptt.txt.text=" 󰑮 "
-    launcher.x=awful.screen.focused({client=true}).geometry.x+40
-    launcher.y=awful.screen.focused({client=true}).geometry.y+awful.screen.focused({client=true}).geometry.height-dpi(35)
+    launcher.x=awful.screen.focused({mouse=true}).geometry.x+40
+    launcher.y=awful.screen.focused({mouse=true}).geometry.y+awful.screen.focused({mouse=true}).geometry.height-dpi(35)
 	launcher.visible=not launcher.visible
 	if(launcher.visible==true)then
 		open()
