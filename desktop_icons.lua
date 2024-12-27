@@ -18,9 +18,9 @@ grid=wibox.layout{
 	forced_width=user.width,
 	homogeneous=true,
 	forced_width =s.geometry.width+s.geometry.x-30,
+    x=s.geometry.x+30,
 	forced_height=s.geometry.height+s.geometry.y,
 }
-end)
 
 local iconbox=awful.popup{
   ontop = false,
@@ -33,8 +33,8 @@ local iconbox=awful.popup{
 			awesome.emit_signal("rclick::toggle")
 		end),
 	},
-	forced_width=user.width-40,
-	forced_height=user.height,
+	forced_width =s.geometry.width+s.geometry.x-30,
+	forced_height=s.geometry.height+s.geometry.y,
 	{
 		grid,
 		layout=wibox.layout.manual,
@@ -43,6 +43,7 @@ local iconbox=awful.popup{
 	margins=5,
   },
 }
+end)
 
 create_icon=function(i)
 	local icon_tb=wibox.widget{
