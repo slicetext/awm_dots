@@ -41,8 +41,16 @@ local dock = awful.popup({
 	dock_widget,
   }
 })
+local dock_pos=rubato.timed{
+	duration=1/20,
+	subscribed=function(x)
+		dock.y=x
+	end,
+}
+awful.screen.connect_for_each_screen(function(s)
 local hot = awful.popup({
   ontop = true,
+  screen=s,
   visible = true,
   shape=gears.shape.rounded_rect,
   placement=awful.placement.bottom,
@@ -53,6 +61,12 @@ local hot = awful.popup({
 	layout=wibox.layout.align.horizontal,
   }
 })
+hot:connect_signal("mouse::enter",function()
+    dock.screen=awful.screen.focused()
+	dock.visible=true
+	dock_pos.target=awful.screen.focused().geometry.height+awful.screen.focused().geometry.y-60
+end)
+end)
 
 gen_icon=function(icon,app)
 	local widget=wibox.widget{
@@ -121,12 +135,6 @@ for _,i in pairs(user.dock_pinned)do
 	pinned:add(gen_icon(i[1],i[2]))
 end
 
-local dock_pos=rubato.timed{
-	duration=1/20,
-	subscribed=function(x)
-		dock.y=x
-	end,
-}
 client.connect_signal("focus", function() refresh() end)
 client.connect_signal("property::minimized", function() refresh() end)
 client.connect_signal("property::maximized", function() refresh() end)
@@ -138,11 +146,7 @@ tag.connect_signal("property::selected", function()
 end)
 
 dock_pos.target=user.height+60
-hot:connect_signal("mouse::enter",function()
-	dock.visible=true
-	dock_pos.target=user.height-60
-end)
 dock:connect_signal("mouse::leave",function()
 	dock.visible=true
-	dock_pos.target=user.height+60
+	dock_pos.target=awful.screen.focused().geometry.height+awful.screen.focused().geometry.y+60
 end)

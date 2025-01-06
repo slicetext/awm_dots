@@ -127,5 +127,6 @@ local view=awful.popup {
     shape        = gears.shape.rounded_rect
 }
 awesome.connect_signal("overview::toggle",function()
+    view.screen=awful.screen.focused()
 	view.visible=not view.visible
 end)

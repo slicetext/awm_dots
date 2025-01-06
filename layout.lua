@@ -129,5 +129,6 @@ local window = awful.popup({
   },
 })
 awesome.connect_signal("layout::toggle",function()
+    window.screen=awful.screen.focused()
 	window.visible=not window.visible
 end)

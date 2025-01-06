@@ -69,8 +69,9 @@ local cover = wibox.widget({
 	widget=wibox.widget.imagebox,
 	visible=true,
 	resize=true,
-	--clip_shape=gears.shape.rounded_rect,
+	clip_shape=gears.shape.rounded_rect,
 	align="center",
+    bg=beautiful.bg_urgent,
 })
 local player = awful.popup({
   ontop = true,
@@ -94,6 +95,7 @@ border_color=beautiful.border_control,
 			{
 				{widget=wibox.widget.textbox,text=" "},
 				cover,
+                bg=beautiful.bg_urgent,
 				{widget=wibox.widget.textbox,text=" "},
 				layout=wibox.layout.align.horizontal,
 				expand="none",
@@ -104,8 +106,9 @@ border_color=beautiful.border_control,
 			{
 				{widget=wibox.widget.textbox,text=" "},
 				{
-					{widget=wibox.widget.textbox,text=" "},
+					{widget=wibox.widget.textbox,text=" ",forced_height=0.1},
 					song,
+					--{widget=wibox.widget.textbox,text=" "},
 					artist,
 					layout=wibox.layout.align.vertical,
 				},
@@ -235,7 +238,7 @@ local timer=gears.timer{
 		titles()
 		awful.spawn.easy_async_with_shell("playerctl status",function(out)
 			if((out==""or old=="")and (default==false))then
-				cover.image=gears.surface.load_uncached(conf_path.."/icons/music.jpeg")
+				cover.image=gears.color.recolor_image(gears.surface.load_uncached(conf_path.."/icons/music.jpeg"),beautiful.bg_urgent)
 				default=true
 			else
 				default=false

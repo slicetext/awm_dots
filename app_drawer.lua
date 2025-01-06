@@ -160,13 +160,17 @@ local drawer=awful.popup{
   }
 }
 filter=function(input)
+    local count=0
 	list:reset(list)
-	list:insert(1,entry_template("Search With Google",user.browser,"Search "..input:gsub("%s+","").." with Google","bash -ci '"..user.browser.." https://www.google.com/search?q="..input:gsub("%s+","").."'",true))
-	for _, entry in ipairs(apps) do
-		if((string.match(entry:get_executable():lower(),input:lower()))or(string.match(entry:get_name():gsub("&", "&amp;"):gsub("<", "&lt;"):gsub("'", "&#39;"):lower(),input:lower())))then
-			list:insert(1,entry_template(entry:get_name():gsub("&", "&amp;"):gsub("<", "&lt;"):gsub("'", "&#39;"),entry:get_executable(),entry:get_description(),entry:get_id(),false))
-		end
-	end
+    list:insert(1,entry_template("Search With Google",user.browser,"Search "..input:gsub("%s+","").." with Google","bash -ci '"..user.browser.." https://www.google.com/search?q="..input:gsub("%s+","").."'",true))
+    for _, entry in ipairs(apps) do
+        if((string.match(entry:get_executable():lower(),input:lower()))or(string.match(entry:get_name():gsub("&", "&amp;"):gsub("<", "&lt;"):gsub("'", "&#39;"):lower(),input:lower())))then
+            count=count+1
+            if(count<20)then
+                list:insert(1,entry_template(entry:get_name():gsub("&", "&amp;"):gsub("<", "&lt;"):gsub("'", "&#39;"),entry:get_executable(),entry:get_description(),entry:get_id(),false))
+            end
+        end
+    end
 	awful.spawn.easy_async_with_shell("calc "..input,function(out)
 		if(out~="")then
 			list:insert(1,entry_template("Calculator","kcalc",input.."="..string.gsub(out, "%s+", ""),"kcalc",false))
@@ -200,10 +204,11 @@ end
 
 
 awesome.connect_signal("drawer::toggle",function()
-    drawer.screen=awful.screen.focused({client=true})
+    drawer.screen=awful.screen.focused({mouse=true})
 	drawer.visible=not drawer.visible
 	if(drawer.visible==true)then
 		search()
+        filter("")
 	else
 		list:reset(list)
 		if(running==true)then

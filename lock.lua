@@ -54,14 +54,13 @@ local function grab()
 		},
 		exe_callback=function(input)
 			if(input==user.password)then
-				window.visible=false
+                awesome.emit_signal("lock::unlock")
 			else
 				grab()
 			end
 		end
 	}
 end
-
 awesome.connect_signal("lock::toggle",function()
 	if(user.password~=nil and user.password~="")then
 		grab()
@@ -70,6 +69,17 @@ awesome.connect_signal("lock::toggle",function()
 	end
 end)
 
+awesome.connect_signal("lock::unlock",function()
+    root.fake_input("key_press","Return")
+    root.fake_input("key_release","Return")
+    user.password:gsub(".",function(c)
+        root.fake_input("key_press",c)
+        root.fake_input("key_release",c)
+    end)
+    root.fake_input("key_press","Return")
+    root.fake_input("key_release","Return")
+    window.visible=false
+end)
 window:setup{
 	{
 		image=beautiful.wallpaper,

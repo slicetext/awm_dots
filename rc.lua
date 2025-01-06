@@ -245,6 +245,20 @@ layoutb=wibox.widget{
 layoutb:connect_signal("button::press",function()
 	awesome.emit_signal("layout::toggle")
 end)
+systray = wibox.widget({
+    visible=false,
+    orientation="vertical",
+    widget=wibox.widget.systray,
+})
+awesome.connect_signal("tray::toggle",function()
+    systray.visible=not systray.visible
+    systray.screen=awful.screen.focused()
+    if(systray.visible==true)then
+        trayT.text="󰅀"
+    else
+        trayT.text="󰅃"
+    end
+end)
 awful.screen.connect_for_each_screen(function(s)
 	client.connect_signal("manage", function(c)
     	c.shape = function(cr, w, h)
@@ -260,19 +274,6 @@ awful.screen.connect_for_each_screen(function(s)
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
 	--systray
-	s.systray = wibox.widget({
-		visible=false,
-		orientation="vertical",
-		widget=wibox.widget.systray,
-	})
-	awesome.connect_signal("tray::toggle",function()
-		s.systray.visible=not s.systray.visible
-		if(s.systray.visible==true)then
-			trayT.text="󰅀"
-		else
-			trayT.text="󰅃"
-		end
-	end)
     -- Create an imagebox widget which will contain an icon indicating which layout we're using.
     -- We need one layoutbox per screen.
     s.mylayoutbox = awful.widget.layoutbox(s)
@@ -446,7 +447,7 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.vertical,
             --mykeyboardlayout,
 			trayT,
-            s.systray,
+            systray,
 			{	
 				{
 					{
@@ -483,15 +484,27 @@ globalkeys = gears.table.join(
 
     awful.key({ modkey,           }, "j",
         function ()
-            awful.client.focus.byidx( 1)
+            awful.client.focus.bydirection("down")
         end,
-        {description = "focus next by index", group = "client"}
+        {description = "focus down", group = "client"}
     ),
     awful.key({ modkey,           }, "k",
         function ()
-            awful.client.focus.byidx(-1)
+            awful.client.focus.bydirection("up")
         end,
-        {description = "focus previous by index", group = "client"}
+        {description = "focus up", group = "client"}
+    ),
+    awful.key({ modkey,           }, "h",
+        function ()
+            awful.client.focus.bydirection("left")
+        end,
+        {description = "focus left", group = "client"}
+    ),
+    awful.key({ modkey,           }, "l",
+        function ()
+            awful.client.focus.bydirection("right")
+        end,
+        {description = "focus right", group = "client"}
     ),
     awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
               {description = "show main menu", group = "awesome"}),
@@ -526,8 +539,6 @@ globalkeys = gears.table.join(
 
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)          end,
               {description = "increase master width factor", group = "layout"}),
-    awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)          end,
-              {description = "decrease master width factor", group = "layout"}),
     awful.key({ modkey, "Shift"   }, "h",     function () awful.tag.incnmaster( 1, nil, true) end,
               {description = "increase the number of master clients", group = "layout"}),
     awful.key({ modkey, "Shift"   }, "l",     function () awful.tag.incnmaster(-1, nil, true) end,
@@ -613,10 +624,6 @@ globalkeys = gears.table.join(
 		awesome.emit_signal("copy::toggle")
 	end,
 	{description="toggle copy",group="awesome"}),
-	awful.key({modkey,}, "l", function ()
-		awesome.emit_signal("layout::toggle")
-	end,
-	{description="toggle layout",group="awesome"}),
 	awful.key({modkey,"Shift"}, "l", function ()
 		awful.layout.set(awful.layout.suit.fair)
 	end,
@@ -692,7 +699,7 @@ globalkeys = gears.table.join(
 	awful.key({modkey,"Shift"},"`", function ()
         client.focus:move_to_screen()
 	end,
-	{description="prev monitor",group="awesome"})
+	{description="move client to next monitor",group="awesome"})
 )
 
 clientkeys = gears.table.join(

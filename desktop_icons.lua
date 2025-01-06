@@ -7,10 +7,8 @@ xresources=require("beautiful.xresources")
 dpi=xresources.apply_dpi
 user=require("settings")
 local get_icon=require("lib.util.get_icon")
-
-local grid
-awful.screen.connect_for_each_screen(function(s)
-grid=wibox.layout{
+local s=awful.screen.focused()
+local grid=wibox.layout{
 	layout=wibox.layout.grid,
     screen=awful.screen.primary,
 	forced_num_rows=8,
@@ -23,10 +21,15 @@ grid=wibox.layout{
 }
 
 local iconbox=awful.popup{
-  ontop = false,
+    screen=awful.screen.primary,
+    ontop = false,
   visible = true,
-  placement=awful.placement.top_right,
+  --placement=awful.placement.top_right,
+  y=awful.screen.focused().geometry.y,
+  x=awful.screen.focused().geometry.x+30,
   bg="#00000000",
+  forced_width =s.geometry.width+s.geometry.x-30,
+  forced_height=s.geometry.height+s.geometry.y,
   widget={
 	buttons={
 		awful.button({},3,function()
@@ -43,7 +46,6 @@ local iconbox=awful.popup{
 	margins=5,
   },
 }
-end)
 
 create_icon=function(i)
 	local icon_tb=wibox.widget{
@@ -86,3 +88,4 @@ for _ , i in pairs(user.desktop_icons)do
 	end
 	num=num+1
 end
+

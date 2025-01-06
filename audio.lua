@@ -55,24 +55,29 @@ awesome.connect_signal("volume::up",function()
 	awful.spawn("pactl set-sink-volume 0 +5%")
 	ud.text="󰝝"
 	pop.visible=true
+    pop.screen=awful.screen.focused()
 end)
 awesome.connect_signal("volume::down",function()
 	awful.spawn("pactl set-sink-volume 0 -5%")
 	ud.text="󰝞"
 	pop.visible=true
+    pop.screen=awful.screen.focused()
 end)
 awesome.connect_signal("volume::mute",function()
 	awful.spawn("pactl set-sink-volume 0 0%")
 	ud.text="󰝟"
 	pop.visible=true
+    pop.screen=awful.screen.focused()
 end)
 awesome.connect_signal("bright::up",function()
 	awful.spawn("brightnessctl s +10%")
 	ud.text="󰃠"
 	pop.visible=true
+    pop.screen=awful.screen.focused()
 end)
 awesome.connect_signal("bright::down",function()
 	awful.spawn("brightnessctl s 10%-")
 	ud.text="󰃞"
 	pop.visible=true
+    pop.screen=awful.screen.focused()
 end)

@@ -105,7 +105,7 @@ settings.desktop_icons={
 		"nemo",
 	},
 	{
-		"G4Music",
+		"Gapless",
 		"flatpak run com.github.neithern.g4music",
 		"com.github.neithern.g4music",
 	},
