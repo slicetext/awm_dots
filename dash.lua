@@ -49,49 +49,67 @@ local bright = wibox.widget {
     widget              = wibox.widget.slider,
 	bar_active_color    = beautiful.bg_urgent,
 }
-local wifiT= wibox.widget{
-	text="  ",
-	font="sans 20",
-	align="center",
-	widget=wibox.widget.textbox,
-}
-local wifi = wibox.widget {
-		wifiT,
-	widget=wibox.container.background,
-	bg=beautiful.bg_normal,
-	shape=gears.shape.rounded_rect,
-	shape_border_width=beautiful.button_outline,
-	shape_border_color=beautiful.border_control,
-}
-local notifT= wibox.widget{
-	text=" 󰂚 ",
-	align="center",
-	font="sans 20",
-	widget=wibox.widget.textbox,
-}
-local notif = wibox.widget {
-		notifT,
-	widget=wibox.container.background,
-	bg=beautiful.bg_normal,
-	shape=gears.shape.rounded_rect,
-	shape_border_width=beautiful.button_outline,
-	shape_border_color=beautiful.border_control,
-}
-local toothT= wibox.widget{
-	text="  ",
-	align="center",
-	font="sans 20",
-	color=beautiful.fg_urgent,
-	widget=wibox.widget.textbox,
-}
-local tooth = wibox.widget {
-		toothT,
-	widget=wibox.container.background,
-	bg=beautiful.bg_normal,
-	shape=gears.shape.rounded_rect,
-	shape_border_width=beautiful.button_outline,
-	shape_border_color=beautiful.border_control,
-}
+local genBtn=function(textOn,textOff,callback)
+    local state=false
+    local btnTxt=wibox.widget{
+        text=" "..textOff.." ",
+        font="sans 20",
+        align="center",
+        widget=wibox.widget.textbox,
+    }
+    local btn=wibox.widget{
+        btnTxt,
+        widget=wibox.container.background,
+        bg=beautiful.bg_normal,
+        shape=gears.shape.rounded_rect,
+        shape_border_width=beautiful.button_outline,
+        shape_border_color=beautiful.border_control,
+    }
+    local refresh=function()
+        state=not state
+        if(state==true)then
+            btnTxt.text=" "..textOn.." "
+            btn.bg=beautiful.bg_urgent
+        else
+            btnTxt.text=" "..textOff.." "
+            btn.bg=beautiful.bg_minimize
+        end
+    end
+    refresh()
+    btn:connect_signal("button::press",function()
+        callback(state)
+        refresh()
+    end)
+    return {
+        btn=btn,
+        state=state,
+        refresh=refresh,
+    }
+end
+local wifiFunc=function(state)
+	awful.spawn.easy_async_with_shell("nmcli radio wifi",function(out)
+		if(out:match("enabled"))then
+			awful.spawn("nmcli radio wifi off")
+		else
+			awful.spawn("nmcli radio wifi on")
+		end
+	end)
+end
+local wifi = genBtn("","󰖪",wifiFunc)
+local notifFunc=function(state)
+	naughty.toggle()
+end
+local notif = genBtn("","",notifFunc)
+local toothFunc=function(state)
+	awful.spawn.easy_async_with_shell("hcitool dev | tail -n +2",function(out)
+		if(out~="")then
+			awful.spawn("rfkill block bluetooth")
+		else
+			awful.spawn("rfkill unblock bluetooth")
+		end
+	end)
+end
+local tooth = genBtn("","",toothFunc)
 local batT=wibox.widget {
 	text="99%",
 	font="sans 8",
@@ -156,9 +174,9 @@ local menu = awful.popup({
 	margins={top=0,bottom=2,left=0,right=0},
 	},
 	{
-		wifi,
-		notif,
-		tooth,
+		wifi.btn,
+		notif.btn,
+		tooth.btn,
 		spacing=2.5,
 		expand="none",
 		layout=wibox.layout.flex.horizontal,
@@ -299,40 +317,6 @@ awesome.connect_signal("dash::toggle",function()
 	menu.x=dpi(1190)
 	menu.visible=not menu.visible
 	end
-end)
-wifi:connect_signal("button::press",function()
-	awful.spawn.easy_async_with_shell("nmcli radio wifi",function(out)
-		if(out:match("enabled"))then
-			volume()
-			awful.spawn("nmcli radio wifi off")
-			wifiT.text=" 󰖪 "
-		else
-			volume()
-			awful.spawn("nmcli radio wifi on")
-			wifiT.text="  "
-		end
-	end)
-end)
-notif:connect_signal("button::press",function()
-	naughty.toggle()
-	nottoggle=not nottoggle
-	volume()
-	if(nottoggle==false)then
-		notifT.text="  "
-	else
-		notifT.text="  "
-	end
-end)
-tooth:connect_signal("button::press",function()
-	awful.spawn.easy_async_with_shell("hcitool dev | tail -n +2",function(out)
-		if(out~="")then
-			awful.spawn("rfkill block bluetooth")
-			volume()
-		else
-			awful.spawn("rfkill unblock bluetooth")
-			volume()
-		end
-	end)
 end)
 set:connect_signal("button::press",function()
 	if(user.animations==true)then
