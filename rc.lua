@@ -18,6 +18,7 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
+-- add stuff
 -- Load Debian menu entries
 local debian = require("debian.menu")
 local has_fdo, freedesktop = pcall(require, "freedesktop")
@@ -140,6 +141,15 @@ mytextclock = wibox.widget{
 	widget=wibox.widget.textclock,
 	align="center",
 }
+mytextclockOp="ff"
+mytextclock:connect_signal("mouse::enter",function()
+    mytextclockOp="aa"
+    mytextclock.bg=beautiful.bg_focus..mytextclockOp
+end)
+mytextclock:connect_signal("mouse::leave",function()
+    mytextclockOp="ff"
+    mytextclock.bg=beautiful.bg_focus..mytextclockOp
+end)
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -227,6 +237,15 @@ local launcherb = wibox.widget{
 	shape=gears.shape.circle,
 	widget=wibox.container.background,
 }
+launcherbOp="ff"
+launcherb:connect_signal("mouse::enter",function()
+    launcherbOp="aa"
+    launcherb.bg=beautiful.bg_focus..launcherbOp
+end)
+launcherb:connect_signal("mouse::leave",function()
+    launcherbOp="ff"
+    launcherb.bg=beautiful.bg_focus..launcherbOp
+end)
 musicT:connect_signal("button::press", function()
 	awesome.emit_signal("music::toggle")
 end)
@@ -245,9 +264,25 @@ layoutb=wibox.widget{
 layoutb:connect_signal("button::press",function()
 	awesome.emit_signal("layout::toggle")
 end)
+batterybar=wibox.widget{
+    widget=wibox.widget.progressbar,
+    shape=gears.shape.rounded_rect,
+    max_value=100,
+    value=50,
+    color=beautiful.border_focus,
+    background_color=beautiful.bg_focus,
+}
+battery=wibox.widget{
+    batterybar,
+    forced_width=60,
+    forced_height=25,
+    layout=wibox.container.rotate,
+    direction="east",
+}
 systray = wibox.widget({
     visible=false,
     orientation="vertical",
+    horizontal=false,
     widget=wibox.widget.systray,
 })
 awesome.connect_signal("tray::toggle",function()
@@ -301,9 +336,11 @@ awful.screen.connect_for_each_screen(function(s)
 				forced_width=1,
 				forced_height=50,
 				bg=beautiful.bg_normal,
+                border_width=1,
+                border_color=beautiful.bg_normal,
 				id="bg",
 			},
-			create_callback=function(self,tag)                
+			create_callback=function(self,tag)
 				self.animate = rubato.timed {
                     duration = 0.15,
                     subscribed = function (h)
@@ -312,18 +349,26 @@ awful.screen.connect_for_each_screen(function(s)
                 }
 				self.update=function()
 					if(tag.selected)then
-						self:get_children_by_id('bg')[1].bg=beautiful.bg_urgent
+                        if(awful.screen.focused()==s)then
+                            self:get_children_by_id('bg')[1].bg=beautiful.bg_urgent
+                        end
+						self:get_children_by_id('bg')[1].border_color=beautiful.bg_urgent
 						self.animate.target=50
 					elseif(#tag:clients()>0)then
 						self:get_children_by_id('bg')[1].bg=beautiful.bg_focus
+						self:get_children_by_id('bg')[1].border_color=beautiful.bg_focus
 						self.animate.target=40
 					else
 						self:get_children_by_id('bg')[1].bg=beautiful.bg_normal
+						self:get_children_by_id('bg')[1].border_color=beautiful.bg_normal
 						self.animate.target=30
 					end
 					for client in pairs(tag:clients())do
 					end
 				end
+                self:connect_signal("taglist::update",function()
+                    self.update()
+                end)
 				self.update()
 			end,
 			update_callback=function(self)
@@ -404,71 +449,90 @@ awful.screen.connect_for_each_screen(function(s)
         widget = wibox.widget.textbox,
     },
     layout = wibox.layout.stack
-	}
-	spacer = wibox.widget {
-    	widget = wibox.widget.separator,
-		orientation="vertical",
-		thickness=1
+}
+spacer = wibox.widget {
+    widget = wibox.widget.separator,
+    orientation="vertical",
+    thickness=1
 
-	}
-    -- Create the wibox
-    s.mywibox = awful.wibar({ position = "left", screen = s , width=30,border_color=beautiful.border_control,border_width=beautiful.bar_border})
+}
+-- Create the wibox
+s.mywibox = awful.wibar({ position = "left", screen = s , width=30,border_color=beautiful.border_control,border_width=beautiful.bar_border})
 
-    -- Add widgets to the wibox
-    s.mywibox:setup {
-        layout = wibox.layout.align.vertical,
-		expand="none",
-		{
-		margins=5,
-		widget=wibox.container.margin,
+-- Add widgets to the wibox
+s.mywibox:setup {
+    layout = wibox.layout.align.vertical,
+    expand="none",
+    {
+        margins=5,
+        widget=wibox.container.margin,
         { -- Left widgets
             layout = wibox.layout.fixed.vertical,
             --mylauncher,
-			launcherb,
-			spacing=5,
-			{
-				{
-            		s.mytaglist,
-					layout=wibox.layout.align.vertical,
-				},
-				widget=wibox.container.background,
-				shape=gears.shape.rounded_rect,
-				bg=beautiful.bg_minimize,
-			},
+            launcherb,
+            spacing=5,
+            {
+                {
+                    s.mytaglist,
+                    layout=wibox.layout.align.vertical,
+                },
+                widget=wibox.container.background,
+                shape=gears.shape.rounded_rect,
+                bg=beautiful.bg_minimize,
+            },
             s.mypromptbox,
-			
         },
-		},
-		{layout=wibox.layout.align.vertical},
-		{
-		margins=5,
-		widget=wibox.container.margin,
+    },
+    {layout=wibox.layout.align.vertical},
+    {
+        margins=5,
+        widget=wibox.container.margin,
         {  --Right widgets
             layout = wibox.layout.fixed.vertical,
             --mykeyboardlayout,
-			trayT,
+            --battery,
+            trayT,
             systray,
-			{	
-				{
-					{
-						mytextclock,
-						layout=wibox.layout.align.vertical,
-					},
-					widget=wibox.container.margin,
-					margins={left=1,right=1,top=10,bottom=10,},
-				},
-				widget=wibox.container.background,
-				shape=gears.shape.rounded_rect,
-				bg=beautiful.bg_minimize,
-			},
-			{text=" ",widget=wibox.widget.textbox,},
-			layoutb,
-		},
-	}
+            {
+                {
+                    {
+                        mytextclock,
+                        layout=wibox.layout.align.vertical,
+                    },
+                    widget=wibox.container.margin,
+                    margins={left=1,right=1,top=10,bottom=10,},
+                },
+                widget=wibox.container.background,
+                shape=gears.shape.rounded_rect,
+                bg=beautiful.bg_minimize,
+            },
+            {text=" ",widget=wibox.widget.textbox,},
+            layoutb,
+        },
     }
+}
 end)
 -- }}}
-
+monitor_old=tonumber(0)
+gears.timer{
+    autostart=false,
+    timeout=10,
+    callback=function()
+        awful.spawn.easy_async_with_shell("xrandr -q | grep ' connected' | wc -l;",function(out)
+            local outnum=tonumber(out)
+            if(outnum~=monitor_old)then
+                if(outnum==1)then
+                    awful.spawn.easy_async_with_shell("xrandr --output eDP-1 --mode 1366x768 --pos 2142x0 --rotate normal --output HDMI-1 --off --output DP-1 --off --output HDMI-2 --off --output DP-1-5 --off --output DP-1-6 --off")
+                else
+                    awful.spawn.easy_async_with_shell("xrandr --output eDP-1 --mode 1366x768 --pos 2142x0 --rotate normal --output HDMI-1 --off --output DP-1 --off --output HDMI-2 --off --output DP-1-5 --off --output DP-1-6 --primary --mode 1920x1080 --pos 0x0 --rotate normal")
+                end
+                --awesome.restart()
+                naughty.notify{text="old "..monitor_old.." new "..outnum}
+                monitor_old=outnum
+            end
+        end)
+    end
+}
 -- {{{ Mouse bindings
 root.buttons(gears.table.join(
     awful.button({ }, 3, function () awesome.emit_signal("rclick::toggle")end),
@@ -693,7 +757,9 @@ globalkeys = gears.table.join(
 	end,
 	{description="toggle overview",group="awesome"}),
 	awful.key({modkey},"`", function ()
+        awesome.emit_signal("taglist::update")
 		awful.screen.focus_relative(1)
+        awesome.emit_signal("taglist::update")
 	end,
 	{description="next monitor",group="awesome"}),
 	awful.key({modkey,"Shift"},"`", function ()
@@ -901,6 +967,9 @@ client.connect_signal("request::titlebars", function(c)
             c:emit_signal("request::activate", "titlebar", {raise = true})
             --awful.mouse.client.resize(c)
 			awesome.emit_signal("win_rc::toggle",{c})
+        end),
+        awful.button({ }, 2, function()
+            c:kill()
         end)
     )
 
@@ -952,6 +1021,28 @@ end)
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+gears.timer{
+    timeout=1,
+    autostart=true,
+    callback=function()
+        awful.spawn.easy_async_with_shell("cat /proc/acpi/button/lid/LID0/state",function(out)
+            if(out:find("closed"))then
+                awful.spawn.easy_async_with_shell("xset dpms force off")
+            else
+                awful.spawn.easy_async_with_shell("xset dpms force on")
+            end
+        end)
+    end,
+}
+gears.timer{
+	timeout=1,
+	autostart=true,
+	callback=function()
+        awful.spawn.easy_async_with_shell("cat /sys/class/power_supply/BAT0/capacity",function(out)
+            batterybar.value=tonumber(string.gsub(out,"\n",""))
+        end)
+    end,
+}
 -- }}}
 if(user.music==true)then
 	require("music")
@@ -984,3 +1075,4 @@ require("term")
 require("bg_system")
 require("overview")
 --require("camera")
+require("onscreenkeyboard")

@@ -20,11 +20,11 @@ volumeText=wibox.widget({
 	widget=wibox.widget.textbox,
 })
 local bar = wibox.widget {
-    --bar_shape           = gears.shape.rounded_rect,
-    bar_height          = 1,
-    --bar_color           = beautiful.border_focus,
+    bar_shape           = gears.shape.rounded_rect,
+    bar_height          = 14,
+    bar_color           = beautiful.bg_focus,
 	bar_border_width    = 1,
-    handle_color        = beautiful.bg_normal,
+    --bar_border_color    = beautiful.border_normal,
     handle_shape        = gears.shape.circle,
     --handle_border_color = beautiful.border_control,
 	handle_color        = beautiful.bg_urgent,
@@ -33,13 +33,14 @@ local bar = wibox.widget {
     value               = 25,
     widget              = wibox.widget.slider,
 	bar_active_color    = beautiful.bg_urgent,
+    bar_active_shape    = gears.shape.rounded_rect,
 }
 local bright = wibox.widget {
-    --bar_shape           = gears.shape.rounded_rect,
-    bar_height          = 1,
-    --bar_color           = beautiful.border_focus,
+    bar_shape           = gears.shape.rounded_rect,
+    bar_height          = 14,
+    bar_color           = beautiful.bg_focus,
 	bar_border_width    = 1,
-    handle_color        = beautiful.bg_normal,
+    --bar_border_color    = beautiful.border_normal,
     handle_shape        = gears.shape.circle,
     --handle_border_color = beautiful.border_control,
 	handle_color        = beautiful.bg_urgent,
@@ -48,9 +49,11 @@ local bright = wibox.widget {
     value               = 25,
     widget              = wibox.widget.slider,
 	bar_active_color    = beautiful.bg_urgent,
+    bar_active_shape    = gears.shape.rounded_rect,
 }
 local genBtn=function(textOn,textOff,callback)
-    local state=false
+    local state=true
+    local opacity="ff"
     local btnTxt=wibox.widget{
         text=" "..textOff.." ",
         font="sans 20",
@@ -66,18 +69,26 @@ local genBtn=function(textOn,textOff,callback)
         shape_border_color=beautiful.border_control,
     }
     local refresh=function()
-        state=not state
         if(state==true)then
             btnTxt.text=" "..textOn.." "
-            btn.bg=beautiful.bg_urgent
+            btn.bg=beautiful.bg_urgent..opacity
         else
             btnTxt.text=" "..textOff.." "
-            btn.bg=beautiful.bg_minimize
+            btn.bg=beautiful.bg_minimize..opacity
         end
     end
     refresh()
     btn:connect_signal("button::press",function()
+        state=not state
         callback(state)
+        refresh()
+    end)
+    btn:connect_signal("mouse::enter",function()
+        opacity="aa"
+        refresh()
+    end)
+    btn:connect_signal("mouse::leave",function()
+        opacity="ff"
         refresh()
     end)
     return {
@@ -339,7 +350,7 @@ awesome.connect_signal("dash::false",function()
 		menu.visible=true
 		--upA:abort()
 		--menu.x=dpi(1210)
-		upA.target=dpi(1370)
+		upA.target=dpi(-1370)
 		visible=not visible
 	end
 end)

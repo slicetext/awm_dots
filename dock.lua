@@ -145,7 +145,7 @@ tag.connect_signal("property::selected", function()
 	dock.visible=false
 end)
 
-dock_pos.target=user.height+60
+dock_pos.target=awful.screen.focused().geometry.height+60
 dock:connect_signal("mouse::leave",function()
 	dock.visible=true
 	dock_pos.target=awful.screen.focused().geometry.height+awful.screen.focused().geometry.y+60

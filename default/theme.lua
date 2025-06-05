@@ -91,10 +91,15 @@ theme.titlebar_close_button_focus  = gears.color.recolor_image(icon_path.."windo
 theme.titlebar_close_button_normal  = gears.color.recolor_image(icon_path.."window.png",theme.bg_urgent)
 theme.titlebar_minimize_button_focus  = gears.color.recolor_image(icon_path.."window2.png",theme.fg_minimize)
 theme.titlebar_minimize_button_normal  = gears.color.recolor_image(icon_path.."window.png",theme.fg_minimize)
-theme.titlebar_maximized_button_normal_inactive = gears.color.recolor_image(icon_path.."window.png",theme.border_focus)
-theme.titlebar_maximized_button_focus_inactive  = gears.color.recolor_image(icon_path.."window2.png",theme.border_focus)
+theme.titlebar_maximized_button_normal_inactive = gears.color.recolor_image(icon_path.."window.png",theme.fg_minimize)
+theme.titlebar_maximized_button_focus_inactive  = gears.color.recolor_image(icon_path.."window2.png",theme.fg_normal)
 theme.titlebar_maximized_button_normal_active = gears.color.recolor_image(icon_path.."window.png",theme.border_focus)
-theme.titlebar_maximized_button_focus_active  = gears.color.recolor_image(icon_path.."window2.png",theme.border_focus)
+theme.titlebar_maximized_button_focus_active  = gears.color.recolor_image(icon_path.."window.png",theme.fg_minimize)
+
+theme.titlebar_close_button_normal  = gears.color.recolor_image(icon_path.."window2.png",theme.bg_focus)
+theme.titlebar_minimize_button_normal  = gears.color.recolor_image(icon_path.."window2.png",theme.bg_focus)
+theme.titlebar_maximized_button_normal_inactive = gears.color.recolor_image(icon_path.."window2.png",theme.bg_focus)
+theme.titlebar_maximized_button_normal_active = gears.color.recolor_image(icon_path.."window2.png",theme.bg_focus)
 
 theme.wallpaper = user.wallpaper or file.wallpaper or "~/.config/awesome/bg/oxocarbon.png"
 

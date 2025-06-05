@@ -73,6 +73,22 @@ local cover = wibox.widget({
 	align="center",
     bg=beautiful.bg_urgent,
 })
+local progress = wibox.widget({
+    bar_shape           = gears.shape.rounded_rect,
+    bar_height          = 5,
+    bar_color           = beautiful.bg_focus,
+	bar_border_width    = 1,
+    --bar_border_color    = beautiful.border_normal,
+    handle_shape        = gears.shape.circle,
+    --handle_border_color = beautiful.border_control,
+	handle_color        = beautiful.bg_urgent,
+    --handle_border_width = 1,
+	handle_width        = 12,
+    value               = 25,
+    widget              = wibox.widget.slider,
+	bar_active_color    = beautiful.bg_urgent,
+    forced_height       = 12,
+})
 local player = awful.popup({
   ontop = true,
   visible = false,
@@ -104,14 +120,16 @@ border_color=beautiful.border_control,
 			layout = wibox.layout.align.horizontal,
 			expand = "none",
 			{
-				{widget=wibox.widget.textbox,text=" "},
 				{
-					{widget=wibox.widget.textbox,text=" ",forced_height=0.1},
+					--{widget=wibox.widget.textbox,text=" ",forced_height=0.1},
 					song,
-					--{widget=wibox.widget.textbox,text=" "},
 					artist,
 					layout=wibox.layout.align.vertical,
+                    forced_height=35,
 				},
+                {widget=wibox.widget.textbox,text=" "},
+                progress,
+                --{widget=wibox.widget.textbox,text=" "},
     			{
     				layout = wibox.layout.align.horizontal,
 					expand="none",
@@ -119,7 +137,9 @@ border_color=beautiful.border_control,
     				pause,
 					nexts,
     			},
-				layout = wibox.layout.align.vertical,
+				layout = wibox.layout.fixed.vertical,
+                spacing=0.1,
+                expand="none",
 			},
 		},
 	},
@@ -220,6 +240,12 @@ local function titles()
 		pause.txt.text=" 󰐊 "
 	end
 	end)
+    awful.spawn.easy_async_with_shell("playerctl metadata mpris:length",function(out)
+        progress.maximum=tonumber(out)/1000000
+    end)
+    awful.spawn.easy_async_with_shell("playerctl position",function(out)
+        progress.value=tonumber(out)
+    end)
 	awful.spawn.easy_async_with_shell("playerctl metadata mpris:artUrl",function(out)
 		new=out
 		if(old~=out)then
@@ -247,3 +273,6 @@ local timer=gears.timer{
 		end)
 	end,
 }
+progress:connect_signal("button::press",function()
+    awful.spawn.easy_async_with_shell("playerctl position "..progress.value)
+end)

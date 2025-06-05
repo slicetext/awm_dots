@@ -36,8 +36,17 @@ local list=wibox.widget{
 	scrollbar_enabled=true,
 	spacing=3,
 }
-
+local entryinfo={
+    index=1,
+    entries={},
+}
 local entry_template=function(name,info,description,id,use_id)
+    table.insert(entryinfo.entries,{
+        info=info,
+        use_id=use_id,
+        id=id,
+        name=name,
+    })
 	local temp=wibox.widget{
 		{
 			image=get_icon(nil,info,info,false),
@@ -76,6 +85,7 @@ local entry_template=function(name,info,description,id,use_id)
 		},
 		layout=wibox.layout.align.horizontal,
 		widget=wibox.container.background,
+        id="name",
 	}
 	return temp
 end
@@ -192,9 +202,10 @@ search=function()
 		textbox=searchbox,
 		prompt=" 󰍉 ",
 		changed_callback=function(input)
-			if(input~="")then
-				filter(input)
-			end
+            filter(input)
+            entryinfo.index=#entryinfo.entries
+            local child=list:get_children()
+            --child[entryinfo.index].bg=beautiful.bg_urgent
 		end,
 		exe_callback=function(input)
 			running=false

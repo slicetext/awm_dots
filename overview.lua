@@ -13,7 +13,21 @@ local rubato=require "lib.rubato"
 local Gio = require("lgi").Gio
 local get_icon=require("lib.util.get_icon")
 local client=require("client")
-local view=awful.popup {
+local view
+local function clientupdate()
+    for _,c in ipairs(client.get()) do
+        if(view.visible)then
+            if(c.active)then
+                c.opacity=1
+            else
+                c.opacity=settings.app_switcher_opacity
+            end
+        else
+            c.opacity=1
+        end
+    end
+end
+view=awful.popup {
 	visible=false,
     widget = awful.widget.tasklist {
         screen   = screen[1],
@@ -91,15 +105,16 @@ local view=awful.popup {
 		widget=wibox.container.margin,
 		margins=10,
             create_callback = function(self, c) --luacheck: no unused
+                self.opac="ff"
 				self.t = c.screen.selected_tag
 				self.screenshot=function()
 					self:get_children_by_id("image_roll")[1].image=get_icon(c)
 					self:get_children_by_id("text")[1].text=c.name
 					self:get_children_by_id("tagname")[1].text=c.first_tag.name
 					if(c.active==true)then
-						self:get_children_by_id("bg")[1].bg=beautiful.bg_focus
+						self:get_children_by_id("bg")[1].bg=beautiful.bg_focus..self.opac
 					else
-						self:get_children_by_id("bg")[1].bg=beautiful.bg_minimize
+						self:get_children_by_id("bg")[1].bg=beautiful.bg_minimize..self.opac
 					end
 				end
 				self.screenshot()
@@ -107,15 +122,18 @@ local view=awful.popup {
 					awful.button({},1,function()
 						c.minimized=false
 						c.first_tag:view_only()
+                        c:activate()
 					end),
 					awful.button({},3,function()
 						c.minimized=false
 						c:move_to_tag(self.t)
+                        c:move_to_screen(awful.screen.focused())
 					end)
 				}
             end,
 			update_callback=function(self,c)
 				self.t = c.screen.selected_tag
+                clientupdate()
 				self.screenshot()
 			end
         },
@@ -129,4 +147,8 @@ local view=awful.popup {
 awesome.connect_signal("overview::toggle",function()
     view.screen=awful.screen.focused()
 	view.visible=not view.visible
+    clientupdate()
+end)
+awesome.connect_signal("scanning",function()
+    clientupdate()
 end)

@@ -68,7 +68,7 @@ settings.root_menu=true
 settings.password="test"
 
 --Icon theme
-settings.icon_theme=home..".local/share/icons/Colloid"
+settings.icon_theme=home..".local/share/icons/Colloid-Yellow"
 
 --If the icons for kitty and alacritty should be replaced by a different icon
 settings.replace_term_icons=true
@@ -84,6 +84,11 @@ settings.browser="firefox"
 
 --List of desktop icons
 settings.desktop_icons={
+	{
+		"Zen",
+		"flatpak run app.zen_browser.zen",
+		"zen-browser",
+	},
 	{
 		"Firefox",
 		"firefox",
@@ -123,10 +128,8 @@ settings.dock_pinned={
 	},
 }
 
---Screen Width
-settings.width=1920
---Screen Height
-settings.height=1080
+--The opacity the app switcher should use for unselected windows
+settings.app_switcher_opacity=0.5
 
 --Amount of gap
 settings.gap=10

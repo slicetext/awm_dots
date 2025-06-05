@@ -8,10 +8,10 @@ file.fg_normal     = "#f2f4f8"
 file.fg_focus      = "#ee5396"
 file.fg_urgent     = "#f2f4f8"
 file.fg_minimize   = "#f2f4f8"
-file.border_normal = "#f2f4f8"
-file.border_focus  = "#33b1ff"
+file.border_normal = "#393939"
+file.border_focus  = "#262626"
 file.border_marked = "#33b1ff"
-file.border_control= "#33b1ff"
+file.border_control= "#262626"
 file.wallpaper     = "~/.config/awesome/bg/oxocarbon.png"
 file.light         = false
 return file
