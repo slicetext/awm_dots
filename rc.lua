@@ -234,7 +234,9 @@ local launcherb = wibox.widget{
 	widget=wibox.widget.textbox,
 	},
 	bg=beautiful.bg_focus,
-	shape=gears.shape.circle,
+    shape=function(cr, width, height)
+        return gears.shape.rounded_rect(cr, width, height, 5)
+    end,
 	widget=wibox.container.background,
 }
 launcherbOp="ff"
@@ -332,7 +334,9 @@ awful.screen.connect_for_each_screen(function(s)
 			margins=5,
 			{
 				widget=wibox.container.background,
-				shape=gears.shape.rounded_rect,
+                shape=function(cr, width, height)
+                    return gears.shape.rounded_rect(cr, width, height, 2)
+                end,
 				forced_width=1,
 				forced_height=50,
 				bg=beautiful.bg_normal,
@@ -477,7 +481,9 @@ s.mywibox:setup {
                     layout=wibox.layout.align.vertical,
                 },
                 widget=wibox.container.background,
-                shape=gears.shape.rounded_rect,
+                shape=function(cr, width, height)
+                    return gears.shape.rounded_rect(cr, width, height, 5)
+                end,
                 bg=beautiful.bg_minimize,
             },
             s.mypromptbox,
@@ -503,7 +509,9 @@ s.mywibox:setup {
                     margins={left=1,right=1,top=10,bottom=10,},
                 },
                 widget=wibox.container.background,
-                shape=gears.shape.rounded_rect,
+                shape=function(cr, width, height)
+                    return gears.shape.rounded_rect(cr, width, height, 5)
+                end,
                 bg=beautiful.bg_minimize,
             },
             {text=" ",widget=wibox.widget.textbox,},

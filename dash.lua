@@ -20,12 +20,16 @@ volumeText=wibox.widget({
 	widget=wibox.widget.textbox,
 })
 local bar = wibox.widget {
-    bar_shape           = gears.shape.rounded_rect,
+    bar_shape           = function(cr, width, height)
+        return gears.shape.rounded_rect(cr, width, height, 5)
+    end,
     bar_height          = 14,
-    bar_color           = beautiful.bg_focus,
+    bar_color           = beautiful.bg_minimize,
 	bar_border_width    = 1,
     --bar_border_color    = beautiful.border_normal,
-    handle_shape        = gears.shape.circle,
+    handle_shape        = function(cr, width, height)
+        return gears.shape.rounded_rect(cr, width, height * 0.96, 5)
+    end,
     --handle_border_color = beautiful.border_control,
 	handle_color        = beautiful.bg_urgent,
     --handle_border_width = 1,
@@ -33,15 +37,21 @@ local bar = wibox.widget {
     value               = 25,
     widget              = wibox.widget.slider,
 	bar_active_color    = beautiful.bg_urgent,
-    bar_active_shape    = gears.shape.rounded_rect,
+    bar_active_shape    = function(cr, width, height)
+        return gears.shape.rounded_rect(cr, width, height, 5)
+    end,
 }
 local bright = wibox.widget {
-    bar_shape           = gears.shape.rounded_rect,
+    bar_shape           = function(cr, width, height)
+        return gears.shape.rounded_rect(cr, width, height, 5)
+    end,
     bar_height          = 14,
-    bar_color           = beautiful.bg_focus,
+    bar_color           = beautiful.bg_minimize,
 	bar_border_width    = 1,
     --bar_border_color    = beautiful.border_normal,
-    handle_shape        = gears.shape.circle,
+    handle_shape        = function(cr, width, height)
+        return gears.shape.rounded_rect(cr, width, height * 0.96, 5)
+    end,
     --handle_border_color = beautiful.border_control,
 	handle_color        = beautiful.bg_urgent,
     --handle_border_width = 1,
@@ -49,7 +59,9 @@ local bright = wibox.widget {
     value               = 25,
     widget              = wibox.widget.slider,
 	bar_active_color    = beautiful.bg_urgent,
-    bar_active_shape    = gears.shape.rounded_rect,
+    bar_active_shape    = function(cr, width, height)
+        return gears.shape.rounded_rect(cr, width, height, 5)
+    end,
 }
 local genBtn=function(textOn,textOff,callback)
     local state=true
@@ -64,7 +76,9 @@ local genBtn=function(textOn,textOff,callback)
         btnTxt,
         widget=wibox.container.background,
         bg=beautiful.bg_normal,
-        shape=gears.shape.rounded_rect,
+        shape=function(cr, width, height)
+            return gears.shape.rounded_rect(cr, width, height, 5)
+        end,
         shape_border_width=beautiful.button_outline,
         shape_border_color=beautiful.border_control,
     }

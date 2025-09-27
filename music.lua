@@ -24,7 +24,9 @@ local pause = wibox.widget({
   valign="bottom",
   	widget = wibox.widget.textbox,
   },
-  shape=gears.shape.rounded_rect,
+  shape=function(cr, width, height)
+      return gears.shape.rounded_rect(cr, width, height, 3)
+  end,
   widget=wibox.container.background,
   valign="bottom",
 })
@@ -36,7 +38,9 @@ local  nexts = wibox.widget({
   valign="bottom",
   	widget = wibox.widget.textbox,
   },
-  shape=gears.shape.rounded_rect,
+  shape=function(cr, width, height)
+      return gears.shape.rounded_rect(cr, width, height, 3)
+  end,
   widget=wibox.container.background,
   valign="bottom",
 })
@@ -48,7 +52,9 @@ local  prevs = wibox.widget({
   valign="bottom",
   	widget = wibox.widget.textbox,
   },
-  shape=gears.shape.rounded_rect,
+  shape=function(cr, width, height)
+      return gears.shape.rounded_rect(cr, width, height, 3)
+  end,
   widget=wibox.container.background,
   valign="bottom",
 })
@@ -79,7 +85,9 @@ local progress = wibox.widget({
     bar_color           = beautiful.bg_focus,
 	bar_border_width    = 1,
     --bar_border_color    = beautiful.border_normal,
-    handle_shape        = gears.shape.circle,
+    handle_shape        = function(cr, width, height)
+        return gears.shape.rounded_rect(cr, width * 0.9, height, 3)
+    end,
     --handle_border_color = beautiful.border_control,
 	handle_color        = beautiful.bg_urgent,
     --handle_border_width = 1,
