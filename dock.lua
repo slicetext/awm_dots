@@ -62,9 +62,11 @@ local hot = awful.popup({
   }
 })
 hot:connect_signal("mouse::enter",function()
-    dock.screen=awful.screen.focused()
-	dock.visible=true
-	dock_pos.target=awful.screen.focused().geometry.height+awful.screen.focused().geometry.y-60
+    if user.dock then
+        dock.screen=awful.screen.focused()
+        dock.visible=true
+        dock_pos.target=awful.screen.focused().geometry.height+awful.screen.focused().geometry.y-60
+    end
 end)
 end)
 
@@ -147,6 +149,8 @@ end)
 
 dock_pos.target=awful.screen.focused().geometry.height+60
 dock:connect_signal("mouse::leave",function()
-	dock.visible=true
-	dock_pos.target=awful.screen.focused().geometry.height+awful.screen.focused().geometry.y+60
+    if user.dock then
+        dock.visible=true
+        dock_pos.target=awful.screen.focused().geometry.height+awful.screen.focused().geometry.y+60
+    end
 end)

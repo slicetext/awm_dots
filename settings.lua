@@ -116,6 +116,8 @@ settings.desktop_icons={
 	},
 }
 
+settings.dock = false
+
 --
 settings.dock_pinned={
 	{
