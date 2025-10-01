@@ -150,6 +150,7 @@ local open = function()
             launcher.visible = false
         end,
         exe_callback = function ()
+            if #entries == 0 then return end
             local app = entries[selected_index]
             -- Handle Flatpaks
             if string.match(app.command, "flatpak") then
