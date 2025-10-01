@@ -1,109 +1,187 @@
 local wibox = require("wibox")
 local awful = require("awful")
-local Gio = require("lgi").Gio
-local beautiful = require("beautiful")
-local dpi = beautiful.xresources.apply_dpi
-local naughty = require("naughty")
 local gears = require("gears")
+local gio = require("lgi").Gio
+local xresources = require("beautiful.xresources")
+local dpi = xresources.apply_dpi
+local beautiful = require("beautiful")
+local menubar_utils = require("menubar.utils")
 
-local launcher=wibox{
-    screen=awful.screen.focused(),
-	width=dpi(200),
-	height=dpi(25),
-	--y=awful.screen.focused().geometry.y-dpi(30),
-	--x=awful.screen.focused().geometry.x,
-    x=awful.screen.focused({client=true}).geometry.x+40,
-    y=awful.screen.focused({client=true}).geometry.y+awful.screen.focused({client=true}).geometry.height-dpi(35),
-	window_type="dock",
-	bg=beautiful.bg_normal,
-	border_width=1,
-	border_color=beautiful.border_control,
-	visible=false,
-	shape=gears.shape.rounded_rect,
-	ontop=true,
+local list = wibox.widget{
+    layout = wibox.layout.fixed.vertical,
 }
-local promptb = wibox.widget{
-	font="sans 18",
-	widget=wibox.widget.textbox,
-}
-local promptt = wibox.widget{
-	{
-	id="txt",
-	font="sans 18",
-	widget=wibox.widget.textbox,
-	text=" 󰜎 "
-	},
-	widget=wibox.container.background,
-}
-local function gen()
-	local entries = {}
-	for _, entry in ipairs(Gio.AppInfo.get_all()) do
-		if entry:should_show() then
-			local name = entry:get_name():gsub("&", "&amp;"):gsub("<", "&lt;"):gsub("'", "&#39;")
-			table.insert(
-				entries,
-				{ name = name, appinfo = entry }
-			)
-		end
-	end
-	return entries
+
+local generate_entry = function(name, description, command, id, icon)
+    icon = menubar_utils.lookup_icon(command:lower()) or beautiful.awesome_icon
+    return wibox.widget {
+        {
+            {
+                {
+                    {
+                        widget = wibox.widget.imagebox,
+                        image = icon,
+                        forced_width = 32,
+                        forced_height = 32,
+                    },
+                    {
+                        {
+                            widget = wibox.widget.textbox,
+                            markup = "<b>"..name.."</b>",
+                            font = beautiful.font_big,
+                        },
+                        {
+                            widget = wibox.widget.textbox,
+                            text = description,
+                            forced_height = dpi(10),
+                        },
+                        layout = wibox.layout.align.vertical,
+                    },
+                    layout = wibox.layout.align.horizontal,
+                },
+                widget = wibox.container.margin,
+                margins = 5,
+            },
+            widget = wibox.container.background,
+            id = "bg",
+            bg = beautiful.bg_normal,
+            shape = gears.shape.rounded_rect,
+        },
+        widget = wibox.container.margin,
+        bottom = 15,
+        -- Not awesome property, data for launcher
+        command = command,
+        identity = id,
+    }
 end
-local entries=wibox.widget{
-	homogeneous=false,
-	expand=true,
-	forced_num_cols=1,
-	layout=wibox.layout.grid,
-	{
-		--text=table.concat(gen()),
-		widget=wibox.widget.textbox,
-	},
+
+local prompt = wibox.widget {
+    widget = wibox.widget.textbox,
+    text = "Search...",
 }
-launcher:setup{
-	margins=5,
-	widget=wibox.container.margin,
-	{
-		promptt,
-		promptb,
-		layout=wibox.layout.align.horizontal,
-	},
-	layout=wibox.layout.fixed.vertical,
+
+local launcher = awful.popup {
+    ontop = true,
+    visible = false,
+    x = 20,
+    y = awful.screen.focused().geometry.height - dpi(400) - 55,
+    shape = gears.shape.rounded_rect,
+    widget = {
+        forced_width = dpi(200),
+        forced_height = dpi(400),
+
+        {
+            {
+                list,
+                widget = wibox.container.background,
+                forced_height = dpi(340);
+            },
+            {
+                {
+                    {
+                        prompt,
+                        widget = wibox.container.margin,
+                        left = 5,
+                    },
+                    widget = wibox.container.background,
+                    shape = gears.shape.rounded_rect,
+                    bg = beautiful.bg_focus,
+                },
+                widget = wibox.container.margin,
+                top = 5,
+                bottom = 5,
+            },
+            layout=wibox.layout.align.vertical,
+        },
+
+        widget = wibox.container.margin,
+        margins = 10,
+    }
 }
-function open()
-	awful.prompt.run{
-		--prompt=" ",
-		textbox=promptb,
-		exe_callback=function(cmd)
-			launcher.visible=false
-			awful.spawn.with_shell("bash -ci "..cmd)
-		end
-	}
+
+local apps = gio.AppInfo.get_all()
+
+local entries = {}
+local search  = function(text)
+    entries = {}
+    list:reset(list)
+    local depth = 0
+    for _, entry in ipairs(apps) do
+        local entry_name = entry:get_name()
+        if depth < 6 and string.match(entry_name:lower(), text:lower()) then
+            table.insert(entries, generate_entry(entry:get_name(), entry:get_description(), entry:get_executable(), entry:get_id(), entry:get_icon()))
+            list:add(entries[#entries])
+            depth = depth + 1
+        end
+    end
 end
-function copy()
-	awful.prompt.run{
-		--prompt=" ",
-		textbox=promptb,
-		exe_callback=function(cmd)
-			awesome.emit_signal("copy::result",cmd)
-			launcher.visible=false
-			promptt.text=" 󰑮 "
-		end
-	}
+
+local selected_index = 1
+local prev_entry = function()
+    if selected_index > 0 then
+        entries[selected_index]:get_children_by_id("bg")[1].bg = beautiful.bg_normal
+        selected_index = selected_index - 1
+        entries[selected_index]:get_children_by_id("bg")[1].bg = beautiful.bg_focus
+    end
 end
-awesome.connect_signal("launch::toggle",function()
-	promptt.txt.text=" 󰑮 "
-    launcher.x=awful.screen.focused({mouse=true}).geometry.x+40
-    launcher.y=awful.screen.focused({mouse=true}).geometry.y+awful.screen.focused({mouse=true}).geometry.height-dpi(35)
-	launcher.visible=not launcher.visible
-	if(launcher.visible==true)then
-		open()
-	end
-end)
-awesome.connect_signal("copy::toggle",function()
-	promptt.txt.text="  "
-    launcher.x=awful.screen.focused({client=true}).geometry.x+40
-    launcher.y=awful.screen.focused({client=true}).geometry.y+awful.screen.focused({client=true}).geometry.height-dpi(35)
-	launcher.visible=not launcher.visible
-	if(launcher.visible==true)then
-		copy()
-	end
+local next_entry = function()
+    if selected_index < #entries then
+        entries[selected_index]:get_children_by_id("bg")[1].bg = beautiful.bg_normal
+        selected_index = selected_index + 1
+        entries[selected_index]:get_children_by_id("bg")[1].bg = beautiful.bg_focus
+    end
+end
+
+local open = function()
+    launcher.visible = true
+    local input_old = ""
+    list:reset(list)
+    local count = 0
+    entries = {}
+    for _, entry in ipairs(apps) do
+        if count <= 6 then
+            table.insert(entries, generate_entry(entry:get_name(), entry:get_description(), entry:get_executable(), entry:get_id(), entry:get_icon()))
+            list:add(entries[#entries])
+            count = count + 1
+        end
+    end
+    awful.prompt.run {
+        textbox = prompt,
+        done_callback = function()
+            launcher.visible = false
+        end,
+        exe_callback = function ()
+            local app = entries[selected_index]
+            -- Handle Flatpaks
+            if string.match(app.command, "flatpak") then
+                awful.spawn.with_shell("flatpak run "..app.identity:gsub(".desktop", ""))
+            else
+                awful.spawn.with_shell(app.command)
+            end
+        end,
+        keypressed_callback = function(_, key)
+            if key == "Down" then
+				next_entry()
+			elseif key == "Up" then
+				prev_entry()
+            elseif key == "Escape" then
+                awful.keygrabber.stop()
+            end
+        end,
+        changed_callback = function(input)
+            if input ~= input_old then
+                search(input)
+                if #entries > 0 then
+                    entries[selected_index]:get_children_by_id("bg")[1].bg = beautiful.bg_focus
+                end
+                input_old = input
+            end
+        end,
+    }
+end
+
+awesome.connect_signal("launcher::open", function ()
+    launcher.screen = awful.screen.focused()
+    launcher.x = awful.screen.focused().geometry.x + 20
+    launcher.y = awful.screen.focused().geometry.height - dpi(400) - 55
+    open()
 end)
