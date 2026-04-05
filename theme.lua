@@ -11,8 +11,10 @@ local conf_path = gfs.get_configuration_dir()
 local theme = {}
 
 theme.font          = "sans 8"
+theme.font_mid      = "sans 10"
 theme.font_big      = "sans 12"
 theme.font_huge     = "sans 16"
+theme.font_giant    = "sans 32"
 
 theme.bg_normal     = "#262626"
 theme.bg_focus      = "#393939"
@@ -30,6 +32,9 @@ theme.border_width  = dpi(1)
 theme.border_normal = "#393939"
 theme.border_focus  = "#82cfff"
 theme.border_marked = "#91231c"
+
+-- TOOLTIP
+theme.tooltip_fg    = "#dde1e6"
 
 -- TITLEBAR
 theme.titlebar_fg = theme.fg_normal
@@ -70,7 +75,8 @@ theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
 
 -- Notifications
 theme.notification_margin = 10
-theme.notification_max_width = 400
+theme.notification_max_width  = 100
+theme.notification_max_height = 100
 
 -- Variables set for theming the menu:
 -- menu_[bg|fg]_[normal|focus]

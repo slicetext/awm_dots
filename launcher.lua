@@ -6,13 +6,14 @@ local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
 local beautiful = require("beautiful")
 local menubar_utils = require("menubar.utils")
+local naughty = require("naughty")
 
 local list = wibox.widget{
     layout = wibox.layout.fixed.vertical,
 }
 
 local generate_entry = function(name, description, command, id, icon)
-    icon = menubar_utils.lookup_icon(command:lower()) or beautiful.awesome_icon
+    icon = menubar_utils.lookup_icon(name:lower():gmatch("%w+")()) or beautiful.awesome_icon
     return wibox.widget {
         {
             {
@@ -172,6 +173,9 @@ local open = function()
             if input ~= input_old then
                 search(input)
                 if #entries > 0 then
+                    while selected_index > #entries do
+                        selected_index = selected_index - 1;
+                    end
                     entries[selected_index]:get_children_by_id("bg")[1].bg = beautiful.bg_focus
                 end
                 input_old = input

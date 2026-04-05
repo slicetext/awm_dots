@@ -17,6 +17,7 @@ local naughty = require("naughty")
 local ruled = require("ruled")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
+local rubato = require("lib.rubato")
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
@@ -129,22 +130,111 @@ end)
 -- {{{ Wibar
 
 -- Create a textclock widget
-mytextclock = wibox.widget {
+local mytextclock = wibox.widget {
+    widget = wibox.widget.textclock,
+    format = " %l:%M %P  ",
+}
+local battery_indicator = wibox.widget {
+    widget = wibox.widget.textbox,
+    text = " 󰂄",
+    font = beautiful.font_big,
+}
+local battery_indicator_t = awful.tooltip {
+    objects = {battery_indicator},
+    text = "67",
+    mode = "outside",
+    width = 50,
+}
+awesome.connect_signal("battery::capacity", function(out)
+    battery_indicator_t.text =  tostring(out):gsub("\n", "").."%"
+    local num = tonumber(out)
+    if num == 100 then
+        battery_indicator.text = " 󰂄"
+    elseif num > 50 then
+        battery_indicator.text = " 󰂀"
+    elseif num > 30 then
+        battery_indicator.text = " 󰁾"
+    elseif num > 10 then
+        battery_indicator.text = " 󰁼"
+    else
+        battery_indicator.text = " 󰁺"
+    end
+end)
+local wifi_indicator = wibox.widget {
+    widget = wibox.widget.textbox,
+    text = " 󰤨",
+    font = beautiful.font_huge,
+}
+local wifi_indicator_t = awful.tooltip {
+    objects = {wifi_indicator},
+    text = "67",
+    mode = "outside",
+    width = 50,
+}
+awesome.connect_signal("wifi::strength", function(out)
+    wifi_indicator_t.text =  tostring(out):gsub("\n", "").."%"
+    local num = tonumber(out)
+    if num == nil then
+        wifi_indicator.text = " 󰤮"
+    elseif num > 90 then
+        wifi_indicator.text = " 󰤨"
+    elseif num > 75 then
+        wifi_indicator.text = " 󰤥"
+    elseif num > 50 then
+        wifi_indicator.text = " 󰤢"
+    elseif num > 15 then
+        wifi_indicator.text = " 󰤟"
+    else
+        wifi_indicator.text = " 󰤯"
+    end
+end)
+local volume_indicator = wibox.widget {
+    widget = wibox.widget.textbox,
+    text = " 󰕾",
+    font = beautiful.font_big,
+    buttons = {
+        awful.button({ }, 4, function () awesome.emit_signal("volume::up") end),
+        awful.button({ }, 5, function () awesome.emit_signal("volume::down") end),
+    }
+}
+local volume_indicator_t = awful.tooltip {
+    objects = {volume_indicator},
+    text = "67",
+    mode = "outside",
+    width = 50,
+}
+awesome.connect_signal("volume::level", function(out)
+    volume_indicator_t.text =  tostring(out):gsub("\n", "")
+    local num = tonumber(out:sub(1, -3))
+    if num > 80 then
+        volume_indicator.text = " 󰕾"
+    elseif num > 40 then
+        volume_indicator.text = " 󰖀"
+    else
+        volume_indicator.text = " 󰕿"
+    end
+end)
+local control_btn = wibox.widget {
     {
         {
-            widget = wibox.widget.textclock,
-            format = "    %a %b %e   |  %l:%M %P    ",
+            battery_indicator,
+            wifi_indicator,
+            volume_indicator,
+            mytextclock,
+            widget = wibox.layout.fixed.horizontal,
         },
         widget = wibox.container.background,
         shape = gears.shape.rounded_rect,
         bg = beautiful.bg_focus,
     },
     widget = wibox.container.margin,
-    margins = 5,
+    top = 5,
+    bottom = 5,
+    buttons = {
+            awful.button({ }, 1, function() awesome.emit_signal("control_center::toggle") end),
+    },
 }
 
-textclock_btn = wibox.widget {
-}
 
 screen.connect_signal("request::desktop_decoration", function(s)
     -- Each screen has its own tag table.
@@ -210,13 +300,22 @@ screen.connect_signal("request::desktop_decoration", function(s)
                 },
             },
             create_callback = function(self, tag)
+                self.animate = rubato.timed {
+                    duration = 0.15,
+                    subscribed = function (w)
+                        self:get_children_by_id("bg")[1].forced_width = w;
+                    end
+                }
                 self.update = function ()
                     if(tag.selected)then
                         self:get_children_by_id('bg')[1].bg = beautiful.bg_urgent
+                        self.animate.target = 35
                     elseif(#tag:clients() > 0)then
                         self:get_children_by_id('bg')[1].bg = beautiful.bg_minimize
+                        self.animate.target = 30
                     else
                         self:get_children_by_id('bg')[1].bg = beautiful.bg_normal
+                        self.animate.target = 25
                     end
                 end
                 self.update()
@@ -259,6 +358,17 @@ screen.connect_signal("request::desktop_decoration", function(s)
             },
             widget = wibox.container.margin,
             margins = 5,
+
+            create_callback = function (self, c)
+                self.task_t = awful.tooltip {
+                    objects = { self },
+                    text = c.name,
+                    mode = "outside",
+                }
+            end,
+            update_callback = function (self, c)
+                self.task_t.text = c.name
+            end
         },
     }
 
@@ -318,7 +428,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
                     widget = wibox.container.margin,
                     margins = 10,
                 },
-                mytextclock,
+                control_btn,
                 {
                     s.mylayoutbox,
                     widget = wibox.container.margin,
@@ -361,6 +471,16 @@ awful.keyboard.append_global_keybindings({
                   }
               end,
               {description = "lua execute prompt", group = "awesome"}),
+    awful.key({}, "XF86AudioRaiseVolume", function ()
+                  awesome.emit_signal("volume::up")
+                  awesome.emit_signal("notifier::notify", "󰝝 Volume Up")
+              end,
+              {description="increase Volume",group="awesome"}),
+	awful.key({}, "XF86AudioLowerVolume", function ()
+		        awesome.emit_signal("volume::down")
+                awesome.emit_signal("notifier::notify", "󰝞 Volume Down")
+	end,
+	{description="decrease Volume",group="awesome"}),
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
               {description = "open a terminal", group = "launcher"}),
     awful.key({ modkey },            "d",     function () awful.screen.focused().mypromptbox:run() end,
@@ -642,6 +762,9 @@ end)
 -- {{{ Titlebars
 -- Add a titlebar if titlebars_enabled is set to true in the rules.
 client.connect_signal("request::titlebars", function(c)
+    if c.requests_no_titlebar then
+        return
+    end
     -- buttons for the titlebar
     local buttons = {
         awful.button({ }, 1, function()
@@ -793,9 +916,13 @@ naughty.connect_signal("request::display", function(n)
             },
             strategy = "min",
             width    = beautiful.notification_max_width,
+            height    = beautiful.notification_max_height,
             widget   = wibox.container.constraint,
         },
     }
 end)
 
+require("signals")
 require("launcher")
+require("control_center")
+require("notifier")
