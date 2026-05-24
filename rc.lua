@@ -472,21 +472,43 @@ awful.keyboard.append_global_keybindings({
               end,
               {description = "lua execute prompt", group = "awesome"}),
     awful.key({}, "XF86AudioRaiseVolume", function ()
+                  -- awesome.emit_signal("volume::up")
+                  -- awesome.emit_signal("notifier::notify", "󰝝 Volume Up")
+                  awful.tag.viewnext()
+              end,
+              {description="Next Tag",group="awesome"}),
+    awful.key({}, "XF86AudioPrev", function ()
+                  awesome.emit_signal("volume::down")
+                  awesome.emit_signal("notifier::notify", "󰝝 Volume Down")
+              end,
+              {description="increase Volume",group="awesome"}),
+    awful.key({}, "XF86AudioNext", function ()
                   awesome.emit_signal("volume::up")
                   awesome.emit_signal("notifier::notify", "󰝝 Volume Up")
               end,
               {description="increase Volume",group="awesome"}),
 	awful.key({}, "XF86AudioLowerVolume", function ()
-		        awesome.emit_signal("volume::down")
-                awesome.emit_signal("notifier::notify", "󰝞 Volume Down")
+		        -- awesome.emit_signal("volume::down")
+                -- awesome.emit_signal("notifier::notify", "󰝞 Volume Down")
+                awful.tag.viewprev()
 	end,
-	{description="decrease Volume",group="awesome"}),
+	{description="Previous Tag",group="awesome"}),
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
               {description = "open a terminal", group = "launcher"}),
     awful.key({ modkey },            "d",     function () awful.screen.focused().mypromptbox:run() end,
               {description = "run prompt", group = "launcher"}),
     awful.key({ modkey }, "a", function()
         awesome.emit_signal("launcher::open")
+    end,
+              {description = "show the launcher", group = "launcher"}),
+    awful.key({}, "XF86AudioMute", function()
+        awesome.emit_signal("taglist::update")
+        awful.screen.focus_relative(1)
+        awesome.emit_signal("taglist::update")
+    end,
+              {description = "show the launcher", group = "launcher"}),
+    awful.key({"Shift"}, "XF86AudioMute", function()
+                client.focus:move_to_screen()
     end,
               {description = "show the launcher", group = "launcher"}),
 })
@@ -701,6 +723,10 @@ client.connect_signal("request::default_keybindings", function()
                 client.focus:move_to_screen()
             end,
             {description="move client to next monitor",group="awesome"}),
+            awful.key({modkey},"p", function ()
+                awesome.emit_signal("cursor::hl")
+            end,
+            {description="highlight cursor",group="awesome"}),
     })
 end)
 
@@ -926,3 +952,4 @@ require("signals")
 require("launcher")
 require("control_center")
 require("notifier")
+require("mouse_highlight")
